@@ -1,0 +1,326 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Documentación del Proceso: Transferencia de Inventario (Transferencia)</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            margin: 20px;
+            background-color: #f4f4f4;
+            color: #333;
+        }
+        .container {
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+        }
+        h1, h2, h3, h4 {
+            color: #2c3e50;
+        }
+        h1 {
+            border-bottom: 2px solid #3498db;
+            padding-bottom: 10px;
+        }
+        h2 {
+            border-bottom: 1px solid #bdc3c7;
+            padding-bottom: 5px;
+            margin-top: 30px;
+        }
+        h3 {
+            margin-top: 20px;
+            color: #34495e;
+        }
+        ul {
+            list-style-type: disc;
+            margin-left: 20px;
+        }
+        li {
+            margin-bottom: 8px;
+        }
+        strong {
+            color: #2980b9;
+        }
+        code {
+            background-color: #ecf0f1;
+            padding: 2px 5px;
+            border-radius: 4px;
+            font-family: Consolas, Monaco, 'Andale Mono', 'Ubuntu Mono', monospace;
+        }
+        pre {
+            background-color: #ecf0f1;
+            padding: 10px;
+            border-radius: 4px;
+            overflow-x: auto;
+            font-family: Consolas, Monaco, 'Andale Mono', 'Ubuntu Mono', monospace;
+        }
+        .note {
+            background-color: #e8f6fd;
+            border-left: 5px solid #3498db;
+            padding: 10px;
+            margin: 15px 0;
+        }
+        .warning {
+            background-color: #fef9e7; /* Amarillo claro */
+            border-left: 5px solid #f39c12; /* Naranja */
+            padding: 10px;
+            margin: 15px 0;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Documentación del Proceso: Transferencia de Inventario (Transferencia)</h1>
+
+        <h2>Descripción General</h2>
+        <p>El proceso automatizado "Transferencia de Inventario" se encarga de automatizar la creación y registro de transferencias de productos entre depósitos u oficinas dentro del sistema Major. Este robot está diseñado para procesar múltiples movimientos de transferencia definidos en archivos Excel, gestionando la apertura de Major, la preparación de los datos de entrada, el ingreso de artículos y cantidades, la adición de observaciones, la impresión de comprobantes en PDF, y el seguimiento del progreso en un archivo de registro.</p>
+        <p>El proceso inicia verificando y, si es necesario, reiniciando la aplicación Major para asegurar una ejecución limpia. Luego, prepara el entorno de datos, creando las estructuras de carpetas necesarias y preprocesando los archivos Excel de entrada para su correcta manipulación. La parte central del robot itera sobre cada movimiento de transferencia, ingresando los datos de origen, destino, artículos y cantidades en Major. Incluye una robusta gestión de errores para artículos sin stock o stock insuficiente, registrando estos incidentes y reiniciando el proceso si es necesario. Finalmente, el robot genera un comprobante PDF por cada transferencia y actualiza un archivo de control central (<code>Comprobante.xlsx</code>) con el estado de cada movimiento.</p>
+
+        <h2>Descripción Técnica</h2>
+
+        <h3>1. Requerimientos para la Ejecución</h3>
+        <ul>
+            <li><strong>Sistema Operativo:</strong> Windows.</li>
+            <li><strong>Aplicaciones:</strong>
+                <ul>
+                    <li><strong>Major (<code>Deposito.exe</code>):</strong> La aplicación de gestión de inventario donde se registrarán las transferencias. La ruta al ejecutable (<code>Deposito.exe</code>) se define en la variable <code>${MODULO}</code> (ej: <code>\\mpilar2\Major\CBProgramas\Rafam\Deposito.exe</code>).</li>
+                    <li><strong>Microsoft Excel:</strong> Necesario para leer los datos de entrada y escribir los datos de salida/comprobante.</li>
+                    <li><strong>Librerías Python:</strong> <code>pandas</code> es utilizada por el script auxiliar <code>verificar.py</code>.</li>
+                </ul>
+            </li>
+            <li><strong>Estructura de Carpetas:</strong> Se espera la siguiente estructura en el directorio de ejecución del robot (<code>${CURDIR}</code>):
+<pre>
+<Carpeta_Raíz_Ejecución>\
+├── Inputs\
+│   ├── Archivo_De_Movimientos.xlsx (nombre variable, pero solo el primero será procesado)
+│   └── ArticulosGeneral.xlsx (requerido para el script 'verificar.py' si se habilita la función de reemplazo de IDs)
+├── Processing\ (creada/usada por el robot, aquí se copian los archivos de movimiento procesados)
+├── Outputs\ (creada/usada por el robot)
+│   └── <Año>\ (ej: 2025)
+│       └── <Mes>\ (ej: 06)
+│           ├── Comprobante.xlsx (generado por el robot)
+│           └── PDFS\ (creada/usada por el robot, aquí se guardan los PDFs generados)
+└── verificar.py (script auxiliar)
+</pre>
+            </li>
+            <li><strong>Archivos de Entrada de Datos:</strong>
+                <ul>
+                    <li><strong><code>verificar.py</code>:</strong> Un script Python auxiliar que prepara los datos de Excel. Sus funciones principales son:
+                        <ul>
+                            <li><strong><code>verificar_archivo(carpeta_entrada, carpeta_procesamiento, carpeta_salida)</code>:</strong>
+                                <ul>
+                                    <li>Valida la existencia de las carpetas de entrada y salida.</li>
+                                    <li>Crea las carpetas <code>Processing</code>, <code>Outputs</code> y <code>Outputs/<Año>/<Mes>/PDFS</code> si no existen.</li>
+                                    <li>Busca el primer archivo <code>.xlsx</code> en la carpeta <code>Inputs</code> (excluyendo <code>ArticulosGeneral.xlsx</code>).</li>
+                                    <li>Lee el archivo y valida la existencia de las columnas requeridas: "id_movimiento_producto_deposito", "OFICINA MAJOR", "id_producto", "MAJOR".</li>
+                                    <li>Filtra filas donde MAJOR es "NO HACER REMITO".</li>
+                                    <li>Divide el archivo de entrada en múltiples archivos Excel (<code>Movimiento_<ID_Movimiento>.xlsx</code>) en la carpeta <code>Processing</code>, uno por cada <code>id_movimiento_producto_deposito</code> único. Esto solo sucede si los archivos de movimiento no existen previamente en <code>Processing</code>.</li>
+                                </ul>
+                            </li>
+                            <li><strong><code>generar_comprobante(carpeta_procesamiento, carpeta_salida)</code>:</strong>
+                                <ul>
+                                    <li>Crea un archivo <code>Comprobante.xlsx</code> en la carpeta de <code>Outputs/<Año>/<Mes>/</code>.</li>
+                                    <li>Este archivo resume los movimientos a procesar, incluyendo: Archivo, ID Movimiento, Origen, Destino, Filas. No lo recrea si ya existe.</li>
+                                </ul>
+                            </li>
+                            <li><strong><code>limpiar_carpeta(ruta_carpeta)</code>:</strong> Elimina todos los archivos y subcarpetas dentro de una ruta dada.</li>
+                            <li><div class="note"><strong>Nota:</strong> La función <code>reemplazar_id_por_articulo</code> está comentada en el código Python proporcionado, lo que significa que actualmente no se utiliza para modificar <code>id_productos</code> con nombres de artículos.</div></li>
+                        </ul>
+                    </li>
+                </ul>
+            </li>
+        </ul>
+
+        <h3>2. Flujo de Ejecución</h3>
+
+        <h4>Inicio del Proceso (Transferencia Task):</h4>
+        <ul>
+            <li>Llama a la keyword <strong>Abrir Major</strong>.</li>
+            <li>Llama a la keyword <strong>Preparar datos</strong>.</li>
+            <li>Llama a la keyword <strong>Ingreso de datos</strong>.</li>
+            <li>Llama a la keyword <strong>Cerrar Major</strong>.</li>
+        </ul>
+
+        <h4>Abrir Major Keyword:</h4>
+        <ul>
+            <li>Verifica si <code>Deposito.exe</code> ya está en ejecución. Si lo está, lo cierra (Kill Process).</li>
+            <li>Inicia la aplicación Major (Windows Run).</li>
+            <li>Espera un tiempo (Sleep 10s).</li>
+            <li>Clica en el campo de usuario (<code>id:3</code>), ingresa el <code>${USER}</code>, presiona "Enter".</li>
+            <li>Ingresa la <code>${PASS}</code>.</li>
+            <li>Clica en el botón de ingreso (<code>Ingresar major</code>).</li>
+            <li>Espera un tiempo (Sleep 5s).</li>
+        </ul>
+
+        <h4>Crear Carpetas Keyword:</h4>
+        <ul>
+            <li>[Argumentos] <code>${ruta_base}</code>, <code>${año}</code>, <code>${mes}</code></li>
+            <li>Crea directorios para el año y el mes dentro de la <code>ruta_base</code> si no existen.</li>
+            <li>Retorna la ruta completa de la carpeta del mes.</li>
+        </ul>
+
+        <h4>Obtener Fecha Keyword:</h4>
+        <ul>
+            <li>Obtiene la fecha y hora actual del sistema.</li>
+            <li>Extrae el año y el mes en formato YYYY y MM.</li>
+            <li>Retorna <code>${año}</code> y <code>${mes}</code>.</li>
+        </ul>
+
+        <h4>Preparar datos Keyword:</h4>
+        <ul>
+            <li>Obtiene el año y el mes actuales usando <strong>Obtener Fecha</strong>.</li>
+            <li>Define las rutas a las carpetas <code>Inputs</code>, <code>Outputs</code>, <code>Processing</code> (utilizando <code>${CURDIR}</code>).</li>
+            <li>Llama a <code>verificar.py::Verificar Archivo</code> para preprocesar los archivos de movimiento desde <code>Inputs</code> a <code>Processing</code>.</li>
+            <li>Llama a <code>verificar.py::Generar Comprobante</code> para crear (<code>Comprobante.xlsx</code>) en <code>Outputs/<Año>/<Mes></code>.</li>
+            <li>Abre <code>Comprobante.xlsx</code>, lee los datos, y añade las columnas <strong>ORDEN</strong> y <strong>COMPLETO</strong>, asignando un número de orden a cada fila. Guarda los cambios.</li>
+            <li><strong>Bucle externo:</strong> Itera sobre cada fila en <code>Comprobante.xlsx</code>:
+                <ul>
+                    <li>Obtiene la ruta del archivo de movimiento (<code>Movimiento_<ID>.xlsx</code>) en <code>Processing</code>.</li>
+                    <li>Abre este archivo de movimiento.</li>
+                    <li>Añade la columna <strong>ORDEN</strong> al archivo de movimiento y la numera por fila. Guarda los cambios.</li>
+                    <li>Reinicia el contador interno (<code>${contadorROW2}</code>) para la siguiente iteración.</li>
+                </ul>
+            </li>
+        </ul>
+
+        <h4>Ingreso de datos Keyword:</h4>
+        <ul>
+            <li>Obtiene el año y el mes actuales, y las rutas de las carpetas (<code>Inputs</code>, <code>Outputs</code>, <code>Processing</code>).</li>
+            <li><strong>Navegación en Major:</strong>
+                <ul>
+                    <li>Clica en el botón "Transferencias" (<code>Transferencias</code>). Si falla, llama a <strong>Reinicio</strong>.</li>
+                </ul>
+            </li>
+            <li>Abre el archivo <code>Comprobante.xlsx</code> en la carpeta de movimientos.</li>
+            <li><strong>Bucle principal:</strong> Itera sobre cada fila en <code>Comprobante.xlsx</code>:
+                <ul>
+                    <li>Extrae <code>completo</code>, <code>archivo</code>, <code>origen</code>, <code>destino</code>, <code>fin</code> (número total de filas + 1 para el bucle), <code>mov</code> (ID Movimiento), y <code>numerofila</code> de la fila actual.</li>
+                    <li><strong>Salta si ya está completo:</strong> Si la columna <strong>COMPLETO</strong> es "OK", salta al siguiente archivo.</li>
+                    <li><strong>Iniciar nueva transferencia en Major:</strong>
+                        <ul>
+                            <li>Clica en el botón "Nuevo" (<code>Nuevo</code>). Si falla, llama a <strong>Reinicio</strong>.</li>
+                        </ul>
+                    </li>
+                    <li><strong>Ingresar Origen y Destino:</strong>
+                        <ul>
+                            <li>Clica en el campo con <code>id:14</code> e ingresa el <code>${origen}</code>.</li>
+                            <li>Clica en el campo con <code>id:15</code> e ingresa el <code>${destino}</code>.</li>
+                            <li>Presiona "Tab".</li>
+                        </ul>
+                    </li>
+                    <li>Abre el archivo de movimiento (<code>Movimiento_<ID>.xlsx</code>) correspondiente en <code>Processing</code>.</li>
+                    <li><strong>Bucle interno:</strong> Itera sobre cada fila del archivo de movimiento:
+                        <ul>
+                            <li>Extrae <code>ultimo_articulo</code> (orden del artículo actual), <code>articulo</code> (id_producto), <code>cantidad</code>, y <code>observaciones</code> (id_movimiento_producto_deposito).</li>
+                            <li><strong>Ingresar artículo y cantidad en Major:</strong>
+                                <ul>
+                                    <li>Ingresa el <code>${articulo}</code>.</li>
+                                    <li>Presiona "Right".</li>
+                                    <li><strong>Manejo de "Error" (sin stock):</strong> Si aparece un cartel "Error" (timeout=2s), significa que no hay stock.
+                                        <ul>
+                                            <li>Abre <code>Comprobante.xlsx</code> (para asegurar que está abierto), y actualiza la fila actual en la columna G a "OK" y la columna H con "Sin Stock Art <articulo>".</li>
+                                            <li>Guarda <code>Comprobante.xlsx</code>.</li>
+                                            <li>Llama a <strong>Reinicio</strong> y sale del bucle interno.</li>
+                                        </ul>
+                                    </li>
+                                    <li>Si no hay error, presiona "Right" 3 veces.</li>
+                                    <li>Ingresa la <code>${cantidad}</code>.</li>
+                                    <li>Presiona "Enter".</li>
+                                    <li><strong>Manejo de "Error" (stock insuficiente):</strong> Similar al anterior, si aparece un cartel "Error", actualiza <code>Comprobante.xlsx</code> con "Stock Insuficiente Art <articulo> Cantidad <cantidad>", guarda y llama a <strong>Reinicio</strong>, saliendo del bucle interno.</li>
+                                </ul>
+                            </li>
+                            <li><strong>Navegación:</strong>
+                                <ul>
+                                    <li>Si es el <code>ultimo_articulo</code> de la transferencia (<code>ultimo_articulo == fin</code>), sale del bucle interno.</li>
+                                    <li>De lo contrario, clica en el botón "Despues" (<code>Despues</code>) para añadir la siguiente línea de artículo.</li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </li>
+                    <li><strong>Finalizar carga de artículos:</strong>
+                        <ul>
+                            <li>Clica en "Aceptar transferencia" (<code>Aceptar transferencia</code>).</li>
+                            <li>Luego clica en "Cancelar" (<code>Cancelar</code>).</li>
+                        </ul>
+                    </li>
+                    <li><strong>Añadir Observaciones:</strong>
+                        <ul>
+                            <li>Clica en "Observaciones" (<code>Observaciones</code>).</li>
+                            <li>Clica en "Editar" (<code>Editar</code>).</li>
+                            <li>Envía las observaciones (actualmente codificadas con <code>mov</code> y un texto estático: "Movimiento ID: ${mov} MARZO 2025").</li>
+                            <li>Clica en "Aceptar Edicion" (<code>Aceptar Edicion</code>).</li>
+                            <li>Clica en "Datos" (<code>Datos</code>) para volver a la pantalla principal de la transferencia.</li>
+                        </ul>
+                    </li>
+                    <li><strong>Imprimir Documento:</strong>
+                        <ul>
+                            <li>Clica en "Imprimir" (<code>Imprimir</code>).</li>
+                            <li>Presiona "Down".</li>
+                            <li>Clica en "Ejecutar" (<code>Ejecutar</code>).</li>
+                        </ul>
+                    </li>
+                    <li><strong>Guardar PDF:</strong>
+                        <ul>
+                            <li>Clica en el elemento con <code>id:1001</code> (diálogo de guardar archivo).</li>
+                            <li>Envía la ruta y nombre del archivo PDF (<code>${carpeta_mov_path}\\PDFS\\${archivo}.pdf</code>).</li>
+                            <li>Clica en "Guardar" (<code>Guardar</code>).</li>
+                        </ul>
+                    </li>
+                    <li><strong>Actualizar Comprobante:</strong>
+                        <ul>
+                            <li>Abre <code>Comprobante.xlsx</code> y actualiza la columna G (COMPLETO) de la fila actual a "OK".</li>
+                            <li>Guarda <code>Comprobante.xlsx</code>.</li>
+                        </ul>
+                    </li>
+                    <li><div class="note">(Comentado en el código): Llama a <strong>Limpiar Carpeta</strong> para vaciar la carpeta <code>Processing</code>.</div></li>
+                </ul>
+            </li>
+        </ul>
+
+        <h4>Cerrar Major Keyword:</h4>
+        <ul>
+            <li>Cierra la aplicación Major (Kill Process <code>Deposito.exe</code>).</li>
+        </ul>
+
+        <h4>Reinicio Keyword:</h4>
+        <ul>
+            <li>Registra un mensaje de error y reinicio.</li>
+            <li>Llama a <strong>Abrir Major</strong>.</li>
+            <li>Llama a <strong>Ingreso de datos</strong> (lo que reanudará el procesamiento de los archivos desde el punto en que se interrumpió, gracias a la lógica de "Continue For Loop If").</li>
+        </ul>
+
+        <h3>3. Salidas (Outputs)</h3>
+        <ul>
+            <li><strong>Archivo <code>Comprobante.xlsx</code>:</strong> Ubicado en <code>Outputs/<Año>/<Mes>/</code>. Este archivo es generado y actualizado durante el proceso. Contiene:
+                <ul>
+                    <li>Un resumen de los movimientos a procesar (Archivo, ID Movimiento, Origen, Destino, Filas).</li>
+                    <li>Columna <strong>ORDEN</strong>: Número secuencial para cada movimiento.</li>
+                    <li>Columna <strong>COMPLETO</strong>: Indica el estado del procesamiento para cada movimiento ("OK" si fue exitoso, o un mensaje de error como "Sin Stock Art...", "Stock Insuficiente Art...").</li>
+                </ul>
+            </li>
+            <li><strong>Archivos PDF de Comprobantes de Transferencia:</strong> Guardados en <code>Outputs/<Año>/<Mes>/PDFS/</code>. Se genera un PDF por cada transferencia completada exitosamente, nombrado como <code><nombre_archivo_movimiento>.pdf</code>.</li>
+            <li><strong>Archivos en Carpeta <code>Processing</code>:</strong>
+                <ul>
+                    <li><code>Movimiento_<ID_Movimiento>.xlsx</code>: Archivos individuales creados por <code>verificar.py</code>, uno por cada movimiento de transferencia. Estos archivos contienen la columna <strong>ORDEN</strong> añadida por el robot.</li>
+                    <li><div class="note">Estos archivos permanecerán en la carpeta <code>Processing</code> si la llamada a la keyword <code>Limpiar Carpeta</code> está comentada al final del proceso.</div></li>
+                </ul>
+            </li>
+            <li><strong>Registros en Consola/Logs:</strong> El robot registra diversas acciones y estados en la consola, incluyendo:
+                <ul>
+                    <li>Estado de apertura y cierre de Major.</li>
+                    <li>Procesamiento de archivos y movimientos.</li>
+                    <li>Manejo de errores (sin stock, stock insuficiente).</li>
+                    <li>Mensajes de reinicio del proceso.</li>
+                    <li>Confirmación de creación de PDFs y actualización de <code>Comprobante.xlsx</code>.</li>
+                </ul>
+            </li>
+        </ul>
+        <div class="note">
+            <p><strong>Nota:</strong> Este documento HTML puede ser impreso a PDF directamente desde las opciones de impresión de su navegador (Ctrl+P o Cmd+P).</p>
+        </div>
+    </div>
+</body>
+</html>

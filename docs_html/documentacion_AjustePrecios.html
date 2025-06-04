@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Documentación del Proceso: Ajuste de Precios (AjustePrecios)</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            margin: 20px;
+            background-color: #f4f4f4;
+            color: #333;
+        }
+        .container {
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+        }
+        h1, h2, h3, h4 {
+            color: #2c3e50;
+        }
+        h1 {
+            border-bottom: 2px solid #3498db;
+            padding-bottom: 10px;
+        }
+        h2 {
+            border-bottom: 1px solid #bdc3c7;
+            padding-bottom: 5px;
+            margin-top: 30px;
+        }
+        h3 {
+            margin-top: 20px;
+            color: #34495e;
+        }
+        ul {
+            list-style-type: disc;
+            margin-left: 20px;
+        }
+        li {
+            margin-bottom: 8px;
+        }
+        strong {
+            color: #2980b9;
+        }
+        code {
+            background-color: #ecf0f1;
+            padding: 2px 5px;
+            border-radius: 4px;
+            font-family: Consolas, Monaco, 'Andale Mono', 'Ubuntu Mono', monospace;
+        }
+        pre {
+            background-color: #ecf0f1;
+            padding: 10px;
+            border-radius: 4px;
+            overflow-x: auto;
+            font-family: Consolas, Monaco, 'Andale Mono', 'Ubuntu Mono', monospace;
+        }
+        .note {
+            background-color: #e8f6fd;
+            border-left: 5px solid #3498db;
+            padding: 10px;
+            margin: 15px 0;
+        }
+        .warning {
+            background-color: #fff; /* Amarillo claro */
+            border-left: 5px solid #f39c12; /* Naranja */
+            padding: 10px;
+            margin: 15px 0;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Documentación del Proceso: Ajuste de Precios (AjustePrecios)</h1>
+
+        <h2>Descripción General</h2>
+        <p>El proceso automatizado "Ajuste de Precios" se encarga de actualizar los precios de los artículos en el sistema Major y, opcionalmente, activar la valorización de consumo de órdenes de compra (OC). Este robot toma los datos de artículos y sus nuevos precios desde un archivo Excel, automatizando la búsqueda y edición de cada artículo en Major para aplicar los cambios de precio.</p>
+        <p>El robot comienza estableciendo una conexión limpia con la aplicación Major, reiniciándola si ya está en ejecución. Posteriormente, lee el archivo Excel de entrada, que contiene el ID del artículo y el precio a ajustar. Por cada artículo, el robot navega a la sección de "Agrupamiento de Artículos", busca el artículo por su ID, edita su precio y, si es necesario, activa la opción de "Valorización consumo OC". El proceso incluye manejo de errores y validaciones para asegurar que la operación se realice correctamente, incluyendo la gestión de posibles mensajes de atención de Major. Si surge algún problema durante la edición, el robot intenta reanudar el proceso.</p>
+
+        <h2>Descripción Técnica</h2>
+
+        <h3>1. Requerimientos para la Ejecución</h3>
+        <ul>
+            <li><strong>Sistema Operativo:</strong> Windows.</li>
+            <li><strong>Aplicaciones:</strong>
+                <ul>
+                    <li><strong>Major (<code>Deposito.exe</code>):</strong> La aplicación de gestión de inventario donde se ajustarán los precios de los artículos. La ruta al ejecutable (<code>Deposito.exe</code>) se define en la variable <code>${Major}</code> (ej: <code>\\mpilar2\Major\CBProgramas\Rafam\Deposito.exe</code>).</li>
+                    <li><strong>Microsoft Excel:</strong> Necesario para leer los datos de entrada y registrar los resultados.</li>
+                </ul>
+            </li>
+            <li><strong>Estructura de Carpetas:</strong> Se espera la siguiente estructura en el escritorio del usuario que ejecuta el proceso:
+<pre>
+C:\Users\<Usuario>\Desktop\BabotAlmacen\
+├── Inputs\
+├── Outputs\
+└── app\
+    └── config\
+        └── settings.xlsx
+</pre>
+            </li>
+            <li><strong>Archivos de Configuración:</strong>
+                <ul>
+                    <li><strong><code>settings.xlsx</code>:</strong> Este archivo Excel, ubicado en <code>BabotAlmacen\app\config\</code>, debe contener la siguiente información en <code>Sheet1</code>:
+                        <ul>
+                            <li><strong>Celda B2:</strong> Usuario de Major.</li>
+                            <li><strong>Celda B3:</strong> Contraseña de Major.</li>
+                            <li><strong>Celda B5:</strong> Ruta completa al archivo Excel de entrada de artículos para el ajuste de precios (ej: <code>C:\Users\<Usuario>\Desktop\BabotAlmacen\Inputs\ajuste_precios.xlsx</code>).</li>
+                            <li><strong>Celda B6:</strong> Nombre de la hoja dentro del archivo Excel de entrada donde se encuentran los datos de los artículos.</li>
+                        </ul>
+                    </li>
+                </ul>
+            </li>
+            <li><strong>Archivo de Entrada de Datos (Excel):</strong>
+                <ul>
+                    <li>El archivo Excel especificado en <code>settings.xlsx</code> (Celda B5) debe contener una hoja con el nombre indicado en <code>settings.xlsx</code> (Celda B6).</li>
+                    <li>Esta hoja debe tener, como mínimo, las siguientes columnas (la primera fila se considera el encabezado):
+                        <ul>
+                            <li><strong>id_major:</strong> El ID del artículo en el sistema Major.</li>
+                            <li><strong>precio:</strong> El nuevo precio a asignar al artículo.</li>
+                            <li><strong>CREADO:</strong> Columna para el seguimiento interno del proceso (el robot la utiliza para saber si el artículo ya fue procesado).</li>
+                        </ul>
+                    </li>
+                    <li>El robot agregará automáticamente las columnas <strong>ORDEN</strong> e <strong>CREADO</strong> (si no existen) y las poblará.</li>
+                </ul>
+            </li>
+        </ul>
+
+        <h3>2. Flujo de Ejecución</h3>
+
+        <h4>Inicio del Proceso (AjustePrecios Task):</h4>
+        <ul>
+            <li>Llama a la keyword <strong>Abrir Major</strong>.</li>
+            <li>Llama a la keyword <strong>AjustePrecio</strong>.</li>
+        </ul>
+
+        <h4>Abrir Major Keyword:</h4>
+        <ul>
+            <li>Obtiene la ruta del escritorio del usuario.</li>
+            <li>Define las rutas a las carpetas <code>Inputs</code>, <code>Outputs</code> y <code>app\config\</code>.</li>
+            <li>Abre el archivo <code>settings.xlsx</code> y lee el usuario y la contraseña de Major desde la hoja <code>Sheet1</code>.</li>
+            <li>Verifica si el proceso <code>Deposito.exe</code> (Major) ya está en ejecución.</li>
+            <li>Si Major está abierto: Lo cierra (Kill Process) y lo reinicia.</li>
+            <li>Si Major está cerrado: Lo inicia.</li>
+            <li>Espera a que aparezca el elemento de la ventana de login (<code>Aceptar_User_Ingresos</code>).</li>
+            <li>Ingresa el usuario y la contraseña leídos de <code>settings.xlsx</code> en los campos correspondientes de Major.</li>
+            <li>Presiona "Enter" después de cada ingreso y hace clic en el botón de aceptación (<code>Aceptar_User_Ingresos</code>).</li>
+            <li>Implementa manejo de errores para la carga de usuario y contraseña, terminando el proceso si fallan.</li>
+        </ul>
+
+        <h4>AjustePrecio Keyword:</h4>
+        <ul>
+            <li>Obtiene las rutas de carpetas y de <code>settings.xlsx</code> nuevamente.</li>
+            <li>Lee la ruta del Excel de artículos para ajuste de precios y el nombre de la hoja desde <code>settings.xlsx</code>.</li>
+            <li>Abre el archivo Excel y lee los datos como una tabla.</li>
+            <li>Asegura la existencia de las columnas <strong>ORDEN</strong> y <strong>CREADO</strong> en el Excel, asignándoles valores iniciales.</li>
+            <li>Guarda el workbook.</li>
+            <li>Navega en Major hacia la sección de "Actualizaciones" (<code>Actualizaciones</code>) y luego a "Artículos" (<code>Articulos</code>).</li>
+            <li>Ingresa a la sección de "Agrupamiento de Artículos".</li>
+            <li><strong>Bucle de procesamiento de artículos:</strong> Itera sobre cada fila del archivo Excel de entrada:
+                <ul>
+                    <li>Declara las variables <code>id_articulo</code> y <code>Precio</code> con los valores de la fila actual del Excel.</li>
+                    <li><strong>Buscar artículo:</strong> Intenta hacer clic en el botón "Buscar" (<code>Buscar_Articulo</code>).
+                        <ul>
+                            <li>Si el botón no se encuentra, llama a <strong>Abrir Major</strong> y <strong>AjustePrecio</strong> (reinicio del proceso completo) y sale del bucle.</li>
+                            <li>Si se encuentra, continúa.</li>
+                        </ul>
+                    </li>
+                    <li>Espera a que aparezca el botón "Aceptar" (<code>Aceptar_AgrupArticulos</code>) en la ventana de búsqueda.</li>
+                    <li><strong>Ingresar ID del artículo:</strong> Clica en el campo de texto con <code>id:13</code>, borra cualquier contenido existente y envía el <code>id_articulo</code>.</li>
+                    <li>Acepta la búsqueda del artículo (<code>Aceptar_AgrupArticulos</code>).</li>
+                    <li><strong>Manejo de cartel "Atención!":</strong> Si aparece un cartel de "Atención!" (ej. indicando pedidos del área), lo acepta.</li>
+                    <li><strong>Editar artículo:</strong> Espera y clica en el botón "Editar Artículo" (<code>Editar_Articulo</code>).
+                        <ul>
+                            <li>Si el botón no se encuentra, llama a la keyword <strong>Recursividad</strong> (reintento de la iteración actual) y sale del bucle.</li>
+                            <li>Si se encuentra:
+                                <ul>
+                                    <li>Espera a que aparezca el botón "Aceptar" (<code>Aceptar_AgrupArticulos</code>) en la ventana de edición.</li>
+                                    <li><strong>Ajustar precio:</strong> Clica en el campo con <code>id:19</code> e ingresa el nuevo <code>Precio</code>.</li>
+                                    <li><strong>Activar "Consumo OC":</strong> Verifica si el elemento <code>Consumo_OC</code> está presente. Si lo está, lo clica para activarlo; de lo contrario, registra que ya estaba activado.</li>
+                                    <li><strong>Aceptar edición:</strong> Intenta clicar en "Aceptar" (<code>Aceptar_AgrupArticulos</code>) para guardar los cambios.
+                                        <ul>
+                                            <li>Si falla, llama a la keyword <strong>Recursividad</strong> y sale del bucle.</li>
+                                            <li>Si es exitoso, registra que el artículo se editó correctamente.</li>
+                                        </ul>
+                                    </li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </li>
+                </ul>
+            </li>
+        </ul>
+
+        <h4>Manejo_Errores Keyword:</h4>
+        <ul>
+            <li>[Argumentos] <code>${mensaje}</code></li>
+            <li>Registra un mensaje de error fatal y termina la ejecución del proceso.</li>
+        </ul>
+
+        <h4>Recursividad Keyword:</h4>
+        <ul>
+            <li>Se invoca si hay un problema durante la búsqueda o edición de un artículo.</li>
+            <li>Registra un mensaje indicando que el bot se encontró con un error y se está volviendo a ejecutar.</li>
+            <li>Reabrir el archivo <code>settings.xlsx</code> y el Excel de entrada.</li>
+            <li>Continúa el bucle desde el punto de interrupción: Vuelve a iterar sobre los datos del Excel, pero solo procesando los artículos que no han sido marcados como "OK" o que no han causado el error. Esta keyword es una réplica del bucle principal en <strong>AjustePrecio</strong> para reintentar la operación.</li>
+        </ul>
+
+        <h3>3. Salidas (Outputs)</h3>
+        <ul>
+            <li><strong>Registros en Consola/Logs:</strong> El robot registra diversas acciones y estados en la consola, incluyendo:
+                <ul>
+                    <li>Estado de apertura de Major.</li>
+                    <li>Carga de usuario y contraseña.</li>
+                    <li>Mensajes sobre la búsqueda y edición de artículos.</li>
+                    <li>Detección de carteles de advertencia o error.</li>
+                    <li>Mensajes de reinicio del bot.</li>
+                </ul>
+            </li>
+            <li><strong>Archivo Excel de Entrada Modificado (potencialmente):</strong>
+                <div class="warning">
+                    <p><strong>Atención:</strong> Aunque el código inicializa las columnas <code>ORDEN</code> y <code>CREADO</code>, el flujo principal de la keyword <code>AjustePrecio</code>, tal como está descrito, <strong>no guarda explícitamente el estado "OK" o "EXISTENTE" en la columna <code>CREADO</code></strong> del archivo Excel después de procesar un artículo con éxito dentro del bucle principal. Esto significa que los estados "OK" no se persistirán en el archivo Excel a menos que el script se detenga por otra razón o la keyword <code>Recursividad</code> sea invocada, la cual podría tener su propia lógica de guardado no detallada aquí.</p>
+                </div>
+            </li>
+        </ul>
+        <div class="note">
+            <p><strong>Nota:</strong> Este documento HTML puede ser impreso a PDF directamente desde las opciones de impresión de su navegador (Ctrl+P o Cmd+P).</p>
+        </div>
+    </div>
+</body>
+</html>

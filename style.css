@@ -1,0 +1,134 @@
+/* Reset básico y configuración general */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Roboto', sans-serif;
+    line-height: 1.6;
+    color: #333;
+    background-color: #f4f7f6; /* Un gris muy claro para el fondo */
+}
+
+.container {
+    width: 90%;
+    max-width: 1100px;
+    margin: auto;
+    overflow: hidden;
+    padding: 0 20px;
+}
+
+/* Header */
+header {
+    background: #005f73; /* Un azul verdoso oscuro */
+    color: #fff;
+    padding: 40px 0;
+    text-align: center;
+    border-bottom: 5px solid #0a9396; /* Un tono más claro para el borde */
+}
+
+header h1 {
+    font-size: 2.8em;
+    margin-bottom: 10px;
+    font-weight: 700;
+}
+
+header p {
+    font-size: 1.1em;
+    font-weight: 300;
+}
+
+/* Main Content & Grid */
+main {
+    padding: 40px 0;
+}
+
+.document-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 30px;
+}
+
+/* Document Cards */
+.document-card {
+    background: #fff;
+    border-radius: 8px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+    padding: 25px;
+    display: flex;
+    flex-direction: column;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.document-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+}
+
+.document-card h2 {
+    color: #005f73;
+    margin-bottom: 15px;
+    font-size: 1.6em;
+    font-weight: 700;
+}
+
+.document-card p {
+    font-size: 0.95em;
+    margin-bottom: 20px;
+    flex-grow: 1; /* Hace que el párrafo ocupe el espacio disponible, empujando el botón hacia abajo */
+    color: #555;
+}
+
+.btn {
+    display: inline-block;
+    background: #0a9396; /* Tono más claro del header */
+    color: #fff;
+    padding: 12px 25px;
+    text-decoration: none;
+    border-radius: 5px;
+    font-weight: bold;
+    text-align: center;
+    transition: background-color 0.3s ease;
+}
+
+.btn:hover {
+    background: #00778a; /* Un poco más oscuro al pasar el mouse */
+}
+
+/* Footer */
+footer {
+    background: #2a3236; /* Un gris oscuro para el footer */
+    color: #bbb;
+    text-align: center;
+    padding: 30px 0;
+    margin-top: 40px;
+}
+
+footer p {
+    margin-bottom: 5px;
+    font-size: 0.9em;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    header h1 {
+        font-size: 2.2em;
+    }
+    header p {
+        font-size: 1em;
+    }
+    .document-card h2 {
+        font-size: 1.4em;
+    }
+}
+
+@media (max-width: 480px) {
+    .document-grid {
+        grid-template-columns: 1fr; /* Una columna en pantallas muy pequeñas */
+    }
+    header h1 {
+        font-size: 1.8em;
+    }
+}

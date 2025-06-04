@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Documentación del Proceso: Carga de Artículos (CargaArt)</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            margin: 20px;
+            background-color: #f4f4f4;
+            color: #333;
+        }
+        .container {
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+        }
+        h1, h2, h3, h4 {
+            color: #2c3e50;
+        }
+        h1 {
+            border-bottom: 2px solid #3498db;
+            padding-bottom: 10px;
+        }
+        h2 {
+            border-bottom: 1px solid #bdc3c7;
+            padding-bottom: 5px;
+            margin-top: 30px;
+        }
+        h3 {
+            margin-top: 20px;
+        }
+        ul {
+            list-style-type: disc;
+            margin-left: 20px;
+        }
+        li {
+            margin-bottom: 5px;
+        }
+        strong {
+            color: #2980b9;
+        }
+        code {
+            background-color: #ecf0f1;
+            padding: 2px 5px;
+            border-radius: 4px;
+            font-family: Consolas, Monaco, 'Andale Mono', 'Ubuntu Mono', monospace;
+        }
+        pre {
+            background-color: #ecf0f1;
+            padding: 10px;
+            border-radius: 4px;
+            overflow-x: auto;
+            font-family: Consolas, Monaco, 'Andale Mono', 'Ubuntu Mono', monospace;
+        }
+        .note {
+            background-color: #e8f6fd;
+            border-left: 5px solid #3498db;
+            padding: 10px;
+            margin: 15px 0;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Documentación del Proceso: Carga de Artículos (CargaArt)</h1>
+
+        <h2>Descripción General</h2>
+        <p>El proceso automatizado "Carga de Artículos" tiene como función principal la creación o actualización de artículos y sus agrupamientos en el sistema Major, tomando la información de un archivo Excel. Su objetivo es automatizar la carga de nuevos artículos o la modificación de existentes, garantizando que el inventario y la catalogación en Major se mantengan actualizados de manera eficiente.</p>
+        <p>Al inicio, el robot valida la sesión de Major, reiniciándola si ya está activa para asegurar un entorno limpio. Luego, procede a leer los detalles de los artículos desde un archivo Excel de entrada. Por cada artículo en el Excel, el robot navega a la sección de "Agrupamiento de Artículos" en Major y procede a cargar la información como el agrupamiento, la descripción completa, la descripción del artículo, las medidas y el origen del precio. El proceso incluye validaciones robustas para asegurar que todos los campos requeridos en el Excel contengan datos. Si se detecta que un artículo ya existe en Major, el robot lo registra en el Excel y continúa con el siguiente, evitando duplicidades. Cualquier artículo cargado con éxito o identificado como existente se marca en el archivo Excel de entrada. Al finalizar la carga de todos los artículos, el robot cierra la aplicación Major.</p>
+
+        <h2>Descripción Técnica</h2>
+
+        <h3>1. Requerimientos para la Ejecución</h3>
+        <ul>
+            <li><strong>Sistema Operativo:</strong> Windows.</li>
+            <li><strong>Aplicaciones:</strong>
+                <ul>
+                    <li><strong>Major (<code>Deposito.exe</code>):</strong> La aplicación de gestión de inventario donde se cargarán los artículos. La ruta al ejecutable (<code>Deposito.exe</code>) se define en la variable <code>${Major}</code> (ej: <code>\\mpilar2\Major\CBProgramas\Rafam\Deposito.exe</code>).</li>
+                    <li><strong>Microsoft Excel:</strong> Necesario para leer los datos de entrada y registrar los resultados.</li>
+                </ul>
+            </li>
+            <li><strong>Estructura de Carpetas:</strong> Se espera la siguiente estructura en el escritorio del usuario que ejecuta el proceso:
+<pre>
+C:\Users\<Usuario>\Desktop\BabotAlmacen\
+├── Inputs\
+├── Outputs\
+└── app\
+    └── config\
+        └── settings.xlsx
+</pre>
+            </li>
+            <li><strong>Archivos de Configuración:</strong>
+                <ul>
+                    <li><strong><code>settings.xlsx</code>:</strong> Este archivo Excel, ubicado en <code>BabotAlmacen\app\config\</code>, debe contener la siguiente información en <code>Sheet1</code>:
+                        <ul>
+                            <li><strong>Celda B2:</strong> Usuario de Major.</li>
+                            <li><strong>Celda B3:</strong> Contraseña de Major.</li>
+                            <li><strong>Celda B5:</strong> Ruta completa al archivo Excel de entrada de artículos a cargar (ej: <code>C:\Users\<Usuario>\Desktop\BabotAlmacen\Inputs\carga_articulos.xlsx</code>).</li>
+                            <li><strong>Celda B6:</strong> Nombre de la hoja dentro del archivo Excel de entrada donde se encuentran los datos de los artículos.</li>
+                        </ul>
+                    </li>
+                </ul>
+            </li>
+            <li><strong>Archivo de Entrada de Datos (Excel):</strong>
+                <ul>
+                    <li>El archivo Excel especificado en <code>settings.xlsx</code> (Celda B5) debe contener una hoja con el nombre indicado en <code>settings.xlsx</code> (Celda B6).</li>
+                    <li>Esta hoja debe tener, como mínimo, las siguientes columnas (la primera fila se considera el encabezado):
+                        <ul>
+                            <li><strong>AGRUPAMIENTO:</strong> El código de agrupamiento del artículo en Major.</li>
+                            <li><strong>DESC_COMPL:</strong> La descripción completa o patrimonial del artículo.</li>
+                            <li><strong>DESC_ART:</strong> La descripción del artículo.</li>
+                            <li><strong>MEDIDA:</strong> La unidad de medida del artículo.</li>
+                            <li><strong>ORIGENPRECIO:</strong> El origen del precio del artículo.</li>
+                            <li><strong>CREADO:</strong> Columna para el seguimiento interno del proceso (el robot la utiliza para saber si el artículo ya fue procesado o existe).</li>
+                        </ul>
+                    </li>
+                    <li>El robot agregará automáticamente las columnas <strong>ORDEN</strong> e <strong>CREADO</strong> (si no existen) y las poblará.</li>
+                </ul>
+            </li>
+        </ul>
+
+        <h3>2. Flujo de Ejecución</h3>
+
+        <h4>Inicio del Proceso (DescargaDeudas Task):</h4>
+        <ul>
+            <li>Llama a la keyword <strong>Abrir Major</strong>.</li>
+            <li>Llama a la keyword <strong>CargaArt</strong>.</li>
+        </ul>
+
+        <h4>Abrir Major Keyword:</h4>
+        <ul>
+            <li>Obtiene la ruta del escritorio del usuario.</li>
+            <li>Define las rutas a las carpetas <code>Inputs</code>, <code>Outputs</code> y <code>app\config\</code>.</li>
+            <li>Abre el archivo <code>settings.xlsx</code> y lee el usuario, contraseña de Major, la ruta al Excel de artículos y el nombre de la hoja.</li>
+            <li>Verifica si el proceso <code>Deposito.exe</code> (Major) ya está en ejecución.</li>
+            <li>Si Major está abierto: Lo cierra (Kill Process) y lo reinicia.</li>
+            <li>Si Major está cerrado: Lo inicia.</li>
+            <li>Espera a que aparezca el elemento de la ventana de login (<code>Aceptar_User_Ingresos</code>).</li>
+            <li>Ingresa el usuario y la contraseña leídos de <code>settings.xlsx</code> en los campos correspondientes de Major.</li>
+            <li>Presiona "Enter" después de cada ingreso y hace clic en el botón de aceptación (<code>Aceptar_User_Ingresos</code>).</li>
+            <li>Implementa manejo de errores para la carga de usuario y contraseña, terminando el proceso si fallan.</li>
+        </ul>
+
+        <h4>CargaArt Keyword:</h4>
+        <ul>
+            <li>Vuelve a obtener las rutas de carpetas y de <code>settings.xlsx</code>.</li>
+            <li>Lee la ruta del Excel de artículos, el nombre de la hoja desde <code>settings.xlsx</code>.</li>
+            <li>Abre el archivo Excel de artículos y lee los datos como una tabla.</li>
+            <li>Asegura la existencia de las columnas <strong>ORDEN</strong> y <strong>CREADO</strong> en el Excel, asignándoles valores iniciales.</li>
+            <li>Guarda el workbook.</li>
+            <li>Navega en Major hacia la sección de "Actualizaciones" (<code>Actualizaciones</code>) y luego a "Artículos" (<code>Articulos</code>).</li>
+            <li>Ingresa a "Agrupamiento de Artículos".</li>
+            <li><strong>Bucle de procesamiento de artículos:</strong> Itera sobre cada fila del archivo Excel de artículos:
+                <ul>
+                    <li>Obtiene la fecha actual para posibles registros.</li>
+                    <li>Extrae <strong>AGRUPAMIENTO</strong>, <strong>DESC_COMPL</strong>, <strong>DescripcionArticulo</strong>, <strong>MEDIDA</strong>, <strong>ORIGENPRECIO</strong>, <strong>ORDEN</strong> y <strong>CREADO</strong> de la fila actual del Excel.</li>
+                    <li><strong>Validación de campos nulos:</strong> Crea una lista de variables (<code>Agrupamiento</code>, <code>DescCOMP</code>, <code>DescripcionArticulo</code>, <code>Medidas</code>, <code>OrigenPrecio</code>) y verifica que ninguna contenga valores nulos o vacíos. Si alguna variable está vacía, cierra Major y termina el proceso con un error fatal.</li>
+                    <li><strong>Verificación de CREADO:</strong> Si la columna <strong>CREADO</strong> para la fila actual es "OK" o "EXISTENTE", salta al siguiente artículo (ya fue procesado o identificado como existente).</li>
+                    <li><strong>Crear nuevo agrupamiento de artículos:</strong> Intenta hacer clic en "Nuevo" (<code>Nuevo_Articulos</code>). Si falla, llama a la keyword <strong>Reincio</strong> y sale del bucle, indicando un problema que requiere reiniciar el proceso.</li>
+                    <li>Carga los datos del artículo (<code>Agrupamiento</code>, <code>DescripcionArticulo</code>, <code>Medidas</code>, <code>OrigenPrecio</code>) en los campos correspondientes de Major.</li>
+                    <li>Hace clic en el botón "SI" (alias:"SI") si aparece.</li>
+                    <li>Hace clic en "Aceptar" (<code>Aceptar_AgrupArticulos</code>) para guardar el artículo en Major.</li>
+                    <li><strong>Cartel de artículo existente:</strong> Verifica si Major muestra un cartel de "Cuidado !!!" indicando que el agrupamiento ya existe.
+                        <ul>
+                            <li>Si el artículo existe, actualiza la columna <strong>CREADO</strong> en el Excel a "EXISTENTE", guarda el workbook, acepta el cartel y hace clic en "Cancelar" (<code>Cancelar_Art</code>) en Major para cerrar la ventana actual y continuar con el siguiente artículo.</li>
+                            <li>Si el artículo no existe, registra un mensaje indicando que se creó correctamente.</li>
+                        </ul>
+                    </li>
+                    <li>Finalmente, actualiza la columna <strong>CREADO</strong> en el Excel a "OK" para la fila procesada y guarda el workbook.</li>
+                </ul>
+            </li>
+            <li>Al finalizar el bucle, cierra la aplicación Major (Kill Process <code>Deposito.exe</code>).</li>
+        </ul>
+
+        <h4>Manejo_Errores Keyword:</h4>
+        <ul>
+            <li>[Argumentos] <code>${mensaje}</code></li>
+            <li>Registra un mensaje de error fatal y termina la ejecución del proceso.</li>
+        </ul>
+
+        <h4>Reincio Keyword:</h4>
+        <ul>
+            <li>Se invoca si hay un error al intentar crear un nuevo artículo en Major (<code>Nuevo_Articulos</code>).</li>
+            <li>Registra un mensaje de reinicio.</li>
+            <li>Llama nuevamente a <strong>Abrir Major</strong> y <strong>CargaArt</strong> para intentar reanudar el proceso desde el inicio.</li>
+        </ul>
+
+        <h3>3. Salidas (Outputs)</h3>
+        <ul>
+            <li><strong>Archivo Excel de Entrada Modificado:</strong> El archivo Excel de entrada (especificado en <code>settings.xlsx</code> en la celda B5) es actualizado durante la ejecución.
+                <ul>
+                    <li>Se agregan (si no existen) y se rellenan las columnas:
+                        <ul>
+                            <li><strong>ORDEN:</strong> Un número secuencial para cada fila procesada.</li>
+                            <li><strong>CREADO:</strong> Indica el estado de la carga de cada artículo:
+                                <ul>
+                                    <li>"OK": El artículo se cargó correctamente.</li>
+                                    <li>"EXISTENTE": El artículo ya existía en Major.</li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </li>
+                    <li>Los cambios en estas columnas se guardan en el mismo archivo Excel.</li>
+                </ul>
+            </li>
+            <li><strong>Registros en Consola/Logs:</strong> El robot registra diversas acciones y estados en la consola, incluyendo:
+                <ul>
+                    <li>Estado de apertura de Major.</li>
+                    <li>Carga de usuario y contraseña.</li>
+                    <li>Validación de campos de entrada.</li>
+                    <li>Procesamiento de cada artículo y su estado (cargado, existente, error).</li>
+                </ul>
+            </li>
+            <li><strong>Terminación del Proceso:</strong> En caso de errores críticos (como campos vacíos en el Excel), el proceso se termina con un error fatal.</li>
+        </ul>
+        <div class="note">
+            <p><strong>Nota:</strong> Este documento HTML puede ser impreso a PDF directamente desde las opciones de impresión de su navegador (Ctrl+P o Cmd+P).</p>
+        </div>
+    </div>
+</body>
+</html>

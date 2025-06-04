@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Depósito de Documentación de Procesos RPA</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <header>
+        <div class="container">
+            <h1>Depósito de Documentación de Procesos RPA</h1>
+            <p>Bienvenido al repositorio central de documentación para los procesos automatizados (RPA). Aquí encontrarás información detallada sobre cada uno de los robots.</p>
+        </div>
+    </header>
+
+    <main>
+        <div class="container">
+            <section class="document-grid">
+                <article class="document-card">
+                    <h2>Carga de Artículos (CargaArt)</h2>
+                    <p>Creación o actualización de artículos y sus agrupamientos en Major desde un Excel.</p>
+                    <a href="docs_html/documentacion_CargaArt.html" class="btn">Ver Documentación</a>
+                </article>
+
+                <article class="document-card">
+                    <h2>Ajustes de Stock</h2>
+                    <p>Actualización de cantidades de artículos en Major utilizando un archivo Excel de entrada.</p>
+                    <a href="docs_html/documentacion_AjustesStock.html" class="btn">Ver Documentación</a>
+                </article>
+
+                <article class="document-card">
+                    <h2>Carga de Depósitos (CargaDeposito)</h2>
+                    <p>Configuración y actualización de parámetros de inventario para artículos en oficinas/depósitos.</p>
+                    <a href="docs_html/documentacion_CargaDeposito.html" class="btn">Ver Documentación</a>
+                </article>
+
+                <article class="document-card">
+                    <h2>Ajuste de Precios (AjustePrecios)</h2>
+                    <p>Actualización de precios de artículos en Major y activación opcional de valorización de consumo OC.</p>
+                    <a href="docs_html/documentacion_AjustePrecios.html" class="btn">Ver Documentación</a>
+                </article>
+
+                <article class="document-card">
+                    <h2>Transferencia de Inventario (Transferencia)</h2>
+                    <p>Automatización de la creación y registro de transferencias de productos entre depósitos.</p>
+                    <a href="docs_html/documentacion_Transferencia.html" class="btn">Ver Documentación</a>
+                </article>
+
+                <!-- Agrega más <article class="document-card"> aquí para futuros documentos -->
+
+            </section>
+        </div>
+    </main>
+
+    <footer>
+        <div class="container">
+            <p>© <span id="currentYear"></span> Tu Nombre o Nombre de la Empresa. Todos los derechos reservados.</p>
+            <p>Documentación generada para procesos RPA.</p>
+        </div>
+    </footer>
+
+    <script>
+        document.getElementById('currentYear').textContent = new Date().getFullYear();
+    </script>
+</body>
+</html>

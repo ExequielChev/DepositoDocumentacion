@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Documentación del Proceso: Ajustes de Stock</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            margin: 20px;
+            background-color: #f4f4f4;
+            color: #333;
+        }
+        .container {
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+        }
+        h1, h2, h3, h4 {
+            color: #2c3e50;
+        }
+        h1 {
+            text-align: center;
+            border-bottom: 2px solid #3498db;
+            padding-bottom: 10px;
+            margin-bottom: 30px;
+        }
+        h2 {
+            border-bottom: 1px solid #bdc3c7;
+            padding-bottom: 5px;
+            margin-top: 30px;
+        }
+        h3 {
+            margin-top: 20px;
+            color: #34495e;
+        }
+        ul, ol {
+            list-style-type: disc;
+            margin-left: 20px;
+        }
+        ol {
+            list-style-type: decimal;
+        }
+        li {
+            margin-bottom: 8px;
+        }
+        strong {
+            color: #2980b9;
+        }
+        code {
+            background-color: #ecf0f1;
+            padding: 2px 5px;
+            border-radius: 4px;
+            font-family: Consolas, Monaco, 'Andale Mono', 'Ubuntu Mono', monospace;
+        }
+        pre {
+            background-color: #ecf0f1;
+            padding: 10px;
+            border-radius: 4px;
+            overflow-x: auto;
+            font-family: Consolas, Monaco, 'Andale Mono', 'Ubuntu Mono', monospace;
+        }
+        .note {
+            background-color: #e8f6fd;
+            border-left: 5px solid #3498db;
+            padding: 10px;
+            margin: 15px 0;
+        }
+        .index {
+            margin-bottom: 30px;
+            padding: 15px;
+            background-color: #eaf2f8;
+            border-radius: 5px;
+        }
+        .index h2 {
+            margin-top: 0;
+            border-bottom: none;
+        }
+        .index ol li a {
+            text-decoration: none;
+            color: #2980b9;
+        }
+        .index ol li a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Documentación del Proceso<br>"Ajustes de Stock"</h1>
+
+        <div class="index">
+            <h2>Índice</h2>
+            <ol>
+                <li><a href="#descripcion-general">Descripción General</a></li>
+                <li><a href="#requerimientos">Requerimientos para la Ejecución</a></li>
+                <li><a href="#flujo-ejecucion">Flujo de Ejecución</a></li>
+                <li><a href="#salidas">Salidas (Outputs)</a></li>
+            </ol>
+        </div>
+
+        <h2 id="descripcion-general">1. Descripción General</h2>
+        <p>El proceso automatizado "Ajustes de Stock" actualiza las cantidades de artículos en el sistema Major usando un archivo Excel de entrada.</p>
+        <p>Este robot automatiza la sincronización entre el inventario digital y el físico, eliminando la necesidad de carga manual. Inicia sesión en Major, reinicia la aplicación si es necesario, lee un archivo Excel con artículos y cantidades, y realiza los ajustes dentro del sistema.</p>
+        <p>Cada operación se valida y su resultado se registra en el mismo Excel de entrada. Al finalizar, el archivo queda actualizado con el estado de cada ítem.</p>
+
+        <h2 id="requerimientos">2. Requerimientos para la Ejecución</h2>
+
+        <h3>Sistema Operativo y Aplicaciones</h3>
+        <ul>
+            <li>Windows.</li>
+            <li>Major (<code>Deposito.exe</code>).</li>
+            <li>Microsoft Excel.</li>
+        </ul>
+
+        <h3>Estructura de Carpetas Esperada</h3>
+<pre>
+C:\Users\<Usuario>\Desktop\BabotAlmacen\
+├── Inputs\
+├── Outputs\
+└── app\
+    └── config\
+        └── settings.xlsx
+</pre>
+        <p>(Nota: Los "???" en el OCR original para Inputs, Outputs, app y config se han interpretado como la estructura estándar de carpetas mostrada).</p>
+
+
+        <h3>Archivo <code>settings.xlsx</code></h3>
+        <p>Ubicado en <code>app\config\</code>, contiene en <code>Sheet1</code>:</p>
+        <ul>
+            <li><strong>B2:</strong> Usuario de Major</li>
+            <li><strong>B3:</strong> Contraseña de Major</li>
+            <li><strong>B5:</strong> Ruta del archivo Excel de artículos</li>
+            <li><strong>B6:</strong> Nombre de la hoja con datos</li>
+            <li><strong>B7:</strong> Código de depósito</li>
+        </ul>
+
+        <h3>Archivo Excel de Entrada</h3>
+        <p>Debe incluir al menos:</p>
+        <ul>
+            <li><strong>ID_MAJOR:</strong> ID del artículo en Major.</li>
+            <li><strong>Cantidad:</strong> Cantidad a ajustar.</li>
+            <li><strong>CREADO:</strong> Estado de procesamiento (rellenado por el robot).</li>
+        </ul>
+        <p>El robot agrega columnas <strong>ORDEN</strong> y <strong>CREADO</strong> si no existen.</p>
+
+        <h2 id="flujo-ejecucion">3. Flujo de Ejecución</h2>
+
+        <h3>Inicio del Proceso</h3>
+        <ul>
+            <li>Llama a la keyword <strong>Abrir Major</strong>.</li>
+            <li>Llama a la keyword <strong>AjusteDeStock</strong>.</li>
+        </ul>
+
+        <h3>Keyword Abrir Major</h3>
+        <ul>
+            <li>Obtiene rutas y abre <code>settings.xlsx</code>.</li>
+            <li>Lee usuario, contraseña, Excel de artículos, hoja y depósito.</li>
+            <li>Verifica si <code>Deposito.exe</code> está abierto. Si lo está, lo reinicia.</li>
+            <li>Ingresa las credenciales y valida el login.</li>
+            <li>Maneja errores de login y termina si falla.</li>
+        </ul>
+
+        <h3>Keyword AjusteDeStock</h3>
+        <ul>
+            <li>Relee configuración y abre el Excel de artículos.</li>
+            <li>Añade columnas <strong>ORDEN</strong> y <strong>CREADO</strong> si faltan.</li>
+            <li>Itera por cada fila:
+                <ul>
+                    <li>Si <strong>CREADO</strong> es "OK", lo salta.</li>
+                    <li>Carga ID y cantidad en Major.</li>
+                    <li>Maneja advertencias (sin precio, baja, errores).</li>
+                    <li>Registra el resultado ("OK", "DEBAJA", error).</li>
+                </ul>
+            </li>
+            <li>Finaliza guardando el ajuste en Major.</li>
+        </ul>
+
+        <h3>Keyword Recursividad</h3>
+        <p>Se invoca si hay error al insertar una línea. Reinicia el proceso y continúa desde el último artículo no "OK".</p>
+
+        <h2 id="salidas">4. Salidas (Outputs)</h2>
+        <ul>
+            <li><strong>Archivo Excel de entrada es actualizado con:</strong>
+                <ul>
+                    <li><strong>ORDEN:</strong> número de orden de procesamiento.</li>
+                    <li><strong>CREADO:</strong> estado del ajuste.
+                        <ul>
+                            <li>"OK"</li>
+                            <li>"DEBAJA"</li>
+                            <li>"Error al cargar cantidad"</li>
+                        </ul>
+                    </li>
+                </ul>
+            </li>
+            <li><strong>Registros en consola de:</strong>
+                <ul>
+                    <li>Estados del proceso.</li>
+                    <li>Errores y advertencias.</li>
+                </ul>
+            </li>
+            <li><strong>Capturas de pantalla de errores para depuración.</strong></li>
+        </ul>
+
+        <div class="note">
+            <p><strong>Nota:</strong> Este documento HTML puede ser impreso a PDF directamente desde las opciones de impresión de su navegador (Ctrl+P o Cmd+P).</p>
+        </div>
+    </div>
+</body>
+</html>
