@@ -85,6 +85,25 @@
         .index ol li a:hover {
             text-decoration: underline;
         }
+
+        .view-flowchart-link {
+            display: inline-block;
+            background-color: #3498db; /* Azul */
+            color: white !important; /* !important para asegurar que sobreescriba otros estilos de enlace */
+            padding: 10px 15px;
+            text-decoration: none;
+            border-radius: 5px;
+            font-size: 0.95em;
+            transition: background-color 0.3s ease;
+            margin-bottom: 20px; /* Espacio antes del flujo de ejecución */
+            border: none; /* Para que parezca más botón */
+        }
+
+        .view-flowchart-link:hover {
+            background-color: #2980b9; /* Azul más oscuro */
+            color: white !important;
+        }
+
     </style>
 </head>
 <body>
@@ -124,8 +143,6 @@ C:\Users\<Usuario>\Desktop\BabotAlmacen\
     └── config\
         └── settings.xlsx
 </pre>
-        <p>(Nota: Los "???" en el OCR original para Inputs, Outputs, app y config se han interpretado como la estructura estándar de carpetas mostrada).</p>
-
 
         <h3>Archivo <code>settings.xlsx</code></h3>
         <p>Ubicado en <code>app\config\</code>, contiene en <code>Sheet1</code>:</p>
@@ -145,6 +162,14 @@ C:\Users\<Usuario>\Desktop\BabotAlmacen\
             <li><strong>CREADO:</strong> Estado de procesamiento (rellenado por el robot).</li>
         </ul>
         <p>El robot agrega columnas <strong>ORDEN</strong> y <strong>CREADO</strong> si no existen.</p>
+
+
+        <!-- Enlace a la Página del Diagrama de Flujo -->
+        <a href="diagrama_AjustesStock.html" class="view-flowchart-link" target="_blank">
+            Ver Diagrama de Flujo: Ajuste de Stock
+        </a>
+        <!-- Fin Enlace -->
+
 
         <h2 id="flujo-ejecucion">3. Flujo de Ejecución</h2>
 

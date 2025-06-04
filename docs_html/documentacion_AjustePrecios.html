@@ -69,6 +69,24 @@
             padding: 10px;
             margin: 15px 0;
         }
+
+        .view-flowchart-link {
+            display: inline-block;
+            background-color: #3498db; /* Azul */
+            color: white !important; /* !important para asegurar que sobreescriba otros estilos de enlace */
+            padding: 10px 15px;
+            text-decoration: none;
+            border-radius: 5px;
+            font-size: 0.95em;
+            transition: background-color 0.3s ease;
+            margin-bottom: 20px; /* Espacio antes del flujo de ejecución */
+            border: none; /* Para que parezca más botón */
+        }
+
+        .view-flowchart-link:hover {
+            background-color: #2980b9; /* Azul más oscuro */
+            color: white !important;
+        }
     </style>
 </head>
 <body>
@@ -126,6 +144,13 @@ C:\Users\<Usuario>\Desktop\BabotAlmacen\
                 </ul>
             </li>
         </ul>
+
+        <!-- Enlace a la Página del Diagrama de Flujo -->
+        <a href="diagrama_AjustePrecios.html" class="view-flowchart-link" target="_blank">
+            Ver Diagrama de Flujo: Ajuste de Precios
+        </a>
+        <!-- Fin Enlace -->
+
 
         <h3>2. Flujo de Ejecución</h3>
 
@@ -217,12 +242,6 @@ C:\Users\<Usuario>\Desktop\BabotAlmacen\
                     <li>Detección de carteles de advertencia o error.</li>
                     <li>Mensajes de reinicio del bot.</li>
                 </ul>
-            </li>
-            <li><strong>Archivo Excel de Entrada Modificado (potencialmente):</strong>
-                <div class="warning">
-                    <p><strong>Atención:</strong> Aunque el código inicializa las columnas <code>ORDEN</code> y <code>CREADO</code>, el flujo principal de la keyword <code>AjustePrecio</code>, tal como está descrito, <strong>no guarda explícitamente el estado "OK" o "EXISTENTE" en la columna <code>CREADO</code></strong> del archivo Excel después de procesar un artículo con éxito dentro del bucle principal. Esto significa que los estados "OK" no se persistirán en el archivo Excel a menos que el script se detenga por otra razón o la keyword <code>Recursividad</code> sea invocada, la cual podría tener su propia lógica de guardado no detallada aquí.</p>
-                </div>
-            </li>
         </ul>
         <div class="note">
             <p><strong>Nota:</strong> Este documento HTML puede ser impreso a PDF directamente desde las opciones de impresión de su navegador (Ctrl+P o Cmd+P).</p>

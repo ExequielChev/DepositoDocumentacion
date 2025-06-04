@@ -69,6 +69,25 @@
             padding: 10px;
             margin: 15px 0;
         }
+
+        .view-flowchart-link {
+            display: inline-block;
+            background-color: #3498db; /* Azul */
+            color: white !important; /* !important para asegurar que sobreescriba otros estilos de enlace */
+            padding: 10px 15px;
+            text-decoration: none;
+            border-radius: 5px;
+            font-size: 0.95em;
+            transition: background-color 0.3s ease;
+            margin-bottom: 20px; /* Espacio antes del flujo de ejecución */
+            border: none; /* Para que parezca más botón */
+        }
+
+        .view-flowchart-link:hover {
+            background-color: #2980b9; /* Azul más oscuro */
+            color: white !important;
+        }
+
     </style>
 </head>
 <body>
@@ -133,6 +152,12 @@
                 </ul>
             </li>
         </ul>
+        
+        <!-- Enlace a la Página del Diagrama de Flujo -->
+        <a href="diagrama_Transferencia.html" class="view-flowchart-link" target="_blank">
+            Ver Diagrama de Flujo: Transferencias
+        </a>
+        <!-- Fin Enlace -->
 
         <h3>2. Flujo de Ejecución</h3>
 
