@@ -6,100 +6,100 @@
     <title>Documentación del Proceso: Ajuste de Precios (AjustePrecios)</title>
     <style>
         body {
-            font-family: Arial, sans-serif;
-            line-height: 1.6;
-            margin: 20px;
-            background-color: #f4f4f4;
-            color: #333;
+            font-family: Arial, sans-serif; line-height: 1.6; margin: 0;
+            background-color: #f4f4f4; color: #333; padding: 20px;
         }
         .container {
-            background-color: #fff;
-            padding: 20px;
-            border-radius: 8px;
+            background-color: #fff; padding: 20px; border-radius: 8px;
             box-shadow: 0 0 10px rgba(0,0,0,0.1);
+            max-width: 900px; margin: 0 auto 20px auto;
         }
-        h1, h2, h3, h4 {
-            color: #2c3e50;
+        .page-navigation {
+            display: flex;
+            justify-content: flex-end;
+            padding: 0 0 15px 0;
         }
-        h1 {
-            border-bottom: 2px solid #3498db;
-            padding-bottom: 10px;
+        .back-to-index-btn {
+            background-color: #6c757d; color: white !important; padding: 8px 15px;
+            text-decoration: none; border-radius: 5px; font-size: 0.9em;
+            transition: background-color 0.3s ease; border: none;
         }
-        h2 {
-            border-bottom: 1px solid #bdc3c7;
-            padding-bottom: 5px;
-            margin-top: 30px;
+        .back-to-index-btn:hover { background-color: #5a6268; }
+
+        .index {
+            margin-bottom: 30px; padding: 20px; background-color: #eef7ff;
+            border: 1px solid #cce0ff; border-radius: 8px;
         }
-        h3 {
-            margin-top: 20px;
-            color: #34495e;
+        .index h2 {
+            margin-top: 0; margin-bottom: 15px; color: #005f73;
+            font-size: 1.5em; border-bottom: none;
         }
-        ul {
-            list-style-type: disc;
-            margin-left: 20px;
-        }
-        li {
-            margin-bottom: 8px;
-        }
-        strong {
-            color: #2980b9;
-        }
+        .index ol { list-style-type: decimal; margin-left: 20px; padding-left: 0; }
+        .index ol li { margin-bottom: 8px; }
+        .index ol li a { text-decoration: none; color: #2980b9; font-weight: 500; }
+        .index ol li a:hover { text-decoration: underline; color: #1c5a85; }
+
+        h1,h2,h3,h4 { color: #2c3e50; }
+        h1 { border-bottom: 2px solid #3498db; padding-bottom: 10px; margin-bottom:20px; }
+        h2 { border-bottom: 1px solid #bdc3c7; padding-bottom: 5px; margin-top: 30px; }
+        h3 { margin-top: 20px; color: #34495e; }
+        ul { list-style-type: disc; margin-left: 20px; }
+        li { margin-bottom: 8px; }
+        strong { color: #2980b9; }
         code {
-            background-color: #ecf0f1;
-            padding: 2px 5px;
-            border-radius: 4px;
+            background-color: #ecf0f1; padding: 2px 5px; border-radius: 4px;
             font-family: Consolas, Monaco, 'Andale Mono', 'Ubuntu Mono', monospace;
         }
         pre {
-            background-color: #ecf0f1;
-            padding: 10px;
-            border-radius: 4px;
-            overflow-x: auto;
-            font-family: Consolas, Monaco, 'Andale Mono', 'Ubuntu Mono', monospace;
+            background-color: #ecf0f1; padding: 10px; border-radius: 4px;
+            overflow-x: auto; font-family: Consolas, Monaco, 'Andale Mono', 'Ubuntu Mono', monospace;
         }
         .note {
-            background-color: #e8f6fd;
-            border-left: 5px solid #3498db;
-            padding: 10px;
-            margin: 15px 0;
+            background-color: #e8f6fd; border-left: 5px solid #3498db;
+            padding: 10px; margin: 15px 0;
         }
         .warning {
-            background-color: #fff; /* Amarillo claro */
-            border-left: 5px solid #f39c12; /* Naranja */
-            padding: 10px;
-            margin: 15px 0;
+            background-color: #fff3cd; /* Amarillo más pálido para warning */
+            border-left: 5px solid #f39c12;
+            padding: 10px; margin: 15px 0; color: #856404; /* Texto oscuro para contraste */
         }
-
         .view-flowchart-link {
-            display: inline-block;
-            background-color: #3498db; /* Azul */
-            color: white !important; /* !important para asegurar que sobreescriba otros estilos de enlace */
-            padding: 10px 15px;
-            text-decoration: none;
-            border-radius: 5px;
-            font-size: 0.95em;
-            transition: background-color 0.3s ease;
-            margin-bottom: 20px; /* Espacio antes del flujo de ejecución */
-            border: none; /* Para que parezca más botón */
+            display: inline-block; background-color: #3498db; color: white !important;
+            padding: 10px 15px; text-decoration: none; border-radius: 5px;
+            font-size: 0.95em; transition: background-color 0.3s ease;
+            margin-bottom: 10px; border: none;
         }
-
-        .view-flowchart-link:hover {
-            background-color: #2980b9; /* Azul más oscuro */
-            color: white !important;
-        }
+        .view-flowchart-link:hover { background-color: #2980b9; color: white !important; }
     </style>
 </head>
 <body>
+    <div class="container" style="background-color: transparent; box-shadow: none; padding-bottom:0; margin-bottom:0;">
+        <div class="page-navigation">
+            <a href="../index.html" class="back-to-index-btn">« Volver al Inicio</a>
+        </div>
+    </div>
+
     <div class="container">
         <h1>Documentación del Proceso: Ajuste de Precios (AjustePrecios)</h1>
 
-        <h2>Descripción General</h2>
+        <div class="index">
+            <h2>Índice</h2>
+            <ol>
+                <li><a href="#descripcion-general">Descripción General</a></li>
+                <li><a href="#requerimientos">Requerimientos para la Ejecución</a></li>
+                <li><a href="#diagrama-flujo-seccion">Diagrama de Flujo</a></li>
+                <li><a href="#flujo-ejecucion">Flujo de Ejecución</a></li>
+                <li><a href="#salidas">Salidas (Outputs)</a></li>
+            </ol>
+        </div>
+
+        <h2 id="descripcion-general">1. Descripción General</h2>
+        <!-- ... Contenido ... -->
         <p>El proceso automatizado "Ajuste de Precios" se encarga de actualizar los precios de los artículos en el sistema Major y, opcionalmente, activar la valorización de consumo de órdenes de compra (OC). Este robot toma los datos de artículos y sus nuevos precios desde un archivo Excel, automatizando la búsqueda y edición de cada artículo en Major para aplicar los cambios de precio.</p>
         <p>El robot comienza estableciendo una conexión limpia con la aplicación Major, reiniciándola si ya está en ejecución. Posteriormente, lee el archivo Excel de entrada, que contiene el ID del artículo y el precio a ajustar. Por cada artículo, el robot navega a la sección de "Agrupamiento de Artículos", busca el artículo por su ID, edita su precio y, si es necesario, activa la opción de "Valorización consumo OC". El proceso incluye manejo de errores y validaciones para asegurar que la operación se realice correctamente, incluyendo la gestión de posibles mensajes de atención de Major. Si surge algún problema durante la edición, el robot intenta reanudar el proceso.</p>
 
-        <h2>Descripción Técnica</h2>
-
-        <h3>1. Requerimientos para la Ejecución</h3>
+        <h2 id="requerimientos">2. Requerimientos para la Ejecución</h2>
+        <!-- ... Contenido ... -->
         <ul>
             <li><strong>Sistema Operativo:</strong> Windows.</li>
             <li><strong>Aplicaciones:</strong>
@@ -145,15 +145,14 @@ C:\Users\<Usuario>\Desktop\BabotAlmacen\
             </li>
         </ul>
 
-        <!-- Enlace a la Página del Diagrama de Flujo -->
-        <a href="diagrama_AjustePrecios.html" class="view-flowchart-link" target="_blank">
-            Ver Diagrama de Flujo: Ajuste de Precios
-        </a>
-        <!-- Fin Enlace -->
+        <div id="diagrama-flujo-seccion" style="margin-top: 30px;">
+            <a href="diagrama_AjustePrecios.html" class="view-flowchart-link" target="_blank">
+                Ver Diagrama de Flujo: Ajuste de Precios
+            </a>
+        </div>
 
-
-        <h3>2. Flujo de Ejecución</h3>
-
+        <h2 id="flujo-ejecucion">4. Flujo de Ejecución</h2>
+        <!-- ... Contenido ... -->
         <h4>Inicio del Proceso (AjustePrecios Task):</h4>
         <ul>
             <li>Llama a la keyword <strong>Abrir Major</strong>.</li>
@@ -232,7 +231,9 @@ C:\Users\<Usuario>\Desktop\BabotAlmacen\
             <li>Continúa el bucle desde el punto de interrupción: Vuelve a iterar sobre los datos del Excel, pero solo procesando los artículos que no han sido marcados como "OK" o que no han causado el error. Esta keyword es una réplica del bucle principal en <strong>AjustePrecio</strong> para reintentar la operación.</li>
         </ul>
 
-        <h3>3. Salidas (Outputs)</h3>
+
+        <h2 id="salidas">5. Salidas (Outputs)</h2>
+        <!-- ... Contenido ... -->
         <ul>
             <li><strong>Registros en Consola/Logs:</strong> El robot registra diversas acciones y estados en la consola, incluyendo:
                 <ul>
@@ -242,7 +243,9 @@ C:\Users\<Usuario>\Desktop\BabotAlmacen\
                     <li>Detección de carteles de advertencia o error.</li>
                     <li>Mensajes de reinicio del bot.</li>
                 </ul>
+            </li>
         </ul>
+
         <div class="note">
             <p><strong>Nota:</strong> Este documento HTML puede ser impreso a PDF directamente desde las opciones de impresión de su navegador (Ctrl+P o Cmd+P).</p>
         </div>

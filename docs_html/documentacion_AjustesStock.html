@@ -6,127 +6,100 @@
     <title>Documentación del Proceso: Ajustes de Stock</title>
     <style>
         body {
-            font-family: Arial, sans-serif;
-            line-height: 1.6;
-            margin: 20px;
-            background-color: #f4f4f4;
-            color: #333;
+            font-family: Arial, sans-serif; line-height: 1.6; margin: 0;
+            background-color: #f4f4f4; color: #333; padding: 20px;
         }
         .container {
-            background-color: #fff;
-            padding: 20px;
-            border-radius: 8px;
+            background-color: #fff; padding: 20px; border-radius: 8px;
             box-shadow: 0 0 10px rgba(0,0,0,0.1);
+            max-width: 900px; margin: 0 auto 20px auto;
         }
-        h1, h2, h3, h4 {
-            color: #2c3e50;
+        /* ESTILOS ORIGINALES Y DEL BOTÓN DE DIAGRAMA */
+        h1, h2, h3, h4 { color: #2c3e50; }
+        h1 { text-align: center; border-bottom: 2px solid #3498db; padding-bottom: 10px; margin-bottom: 20px; }
+        h2 { border-bottom: 1px solid #bdc3c7; padding-bottom: 5px; margin-top: 30px; }
+        /* ... (copia todos tus estilos CSS aquí, incluyendo los nuevos) ... */
+        .page-navigation {
+            display: flex;
+            justify-content: flex-end;
+            padding: 0 0 15px 0;
         }
-        h1 {
-            text-align: center;
-            border-bottom: 2px solid #3498db;
-            padding-bottom: 10px;
-            margin-bottom: 30px;
+        .back-to-index-btn {
+            background-color: #6c757d; color: white !important; padding: 8px 15px;
+            text-decoration: none; border-radius: 5px; font-size: 0.9em;
+            transition: background-color 0.3s ease; border: none;
         }
-        h2 {
-            border-bottom: 1px solid #bdc3c7;
-            padding-bottom: 5px;
-            margin-top: 30px;
+        .back-to-index-btn:hover { background-color: #5a6268; }
+
+        .index { /* Estilos para el índice que ya tenías, adaptados o usa los nuevos */
+            margin-bottom: 30px; padding: 20px; background-color: #eef7ff; /* Nuevo color */
+            border: 1px solid #cce0ff; border-radius: 8px;
         }
-        h3 {
-            margin-top: 20px;
-            color: #34495e;
+        .index h2 {
+            margin-top: 0; margin-bottom: 15px; color: #005f73;
+            font-size: 1.5em; border-bottom: none;
         }
-        ul, ol {
-            list-style-type: disc;
-            margin-left: 20px;
+        .index ol { list-style-type: decimal; margin-left: 20px; padding-left: 0; }
+        .index ol li { margin-bottom: 8px; }
+        .index ol li a { text-decoration: none; color: #2980b9; font-weight: 500; }
+        .index ol li a:hover { text-decoration: underline; color: #1c5a85; }
+
+        ul, ol:not(.index ol) { /* Para que no afecte al 'ol' del índice */
+            list-style-type: disc; margin-left: 20px;
         }
-        ol {
-            list-style-type: decimal;
-        }
-        li {
-            margin-bottom: 8px;
-        }
-        strong {
-            color: #2980b9;
-        }
+        h3 { margin-top: 20px; color: #34495e;}
+        li { margin-bottom: 8px;}
+        strong { color: #2980b9;}
         code {
-            background-color: #ecf0f1;
-            padding: 2px 5px;
-            border-radius: 4px;
+            background-color: #ecf0f1; padding: 2px 5px; border-radius: 4px;
             font-family: Consolas, Monaco, 'Andale Mono', 'Ubuntu Mono', monospace;
         }
         pre {
-            background-color: #ecf0f1;
-            padding: 10px;
-            border-radius: 4px;
-            overflow-x: auto;
-            font-family: Consolas, Monaco, 'Andale Mono', 'Ubuntu Mono', monospace;
+            background-color: #ecf0f1; padding: 10px; border-radius: 4px;
+            overflow-x: auto; font-family: Consolas, Monaco, 'Andale Mono', 'Ubuntu Mono', monospace;
         }
         .note {
-            background-color: #e8f6fd;
-            border-left: 5px solid #3498db;
-            padding: 10px;
-            margin: 15px 0;
+            background-color: #e8f6fd; border-left: 5px solid #3498db;
+            padding: 10px; margin: 15px 0;
         }
-        .index {
-            margin-bottom: 30px;
-            padding: 15px;
-            background-color: #eaf2f8;
-            border-radius: 5px;
-        }
-        .index h2 {
-            margin-top: 0;
-            border-bottom: none;
-        }
-        .index ol li a {
-            text-decoration: none;
-            color: #2980b9;
-        }
-        .index ol li a:hover {
-            text-decoration: underline;
-        }
-
         .view-flowchart-link {
-            display: inline-block;
-            background-color: #3498db; /* Azul */
-            color: white !important; /* !important para asegurar que sobreescriba otros estilos de enlace */
-            padding: 10px 15px;
-            text-decoration: none;
-            border-radius: 5px;
-            font-size: 0.95em;
-            transition: background-color 0.3s ease;
-            margin-bottom: 20px; /* Espacio antes del flujo de ejecución */
-            border: none; /* Para que parezca más botón */
+            display: inline-block; background-color: #3498db; color: white !important;
+            padding: 10px 15px; text-decoration: none; border-radius: 5px;
+            font-size: 0.95em; transition: background-color 0.3s ease;
+            margin-bottom: 10px; border: none;
         }
-
-        .view-flowchart-link:hover {
-            background-color: #2980b9; /* Azul más oscuro */
-            color: white !important;
-        }
-
+        .view-flowchart-link:hover { background-color: #2980b9; color: white !important; }
     </style>
 </head>
 <body>
+    <div class="container" style="background-color: transparent; box-shadow: none; padding-bottom:0; margin-bottom:0;">
+        <div class="page-navigation">
+            <a href="../index.html" class="back-to-index-btn">« Volver al Inicio</a>
+        </div>
+    </div>
+
     <div class="container">
         <h1>Documentación del Proceso<br>"Ajustes de Stock"</h1>
 
-        <div class="index">
+        <div class="index"> <!-- Ya tenías este, lo he re-estilizado un poco -->
             <h2>Índice</h2>
             <ol>
                 <li><a href="#descripcion-general">Descripción General</a></li>
                 <li><a href="#requerimientos">Requerimientos para la Ejecución</a></li>
+                <li><a href="#diagrama-flujo-seccion">Diagrama de Flujo</a></li>
                 <li><a href="#flujo-ejecucion">Flujo de Ejecución</a></li>
                 <li><a href="#salidas">Salidas (Outputs)</a></li>
             </ol>
         </div>
 
         <h2 id="descripcion-general">1. Descripción General</h2>
+        <!-- ... Contenido ... -->
         <p>El proceso automatizado "Ajustes de Stock" actualiza las cantidades de artículos en el sistema Major usando un archivo Excel de entrada.</p>
         <p>Este robot automatiza la sincronización entre el inventario digital y el físico, eliminando la necesidad de carga manual. Inicia sesión en Major, reinicia la aplicación si es necesario, lee un archivo Excel con artículos y cantidades, y realiza los ajustes dentro del sistema.</p>
         <p>Cada operación se valida y su resultado se registra en el mismo Excel de entrada. Al finalizar, el archivo queda actualizado con el estado de cada ítem.</p>
 
         <h2 id="requerimientos">2. Requerimientos para la Ejecución</h2>
-
+        <!-- ... Contenido ... -->
         <h3>Sistema Operativo y Aplicaciones</h3>
         <ul>
             <li>Windows.</li>
@@ -163,16 +136,14 @@ C:\Users\<Usuario>\Desktop\BabotAlmacen\
         </ul>
         <p>El robot agrega columnas <strong>ORDEN</strong> y <strong>CREADO</strong> si no existen.</p>
 
+        <div id="diagrama-flujo-seccion" style="margin-top: 30px;">
+            <a href="diagrama_AjustesStock.html" class="view-flowchart-link" target="_blank">
+                Ver Diagrama de Flujo: Ajustes de Stock
+            </a>
+        </div>
 
-        <!-- Enlace a la Página del Diagrama de Flujo -->
-        <a href="diagrama_AjustesStock.html" class="view-flowchart-link" target="_blank">
-            Ver Diagrama de Flujo: Ajuste de Stock
-        </a>
-        <!-- Fin Enlace -->
-
-
-        <h2 id="flujo-ejecucion">3. Flujo de Ejecución</h2>
-
+        <h2 id="flujo-ejecucion">4. Flujo de Ejecución</h2>
+        <!-- ... Contenido ... -->
         <h3>Inicio del Proceso</h3>
         <ul>
             <li>Llama a la keyword <strong>Abrir Major</strong>.</li>
@@ -206,7 +177,8 @@ C:\Users\<Usuario>\Desktop\BabotAlmacen\
         <h3>Keyword Recursividad</h3>
         <p>Se invoca si hay error al insertar una línea. Reinicia el proceso y continúa desde el último artículo no "OK".</p>
 
-        <h2 id="salidas">4. Salidas (Outputs)</h2>
+        <h2 id="salidas">5. Salidas (Outputs)</h2>
+        <!-- ... Contenido ... -->
         <ul>
             <li><strong>Archivo Excel de entrada es actualizado con:</strong>
                 <ul>

@@ -6,94 +6,99 @@
     <title>Documentación del Proceso: Carga de Artículos (CargaArt)</title>
     <style>
         body {
-            font-family: Arial, sans-serif;
-            line-height: 1.6;
-            margin: 20px;
-            background-color: #f4f4f4;
-            color: #333;
+            font-family: Arial, sans-serif; line-height: 1.6; margin: 0; /* Ajustado margin */
+            background-color: #f4f4f4; color: #333; padding: 20px; /* Añadido padding al body */
         }
         .container {
-            background-color: #fff;
-            padding: 20px;
-            border-radius: 8px;
+            background-color: #fff; padding: 20px; border-radius: 8px;
             box-shadow: 0 0 10px rgba(0,0,0,0.1);
+            max-width: 900px; /* Ancho máximo para el contenido principal */
+            margin: 0 auto 20px auto; /* Centrado y margen inferior */
         }
-        h1, h2, h3, h4 {
-            color: #2c3e50;
+        /* ESTILOS DEL BOTÓN VOLVER E ÍNDICE (COPIARLOS AQUÍ) */
+        .page-navigation {
+            display: flex;
+            justify-content: flex-end;
+            padding: 0 0 15px 0; /* Ajustado padding */
+            /* No necesita ser un .container separado si el container principal ya centra */
         }
-        h1 {
-            border-bottom: 2px solid #3498db;
-            padding-bottom: 10px;
+        .back-to-index-btn {
+            background-color: #6c757d; color: white !important; padding: 8px 15px;
+            text-decoration: none; border-radius: 5px; font-size: 0.9em;
+            transition: background-color 0.3s ease; border: none;
         }
-        h2 {
-            border-bottom: 1px solid #bdc3c7;
-            padding-bottom: 5px;
-            margin-top: 30px;
+        .back-to-index-btn:hover { background-color: #5a6268; }
+
+        .index {
+            margin-bottom: 30px; padding: 20px; background-color: #eef7ff;
+            border: 1px solid #cce0ff; border-radius: 8px;
         }
-        h3 {
-            margin-top: 20px;
+        .index h2 {
+            margin-top: 0; margin-bottom: 15px; color: #005f73;
+            font-size: 1.5em; border-bottom: none;
         }
-        ul {
-            list-style-type: disc;
-            margin-left: 20px;
-        }
-        li {
-            margin-bottom: 5px;
-        }
-        strong {
-            color: #2980b9;
-        }
+        .index ol { list-style-type: decimal; margin-left: 20px; padding-left: 0; }
+        .index ol li { margin-bottom: 8px; }
+        .index ol li a { text-decoration: none; color: #2980b9; font-weight: 500; }
+        .index ol li a:hover { text-decoration: underline; color: #1c5a85; }
+
+        /* ESTILOS ORIGINALES */
+        h1, h2, h3, h4 { color: #2c3e50; }
+        h1 { border-bottom: 2px solid #3498db; padding-bottom: 10px; margin-bottom: 20px; } /* Añadido margin-bottom */
+        h2 { border-bottom: 1px solid #bdc3c7; padding-bottom: 5px; margin-top: 30px; }
+        h3 { margin-top: 20px; }
+        ul { list-style-type: disc; margin-left: 20px; }
+        li { margin-bottom: 5px; }
+        strong { color: #2980b9; }
         code {
-            background-color: #ecf0f1;
-            padding: 2px 5px;
-            border-radius: 4px;
+            background-color: #ecf0f1; padding: 2px 5px; border-radius: 4px;
             font-family: Consolas, Monaco, 'Andale Mono', 'Ubuntu Mono', monospace;
         }
         pre {
-            background-color: #ecf0f1;
-            padding: 10px;
-            border-radius: 4px;
-            overflow-x: auto;
-            font-family: Consolas, Monaco, 'Andale Mono', 'Ubuntu Mono', monospace;
+            background-color: #ecf0f1; padding: 10px; border-radius: 4px;
+            overflow-x: auto; font-family: Consolas, Monaco, 'Andale Mono', 'Ubuntu Mono', monospace;
         }
         .note {
-            background-color: #e8f6fd;
-            border-left: 5px solid #3498db;
-            padding: 10px;
-            margin: 15px 0;
+            background-color: #e8f6fd; border-left: 5px solid #3498db;
+            padding: 10px; margin: 15px 0;
         }
-
         .view-flowchart-link {
-            display: inline-block;
-            background-color: #3498db; /* Azul */
-            color: white !important; /* !important para asegurar que sobreescriba otros estilos de enlace */
-            padding: 10px 15px;
-            text-decoration: none;
-            border-radius: 5px;
-            font-size: 0.95em;
-            transition: background-color 0.3s ease;
-            margin-bottom: 20px; /* Espacio antes del flujo de ejecución */
-            border: none; /* Para que parezca más botón */
+            display: inline-block; background-color: #3498db; color: white !important;
+            padding: 10px 15px; text-decoration: none; border-radius: 5px;
+            font-size: 0.95em; transition: background-color 0.3s ease;
+            margin-bottom: 10px; /* Reducido margen inferior para que esté más cerca del H2 siguiente */
+            border: none;
         }
-
-        .view-flowchart-link:hover {
-            background-color: #2980b9; /* Azul más oscuro */
-            color: white !important;
-        }
-
+        .view-flowchart-link:hover { background-color: #2980b9; color: white !important; }
     </style>
 </head>
 <body>
+    <div class="container" style="background-color: transparent; box-shadow: none; padding-bottom:0; margin-bottom:0;">
+        <div class="page-navigation">
+            <a href="../index.html" class="back-to-index-btn">« Volver al Inicio</a>
+        </div>
+    </div>
+
     <div class="container">
         <h1>Documentación del Proceso: Carga de Artículos (CargaArt)</h1>
 
-        <h2>Descripción General</h2>
+        <div class="index">
+            <h2>Índice</h2>
+            <ol>
+                <li><a href="#descripcion-general">Descripción General</a></li>
+                <li><a href="#requerimientos">Requerimientos para la Ejecución</a></li>
+                <li><a href="#diagrama-flujo-seccion">Diagrama de Flujo</a></li>
+                <li><a href="#flujo-ejecucion">Flujo de Ejecución</a></li>
+                <li><a href="#salidas">Salidas (Outputs)</a></li>
+            </ol>
+        </div>
+
+        <h2 id="descripcion-general">1. Descripción General</h2>
         <p>El proceso automatizado "Carga de Artículos" tiene como función principal la creación o actualización de artículos y sus agrupamientos en el sistema Major, tomando la información de un archivo Excel. Su objetivo es automatizar la carga de nuevos artículos o la modificación de existentes, garantizando que el inventario y la catalogación en Major se mantengan actualizados de manera eficiente.</p>
         <p>Al inicio, el robot valida la sesión de Major, reiniciándola si ya está activa para asegurar un entorno limpio. Luego, procede a leer los detalles de los artículos desde un archivo Excel de entrada. Por cada artículo en el Excel, el robot navega a la sección de "Agrupamiento de Artículos" en Major y procede a cargar la información como el agrupamiento, la descripción completa, la descripción del artículo, las medidas y el origen del precio. El proceso incluye validaciones robustas para asegurar que todos los campos requeridos en el Excel contengan datos. Si se detecta que un artículo ya existe en Major, el robot lo registra en el Excel y continúa con el siguiente, evitando duplicidades. Cualquier artículo cargado con éxito o identificado como existente se marca en el archivo Excel de entrada. Al finalizar la carga de todos los artículos, el robot cierra la aplicación Major.</p>
 
-        <h2>Descripción Técnica</h2>
-
-        <h3>1. Requerimientos para la Ejecución</h3>
+        <h2 id="requerimientos">2. Requerimientos para la Ejecución</h2>
+        <!-- ... Contenido de Requerimientos ... -->
         <ul>
             <li><strong>Sistema Operativo:</strong> Windows.</li>
             <li><strong>Aplicaciones:</strong>
@@ -142,14 +147,14 @@ C:\Users\<Usuario>\Desktop\BabotAlmacen\
             </li>
         </ul>
 
-        <!-- Enlace a la Página del Diagrama de Flujo -->
-        <a href="diagrama_CargaArt.html" class="view-flowchart-link" target="_blank">
-            Ver Diagrama de Flujo: Carga de Articulos.
-        </a>
-        <!-- Fin Enlace -->
+        <div id="diagrama-flujo-seccion" style="margin-top: 30px;">
+            <a href="diagrama_CargaArt.html" class="view-flowchart-link" target="_blank">
+                Ver Diagrama de Flujo: Carga de Artículos
+            </a>
+        </div>
 
-        <h3>2. Flujo de Ejecución</h3>
-
+        <h2 id="flujo-ejecucion">4. Flujo de Ejecución</h2>
+        <!-- ... Contenido de Flujo de Ejecución (Inicio del Proceso, Abrir Major, CargaArt, etc.) ... -->
         <h4>Inicio del Proceso (DescargaDeudas Task):</h4>
         <ul>
             <li>Llama a la keyword <strong>Abrir Major</strong>.</li>
@@ -214,7 +219,9 @@ C:\Users\<Usuario>\Desktop\BabotAlmacen\
             <li>Llama nuevamente a <strong>Abrir Major</strong> y <strong>CargaArt</strong> para intentar reanudar el proceso desde el inicio.</li>
         </ul>
 
-        <h3>3. Salidas (Outputs)</h3>
+
+        <h2 id="salidas">5. Salidas (Outputs)</h2>
+        <!-- ... Contenido de Salidas ... -->
         <ul>
             <li><strong>Archivo Excel de Entrada Modificado:</strong> El archivo Excel de entrada (especificado en <code>settings.xlsx</code> en la celda B5) es actualizado durante la ejecución.
                 <ul>
@@ -242,6 +249,7 @@ C:\Users\<Usuario>\Desktop\BabotAlmacen\
             </li>
             <li><strong>Terminación del Proceso:</strong> En caso de errores críticos (como campos vacíos en el Excel), el proceso se termina con un error fatal.</li>
         </ul>
+
         <div class="note">
             <p><strong>Nota:</strong> Este documento HTML puede ser impreso a PDF directamente desde las opciones de impresión de su navegador (Ctrl+P o Cmd+P).</p>
         </div>

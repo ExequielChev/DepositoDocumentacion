@@ -6,101 +6,100 @@
     <title>Documentación del Proceso: Transferencia de Inventario (Transferencia)</title>
     <style>
         body {
-            font-family: Arial, sans-serif;
-            line-height: 1.6;
-            margin: 20px;
-            background-color: #f4f4f4;
-            color: #333;
+            font-family: Arial, sans-serif; line-height: 1.6; margin: 0;
+            background-color: #f4f4f4; color: #333; padding: 20px;
         }
         .container {
-            background-color: #fff;
-            padding: 20px;
-            border-radius: 8px;
+            background-color: #fff; padding: 20px; border-radius: 8px;
             box-shadow: 0 0 10px rgba(0,0,0,0.1);
+            max-width: 900px; margin: 0 auto 20px auto;
         }
-        h1, h2, h3, h4 {
-            color: #2c3e50;
+        .page-navigation {
+            display: flex;
+            justify-content: flex-end;
+            padding: 0 0 15px 0;
         }
-        h1 {
-            border-bottom: 2px solid #3498db;
-            padding-bottom: 10px;
+        .back-to-index-btn {
+            background-color: #6c757d; color: white !important; padding: 8px 15px;
+            text-decoration: none; border-radius: 5px; font-size: 0.9em;
+            transition: background-color 0.3s ease; border: none;
         }
-        h2 {
-            border-bottom: 1px solid #bdc3c7;
-            padding-bottom: 5px;
-            margin-top: 30px;
+        .back-to-index-btn:hover { background-color: #5a6268; }
+
+        .index {
+            margin-bottom: 30px; padding: 20px; background-color: #eef7ff;
+            border: 1px solid #cce0ff; border-radius: 8px;
         }
-        h3 {
-            margin-top: 20px;
-            color: #34495e;
+        .index h2 {
+            margin-top: 0; margin-bottom: 15px; color: #005f73;
+            font-size: 1.5em; border-bottom: none;
         }
-        ul {
-            list-style-type: disc;
-            margin-left: 20px;
-        }
-        li {
-            margin-bottom: 8px;
-        }
-        strong {
-            color: #2980b9;
-        }
+        .index ol { list-style-type: decimal; margin-left: 20px; padding-left: 0; }
+        .index ol li { margin-bottom: 8px; }
+        .index ol li a { text-decoration: none; color: #2980b9; font-weight: 500; }
+        .index ol li a:hover { text-decoration: underline; color: #1c5a85; }
+
+        h1,h2,h3,h4 { color: #2c3e50; }
+        h1 { border-bottom: 2px solid #3498db; padding-bottom: 10px; margin-bottom:20px; }
+        h2 { border-bottom: 1px solid #bdc3c7; padding-bottom: 5px; margin-top: 30px; }
+        h3 { margin-top: 20px; color: #34495e; }
+        ul { list-style-type: disc; margin-left: 20px; }
+        li { margin-bottom: 8px; }
+        strong { color: #2980b9; }
         code {
-            background-color: #ecf0f1;
-            padding: 2px 5px;
-            border-radius: 4px;
+            background-color: #ecf0f1; padding: 2px 5px; border-radius: 4px;
             font-family: Consolas, Monaco, 'Andale Mono', 'Ubuntu Mono', monospace;
         }
         pre {
-            background-color: #ecf0f1;
-            padding: 10px;
-            border-radius: 4px;
-            overflow-x: auto;
-            font-family: Consolas, Monaco, 'Andale Mono', 'Ubuntu Mono', monospace;
+            background-color: #ecf0f1; padding: 10px; border-radius: 4px;
+            overflow-x: auto; font-family: Consolas, Monaco, 'Andale Mono', 'Ubuntu Mono', monospace;
         }
         .note {
-            background-color: #e8f6fd;
-            border-left: 5px solid #3498db;
-            padding: 10px;
-            margin: 15px 0;
+            background-color: #e8f6fd; border-left: 5px solid #3498db;
+            padding: 10px; margin: 15px 0;
         }
         .warning {
-            background-color: #fef9e7; /* Amarillo claro */
-            border-left: 5px solid #f39c12; /* Naranja */
-            padding: 10px;
-            margin: 15px 0;
+            background-color: #fef9e7;
+            border-left: 5px solid #f39c12;
+            padding: 10px; margin: 15px 0;
         }
-
         .view-flowchart-link {
-            display: inline-block;
-            background-color: #3498db; /* Azul */
-            color: white !important; /* !important para asegurar que sobreescriba otros estilos de enlace */
-            padding: 10px 15px;
-            text-decoration: none;
-            border-radius: 5px;
-            font-size: 0.95em;
-            transition: background-color 0.3s ease;
-            margin-bottom: 20px; /* Espacio antes del flujo de ejecución */
-            border: none; /* Para que parezca más botón */
+            display: inline-block; background-color: #3498db; color: white !important;
+            padding: 10px 15px; text-decoration: none; border-radius: 5px;
+            font-size: 0.95em; transition: background-color 0.3s ease;
+            margin-bottom: 10px; border: none;
         }
-
-        .view-flowchart-link:hover {
-            background-color: #2980b9; /* Azul más oscuro */
-            color: white !important;
-        }
-
+        .view-flowchart-link:hover { background-color: #2980b9; color: white !important; }
     </style>
 </head>
 <body>
+    <div class="container" style="background-color: transparent; box-shadow: none; padding-bottom:0; margin-bottom:0;">
+        <div class="page-navigation">
+            <a href="../index.html" class="back-to-index-btn">« Volver al Inicio</a>
+        </div>
+    </div>
+
     <div class="container">
         <h1>Documentación del Proceso: Transferencia de Inventario (Transferencia)</h1>
 
-        <h2>Descripción General</h2>
+        <div class="index">
+            <h2>Índice</h2>
+            <ol>
+                <li><a href="#descripcion-general">Descripción General</a></li>
+                <li><a href="#requerimientos">Requerimientos para la Ejecución</a></li>
+                <li><a href="#diagrama-flujo-seccion">Diagrama de Flujo</a></li>
+                <li><a href="#flujo-ejecucion">Flujo de Ejecución</a></li>
+                <li><a href="#salidas">Salidas (Outputs)</a></li>
+            </ol>
+        </div>
+
+        <h2 id="descripcion-general">1. Descripción General</h2>
+        <!-- ... Contenido ... -->
         <p>El proceso automatizado "Transferencia de Inventario" se encarga de automatizar la creación y registro de transferencias de productos entre depósitos u oficinas dentro del sistema Major. Este robot está diseñado para procesar múltiples movimientos de transferencia definidos en archivos Excel, gestionando la apertura de Major, la preparación de los datos de entrada, el ingreso de artículos y cantidades, la adición de observaciones, la impresión de comprobantes en PDF, y el seguimiento del progreso en un archivo de registro.</p>
         <p>El proceso inicia verificando y, si es necesario, reiniciando la aplicación Major para asegurar una ejecución limpia. Luego, prepara el entorno de datos, creando las estructuras de carpetas necesarias y preprocesando los archivos Excel de entrada para su correcta manipulación. La parte central del robot itera sobre cada movimiento de transferencia, ingresando los datos de origen, destino, artículos y cantidades en Major. Incluye una robusta gestión de errores para artículos sin stock o stock insuficiente, registrando estos incidentes y reiniciando el proceso si es necesario. Finalmente, el robot genera un comprobante PDF por cada transferencia y actualiza un archivo de control central (<code>Comprobante.xlsx</code>) con el estado de cada movimiento.</p>
 
-        <h2>Descripción Técnica</h2>
-
-        <h3>1. Requerimientos para la Ejecución</h3>
+        <h2 id="requerimientos">2. Requerimientos para la Ejecución</h2>
+        <!-- ... Contenido ... -->
         <ul>
             <li><strong>Sistema Operativo:</strong> Windows.</li>
             <li><strong>Aplicaciones:</strong>
@@ -152,15 +151,16 @@
                 </ul>
             </li>
         </ul>
-        
-        <!-- Enlace a la Página del Diagrama de Flujo -->
-        <a href="diagrama_Transferencia.html" class="view-flowchart-link" target="_blank">
-            Ver Diagrama de Flujo: Transferencias
-        </a>
-        <!-- Fin Enlace -->
 
-        <h3>2. Flujo de Ejecución</h3>
 
+        <div id="diagrama-flujo-seccion" style="margin-top: 30px;">
+            <a href="diagrama_Transferencia.html" class="view-flowchart-link" target="_blank">
+                Ver Diagrama de Flujo: Transferencia de Inventario
+            </a>
+        </div>
+
+        <h2 id="flujo-ejecucion">4. Flujo de Ejecución</h2>
+        <!-- ... Contenido ... -->
         <h4>Inicio del Proceso (Transferencia Task):</h4>
         <ul>
             <li>Llama a la keyword <strong>Abrir Major</strong>.</li>
@@ -317,7 +317,8 @@
             <li>Llama a <strong>Ingreso de datos</strong> (lo que reanudará el procesamiento de los archivos desde el punto en que se interrumpió, gracias a la lógica de "Continue For Loop If").</li>
         </ul>
 
-        <h3>3. Salidas (Outputs)</h3>
+        <h2 id="salidas">5. Salidas (Outputs)</h2>
+        <!-- ... Contenido ... -->
         <ul>
             <li><strong>Archivo <code>Comprobante.xlsx</code>:</strong> Ubicado en <code>Outputs/<Año>/<Mes>/</code>. Este archivo es generado y actualizado durante el proceso. Contiene:
                 <ul>
@@ -343,6 +344,7 @@
                 </ul>
             </li>
         </ul>
+
         <div class="note">
             <p><strong>Nota:</strong> Este documento HTML puede ser impreso a PDF directamente desde las opciones de impresión de su navegador (Ctrl+P o Cmd+P).</p>
         </div>
