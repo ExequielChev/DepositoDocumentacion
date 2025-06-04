@@ -4,8 +4,10 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Depósito de Documentación de Procesos RPA</title>
-    <link rel="stylesheet" href="style.css">
-    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css"> <!-- Asegúrate que este archivo CSS es el actualizado -->
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <!-- Iconos de Font Awesome (opcional, para el icono de búsqueda) -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 </head>
 <body>
     <header>
@@ -17,40 +19,83 @@
 
     <main>
         <div class="container">
-            <section class="document-grid">
+            <!-- Sección del Buscador -->
+            <section class="search-section">
+                <div class="search-container">
+                    <input type="text" id="searchInput" placeholder="Buscar documentación por título, descripción, servidor...">
+                    <button id="searchButton"><i class="fas fa-search"></i> Buscar</button>
+                </div>
+            </section>
+
+            <section class="document-grid" id="documentGrid">
                 <article class="document-card">
-                    <h2>Carga de Artículos (CargaArt)</h2>
-                    <p>Creación o actualización de artículos y sus agrupamientos en Major desde un Excel.</p>
+                    <div class="card-content">
+                        <h2>Carga de Artículos (CargaArt)</h2>
+                        <p class="description">Creación o actualización de artículos y sus agrupamientos en Major desde un Excel.</p>
+                        <div class="card-details">
+                            <p><strong>Servidor:</strong> SRV-APP01</p>
+                            <p><strong>Periodicidad:</strong> A demanda</p>
+                            <p><strong>Sector Responsable:</strong> Logística</p>
+                        </div>
+                    </div>
                     <a href="docs_html/documentacion_CargaArt.html" class="btn">Ver Documentación</a>
                 </article>
 
                 <article class="document-card">
-                    <h2>Ajustes de Stock</h2>
-                    <p>Actualización de cantidades de artículos en Major utilizando un archivo Excel de entrada.</p>
+                    <div class="card-content">
+                        <h2>Ajustes de Stock</h2>
+                        <p class="description">Actualización de cantidades de artículos en Major utilizando un archivo Excel de entrada.</p>
+                        <div class="card-details">
+                            <p><strong>Servidor:</strong> SRV-APP01</p>
+                            <p><strong>Periodicidad:</strong> Semanal</p>
+                            <p><strong>Sector Responsable:</strong> Inventario</p>
+                        </div>
+                    </div>
                     <a href="docs_html/documentacion_AjustesStock.html" class="btn">Ver Documentación</a>
                 </article>
 
                 <article class="document-card">
-                    <h2>Carga de Depósitos (CargaDeposito)</h2>
-                    <p>Configuración y actualización de parámetros de inventario para artículos en oficinas/depósitos.</p>
+                    <div class="card-content">
+                        <h2>Carga de Depósitos (CargaDeposito)</h2>
+                        <p class="description">Configuración y actualización de parámetros de inventario para artículos en oficinas/depósitos.</p>
+                        <div class="card-details">
+                            <p><strong>Servidor:</strong> SRV-DB02</p>
+                            <p><strong>Periodicidad:</strong> Mensual</p>
+                            <p><strong>Sector Responsable:</strong> Almacén Central</p>
+                        </div>
+                    </div>
                     <a href="docs_html/documentacion_CargaDeposito.html" class="btn">Ver Documentación</a>
                 </article>
 
                 <article class="document-card">
-                    <h2>Ajuste de Precios (AjustePrecios)</h2>
-                    <p>Actualización de precios de artículos en Major y activación opcional de valorización de consumo OC.</p>
+                    <div class="card-content">
+                        <h2>Ajuste de Precios (AjustePrecios)</h2>
+                        <p class="description">Actualización de precios de artículos en Major y activación opcional de valorización de consumo OC.</p>
+                        <div class="card-details">
+                            <p><strong>Servidor:</strong> SRV-FIN01</p>
+                            <p><strong>Periodicidad:</strong> Trimestral</p>
+                            <p><strong>Sector Responsable:</strong> Finanzas</p>
+                        </div>
+                    </div>
                     <a href="docs_html/documentacion_AjustePrecios.html" class="btn">Ver Documentación</a>
                 </article>
 
                 <article class="document-card">
-                    <h2>Transferencia de Inventario (Transferencia)</h2>
-                    <p>Automatización de la creación y registro de transferencias de productos entre depósitos.</p>
+                    <div class="card-content">
+                        <h2>Transferencia de Inventario (Transferencia)</h2>
+                        <p class="description">Automatización de la creación y registro de transferencias de productos entre depósitos.</p>
+                        <div class="card-details">
+                            <p><strong>Servidor:</strong> SRV-OPS03</p>
+                            <p><strong>Periodicidad:</strong> Diario</p>
+                            <p><strong>Sector Responsable:</strong> Operaciones</p>
+                        </div>
+                    </div>
                     <a href="docs_html/documentacion_Transferencia.html" class="btn">Ver Documentación</a>
                 </article>
 
                 <!-- Agrega más <article class="document-card"> aquí para futuros documentos -->
-
             </section>
+            <p id="noResultsMessage" style="text-align: center; margin-top: 20px; display: none;">No se encontraron resultados para su búsqueda.</p>
         </div>
     </main>
 
@@ -63,6 +108,47 @@
 
     <script>
         document.getElementById('currentYear').textContent = new Date().getFullYear();
+
+        // Lógica del Buscador
+        const searchInput = document.getElementById('searchInput');
+        const searchButton = document.getElementById('searchButton');
+        const documentGrid = document.getElementById('documentGrid');
+        const cards = Array.from(documentGrid.getElementsByClassName('document-card'));
+        const noResultsMessage = document.getElementById('noResultsMessage');
+
+        function filterCards() {
+            const searchTerm = searchInput.value.toLowerCase().trim();
+            let resultsFound = false;
+
+            cards.forEach(card => {
+                // El contenido a buscar es el mismo que ya tenías
+                const title = card.querySelector('h2').textContent.toLowerCase();
+                const description = card.querySelector('.description').textContent.toLowerCase();
+                const details = card.querySelector('.card-details').textContent.toLowerCase();
+                
+                const cardText = title + ' ' + description + ' ' + details;
+
+                if (cardText.includes(searchTerm)) {
+                    card.style.display = ''; // Muestra la tarjeta
+                    resultsFound = true;
+                } else {
+                    card.style.display = 'none'; // Oculta la tarjeta
+                }
+            });
+
+            if (resultsFound) {
+                noResultsMessage.style.display = 'none';
+            } else {
+                noResultsMessage.style.display = 'block';
+            }
+        }
+
+        // Filtrar al escribir
+        searchInput.addEventListener('keyup', filterCards);
+        
+        // Filtrar al hacer clic en el botón
+        searchButton.addEventListener('click', filterCards);
+
     </script>
 </body>
 </html>
