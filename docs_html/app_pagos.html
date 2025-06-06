@@ -1,0 +1,398 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>APP DE PAGOS: Flujo Operativo - Municipalidad de Pilar</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+    
+    <style>
+        /* ESTILOS CLONADOS DE documentacion_CargaArt.html y AJUSTADOS */
+        body {
+            font-family: Arial, sans-serif; 
+            line-height: 1.6; 
+            margin: 0; 
+            background-color:rgb(197, 197, 197); /* Tono más oscuro para el fondo general del body */
+            color: #222; /* Texto ligeramente más oscuro para mejor contraste */
+            padding: 20px; 
+        }
+
+        section {
+            margin-bottom: 30px; /* Espaciado uniforme para todas las secciones */
+        }
+
+        .container {
+            background-color:rgb(243, 241, 253); /* Tono ligeramente más oscuro para el container principal */
+            padding: 20px; 
+            border-radius: 8px;
+            box-shadow: 0 0 12px rgba(0,0,0,0.15); /* Sombra un poco más pronunciada */
+            max-width: 900px; 
+            margin: 0 auto 20px auto; 
+        }
+
+        .page-navigation {
+            display: flex;
+            justify-content: flex-end;
+            padding: 0 0 15px 0;
+        }
+
+        /* Index styles from CargaArt, adjusted for darker tones */
+        .index {
+            margin-bottom: 30px; /* No necesita cambios, ya es consistente */
+            padding: 20px;
+            background-color:rgb(237, 237, 250);
+            border: 1px solidrgb(179, 211, 230);
+            border-radius: 8px;
+            box-shadow: 0 0 12px rgba(0,0,0,0.15);
+        }
+
+        .index h2 { 
+            margin-top: 0; 
+            margin-bottom: 15px; 
+            color:rgb(1, 102, 136); /* Tono más oscuro para el título del índice */
+            font-size: 1.5em; 
+            border-bottom: none; 
+            text-align: left; 
+        }
+        .index ol, .index ul { 
+            list-style-type: decimal; 
+            margin-left: 20px; 
+            padding-left: 0; 
+        }
+        /* Estilos para los sub-índices */
+        .index ol li ul {
+            list-style-type: disc; /* Cambia el estilo a disco para los sub-índices */
+            margin-top: 5px;
+            margin-left: 20px; /* Indenta más los sub-índices */
+            padding-left: 0;
+        }
+        .index ol li, .index ul li { 
+            margin-bottom: 8px; 
+        }
+        .index ol li a, .index ul li a { 
+            text-decoration: none; 
+            color: #1a5a92; /* Tono más oscuro para los enlaces del índice */
+            font-weight: 500; 
+        }
+        .index ol li a:hover, .index ul li a:hover { 
+            text-decoration: underline; 
+            color: #103d66; /* Tono más oscuro al pasar el mouse */
+        }
+        .index ol li ul li a { /* Estilo específico para enlaces de sub-índices */
+            font-weight: 400; /* Menos negrita que los títulos principales */
+            font-size: 0.95em; /* Ligeramente más pequeño */
+        }
+
+        /* ORIGINAL STYLES FROM CargaArt (General Headings, Lists, etc.) - adjusted */
+        h1 { 
+            color: #1d334a; /* Tono más oscuro para el título principal */
+            font-size: 2.5em; 
+            border-bottom: 2px solid #2a7bbd; /* Borde más oscuro */
+            padding-bottom: 10px; 
+            margin-bottom: 20px; 
+            text-align: center; 
+        } 
+        h2 { 
+            color: #1d334a; /* Tono más oscuro para los títulos de sección */
+            font-size: 1.8em; 
+            border-bottom: 1px solid #aab0b4; /* Borde ligeramente más oscuro */
+            padding-bottom: 5px; 
+            margin-top: 30px; 
+            text-align: left; 
+        }
+        h3 { 
+            color: #1d334a; /* Tono más oscuro para los subtítulos */
+            font-size: 1.4em; 
+            margin-top: 20px; 
+        }
+        h4 { 
+            font-size: 1.25em; 
+            font-weight: 700;
+            color: #2c3e50; 
+            margin-top: 1.5rem; 
+            margin-bottom: 0.75rem; 
+            display: flex; 
+            align-items: center; 
+        }
+        h4 .emoji {
+            margin-right: 0.6em;
+            font-size: 1.3em; 
+        }
+
+        ul { 
+            list-style-type: disc; 
+            margin-left: 20px; 
+        }
+        li { 
+            margin-bottom: 5px; 
+        }
+        strong { 
+            color: #206ab0; /* Tono más oscuro para el texto resaltado */
+        }
+        p { 
+            margin-bottom: 10px;
+            color: #222; /* Asegurar que los párrafos tengan el color de texto general más oscuro */
+        }
+
+        .card {
+            background-color:rgb(237, 237, 250);
+            border-radius: 8px;
+            box-shadow: 0 0 12px rgba(0,0,0,0.1);
+            padding: 20px;
+            margin-bottom: 30px; /* Cambiado de 20px a 30px para uniformidad */
+            border: none;
+        }
+        
+        .flow-step-content {
+            padding: 0.5rem 0; 
+            margin-bottom: 1rem; 
+        }
+        
+        .text-content-base { 
+            color: #222; /* Texto principal más oscuro */
+        }
+        .text-accent-blue { 
+            color: #206ab0; /* Acento azul más oscuro */
+        }
+
+        .flow-arrow-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin: 0.75rem 0;
+        }
+        .flow-arrow {
+            font-size: 2rem; 
+            color: #2a7bbd; /* Azul de flechas más oscuro */
+            animation: bounce-arrow 1.5s infinite;
+        }
+        @keyframes bounce-arrow {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(5px); }
+        }
+
+        .content-link { 
+            color: #206ab0; 
+            text-decoration: underline; 
+        }
+        .content-link:hover {
+            color: #154c7d; 
+        }
+
+        .note {
+            background-color: #d0e8f2; /* Tono más oscuro para la nota */
+            border-left: 5px solid #2a7bbd; /* Borde de nota más oscuro */
+            padding: 10px; 
+            margin: 15px 0;
+            color: #222; /* Asegurar que el texto de la nota sea oscuro */
+        }
+        
+        footer {
+            text-align: center; 
+            padding: 20px 0; 
+            font-size: 0.9em; 
+            background-color: #d0d0d0; /* Match body background */
+            color: #555; /* Texto del footer ligeramente más oscuro */
+            border-top: 1px solid #b0b0b0; /* Borde más oscuro */
+            margin-top: 20px; 
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h1>APP DE PAGOS: Flujo Operativo</h1>
+
+        <section class="index ">
+            <h2>Índice de Contenidos</h2>
+            <ol>
+                <li>
+                    <a href="#intro">Introducción al Sistema y su Propósito</a>
+                </li>
+                <li>
+                    <a href="#rpa-flow">Flujo de Carga Diaria de Datos (Procesos RPA)</a>
+                    <ul>
+                        <li><a href="#rpa-initial-processing">Procesamiento Inicial de Datos por RPA</a></li>
+                        <li><a href="#rpa-etapa-1">Etapa 1: Procesamiento de Órdenes de Compra</a></li>
+                        <li><a href="#rpa-etapa-2">Etapa 2: Procesamiento de Facturas</a></li>
+                        <li><a href="#rpa-etapa-3">Etapa 3: Procesamiento de Órdenes de Pago</a></li>
+                        <li><a href="#rpa-etapa-4">Etapa 4: Procesamiento de Registros del Pagado</a></li>
+                        <li><a href="#rpa-etapa-5">Etapa 5: Procesamiento de Pagos</a></li>
+                        <li><a href="#rpa-etapa-6">Etapa 6: Procesamiento de Devengados</a></li>
+                        <li><a href="#rpa-etapa-7">Etapa 7: Conciliación de Facturas sin Orden de Compra Asociada</a></li>
+                        <li><a href="#rpa-etapa-8">Etapa 8: Carga de Datos en la Aplicación</a></li>
+                    </ul>
+                </li>
+                <li>
+                    <a href="#user-flow">Proceso de Clasificación y Autorización del Usuario</a>
+                    <ul>
+                        <li><a href="#user-step-1">1. Descarga de Órdenes de Compra No Clasificadas</a></li>
+                        <li><a href="#user-step-2">2. Clasificación en Excel</a></li>
+                        <li><a href="#user-step-3">3. Carga de Excel Clasificado</a></li>
+                        <li><a href="#user-step-4">4. Visualización y Autorización Final</a></li>
+                    </ul>
+                </li>
+                <li>
+                    <a href="#clarifications">Aclaraciones Operativas</a>
+                </li>
+            </ol>
+        </section>
+
+        <section id="intro" class="">
+            <div class="card">
+                <h2 id="descripcion-general">Introducción al Sistema y su Propósito</h2>
+                <p>
+                    La Aplicación de Pagos de la Municipalidad de Pilar ha sido diseñada para gestionar integralmente el ciclo de erogaciones. Su funcionamiento se sustenta en cinco matrices de datos principales: <strong>Orden de Compra</strong>, <strong>Factura</strong>, <strong>Devengado</strong>, <strong>Orden de Pago</strong> y <strong>Registro del Pagado</strong>. Estas matrices son alimentadas y actualizadas diariamente mediante procesos RPA (Robotic Process Automation), que procesan exclusivamente los registros del día anterior para preservar la consistencia de los datos.
+                </p>
+                <p>
+                    Impulsada por Contaduría, la idea principal de esta aplicación es que cada usuario final, identificado con un código financiero preasignado, pueda visualizar y autorizar de manera ágil su propio flujo de pago de facturas. Esto optimiza y acelera significativamente el proceso de envío de pagos a Contaduría para su liquidación final.
+                </p>
+            </div>
+        </section>
+
+        <section id="rpa-flow" class="">
+            <div class="card">
+                <h2 id="flujo-ejecucion">Flujo de Carga Diaria de Datos (Procesos RPA)</h2>
+                
+                <div class="flow-step-content">
+                    <h4 id="rpa-initial-processing"><span class="emoji" style="filter: grayscale(100%) brightness(0.7);">⚙️</span>Procesamiento Inicial de Datos por RPA</h4>
+                    <p>Antes de cada etapa de carga, los robots de automatización de procesos (RPA) son responsables de recolectar y preparar los datos de origen. Este proceso incluye:</p>
+                    <ul>
+                        <li><strong>Extracción de Datos de Sistema MAJOR:</strong> Los RPA interactúan con las bases de datos del Sistema MAJOR, para descargar la información necesaria de forma automatizada.</li>
+                        <li><strong>Aplicación de Filtros y Procesamientos Preliminares:</strong> Los RPA aplican filtros temporales (ej., datos del día anterior, rangos específicos de fechas, o totales/subtotales) y realizan operaciones básicas de limpieza o estructuración si es necesario, antes de que los datos sean consumidos por las etapas de carga específicas.</li>
+                    </ul>
+                    <p>Este procesamiento asegura que las matrices de datos para Orden de Compra, Factura, Devengado, Orden de Pago y Registro del Pagado estén listas y sean consistentes para su incorporación al sistema de la APP de Pagos. De este modo, el flujo funcional de los robots se desarrolla en las etapas descritas a continuación.</p>
+                </div>
+                <div class="flow-arrow-container"><span class="flow-arrow">⬇️</span></div>
+
+                <div class="flow-step-content">
+                    <h4 id="rpa-etapa-1"><span class="emoji">🤖</span>Etapa 1: Procesamiento de Órdenes de Compra</h4>
+                    <p>Comenzando con las Órdenes de Compra, el primer proceso RPA se encarga de ingresar al Sistema MAJOR en <strong>Contabilidad → Transacciones → Compromisos → Con orden de compra</strong>, específicamente a través de la opción "Consultas", se encarga de filtrar por las órdenes del día anterior, y extrae las columnas generadas de dicho informe, descartando las innecesarias y reordenando las restantes en un nuevo Excel.</p>
+                    <ul>
+                        <li><strong>Las columnas originales extraídas en esta etapa son:</strong> Tipo Comprobante, Oficina Ejercicio, Nro Oficina, Nro Ord Compra, Nro Proveedor, Proveedor, Ingreso, Descripción y Total.</li>
+                        <li><strong>Las columnas resultantes son:</strong> ingreso, tipo_comprobante, ejercicio_comprobante, numero_comprobante, proveedor_numero, proveedor_razon_social, descripción, total.</li>
+                    </ul>
+                </div>
+
+                <div class="flow-arrow-container"><span class="flow-arrow">⬇️</span></div>
+
+                <div id="etapa-2a" class="flow-step-content">
+                    <h4 id="rpa-etapa-2"><span class="emoji">🤖</span>Etapa 2: Procesamiento de Facturas</h4>
+                    <p>El segundo proceso RPA, ya en el Sistema MAJOR, ingresa a <strong>Contabilidad → Consultas → Gestión → Proveedores → Facturas</strong>, filtrando por las facturas del día anterior y excluyendo las facturas con subtotal. Extrae los datos relevantes, renombrando y reordenando algunas columnas en un nuevo Excel, descartando las innecesarias</p>
+                    <ul>
+                        <li><strong>Las columnas originales extraídas en esta etapa son:</strong> Emisión, Ingreso, Conforme, Factura, Proveedor, Comp, Total, Liquid, Último Comprobante y Pase.</li>
+                        <li><strong>Las columnas resultantes son:</strong> emision, tipo_fc, numero_fc, proveedor_tipo, proveedor_numero, proveedor_razon_social, tipo_oc, ejercicio_oc, nro_oc, total, ubicacion.</li>
+                    </ul>
+                </div>
+
+                <div class="flow-arrow-container"><span class="flow-arrow">⬇️</span></div>
+
+                <div id="ordenes-pago" class="flow-step-content">
+                    <h4 id="rpa-etapa-3"><span class="emoji">🤖</span>Etapa 3: Procesamiento de Órdenes de Pago</h4>
+                    <p>El tercer proceso RPA es a través de <strong>Contabilidad → Transacciones → Pagos → Presupuestarias</strong>, filtrando por las órdenes de pago del día anterior. Extrae las columnas generadas de dicho informe, descartando las innecesarias y procesando las restantes en un nuevo Excel.</p>
+                    <ul>
+                        <li><strong>Las columnas originales extraídas en esta etapa son:</strong> T. Comp, Oficina, Liquidación, Ingreso, Ingreso Ord Pago, Proveedor, Razón Social, Beneficiario y Bruto.</li>
+                        <li><strong>Las columnas resultantes son:</strong> ingreso, tipo_comprobante, ejercicio_comprobante, numero_comprobante, proveedor_numero, proveedor_razon_social, total.</li>
+                    </ul>
+                </div>
+
+                <div class="flow-arrow-container"><span class="flow-arrow">⬇️</span></div>
+
+                <div class="flow-step-content">
+                    <h4 id="rpa-etapa-4"><span class="emoji">🤖</span>Etapa 4: Procesamiento de Registros del Pagado</h4>
+                    <p>El cuarto proceso RPA se realiza en <strong>Contabilidad → Transacciones → Registro de Pagos</strong>, filtrando por los registros de pagado del día anterior. Extrae las columnas generadas de dicho informe, conservando y procesando en un nuevo Excel sólo las necesarias para dicha etapa</p>
+                    <ul>
+                        <li><strong>Las columnas originales extraídas en esta etapa son:</strong> T. Comp, Oficina, Liquidación, Ingreso, Ingreso Ord Pago, Proveedor, Razón Social, Beneficiario, Bruto, T.Comp, Oficina, Ord Pago.</li>
+                        <li><strong>Las columnas resultantes son:</strong> ingreso, tipo_comprobante, ejercicio_comprobante, numero_comprobante, proveedor_numero, proveedor_razon_social, total, tipo_prepa, ejercicio_prepa, numero_prepa.</li>
+                    </ul>
+                </div>
+
+                <div class="flow-arrow-container"><span class="flow-arrow">⬇️</span></div>
+
+                <div class="flow-step-content">
+                    <h4 id="rpa-etapa-5"><span class="emoji">🤖</span>Etapa 5: Procesamiento de Pagos</h4>
+                    <p>El quinto proceso RPA se realiza en <strong>Contabilidad → Consultas → Gestión → Proveedores → Facturas</strong>. Similar a la <a href="#etapa-2a" class="content-link">Etapa 2</a>, en este caso se filtra por las facturas emitidas entre el año anterior y el año actual. A partir de estos datos y los recopilados previamente en <a href="#ordenes-pago" class="content-link">órdenes de pago</a>, se bot relaciona las órdenes de compra, facturas, órdenes de pago y registros de pago, generando un dataset cruzado.</p>
+                    <ul>
+                        <li><strong>Encabezados del nuevo Dataset:</strong> emision, tipo_fc, numero_fc, proveedor_tipo, proveedor_numero, proveedor_razon_social, tipo_oc, ejercicio_oc, nro_oc, total, tipo_op, ejercicio_op, nro_op.</li>
+                    </ul>
+                </div>
+
+                <div class="flow-arrow-container"><span class="flow-arrow">⬇️</span></div>
+
+                <div class="flow-step-content">
+                    <h4 id="rpa-etapa-6"><span class="emoji">🤖</span>Etapa 6: Procesamiento de Devengados</h4>
+                    <p>El sexto proceso RPA se realiza en <strong>Contabilidad → Transacciones → Devengado → Devengado </strong>, filtrando por los devengados del día anterior. Extrae las columnas generadas de dicho informe, luego utiliza dicha información para descargar todos los documentos inlcuidos en formato PDF, y recopila con un OCR (Reconocimiento Óptico de Caracteres) la información necesaria para las siguientes etapas.</p>
+                    <ul>
+                        <li><strong>Columnas resultantes:</strong> tipo_doc, ejercicio_doc, numero_doc, tipo_fc, numero_fc, numero_proveedor, observaciones.</li>
+                    </ul>
+                </div>
+
+                <div class="flow-arrow-container"><span class="flow-arrow">⬇️</span></div>  
+
+                <div class="flow-step-content">
+                    <h4 id="rpa-etapa-7"><span class="emoji">🤖</span>Etapa 7: Conciliación de Facturas sin Orden de Compra Asociada (actualmente en mantenimiento)</h4>
+                    <p>El noveno proceso RPA, que momentáneamente está llevándose a cabo de forma manual, se realiza en <strong><a href="https://pilarmunicipio.online" target="_blank" rel="noopener" class="content-link">pilarmunicipio.online</a></strong>. El bot extrae de la web todas las facturas sin orden de compra asociada, y cruzando estos datos con un Excel completo de órdenes de compra desde 2020 hasta la fecha actual, se terminan de relacionar las facturas anteriores a la fecha de ejecución del proceso con las órdenes de compra correspondientes. Este proceso se repite dado que, en ocasiones, las facturas son cargadas con anterioridad a las órdenes de compra, generando un desfazaje en las relaciones del sistema que debe ser corregido.</p>
+                </div>
+
+                <div class="flow-arrow-container"><span class="flow-arrow">⬇️</span></div>   
+
+                <div class="flow-step-content">
+                    <h4 id="rpa-etapa-10a"><span class="emoji">🤖</span>Etapa 8 (Final): Carga de Datos en la Aplicación</h4>
+                    <p>Finalmente, los datos procesados y organizados en las etapas anteriores son cargados en la aplicación de pagos, siguiendo el mismo orden en el que fueron procesados.</p>
+                </div>
+            </div>
+        </section>
+
+        <section id="user-flow" class="">
+            <div class="card">
+                <h2 id="user-process-title">Proceso de Clasificación y Autorización del Usuario</h2>
+                <p>Una vez finalizado el proceso de carga diaria de datos (realizado por RPA 🤖), la interacción del usuario (👤) es fundamental para las siguientes etapas:</p>
+
+                <div class="flow-step-content">
+                    <h4 id="user-step-1"><span class="emoji">👤</span>1. Descarga de Órdenes de Compra No Clasificadas</h4>
+                    <p>El usuario descarga una matriz (formato Excel) desde la aplicación, la cual contiene las órdenes de compra que aún no han sido clasificadas con su respectivo código financiero.</p>
+                </div>
+                <div class="flow-arrow-container"><span class="flow-arrow">⬇️</span></div>
+
+                <div class="flow-step-content">
+                    <h4 id="user-step-2"><span class="emoji">👤</span>2. Clasificación en Excel</h4>
+                    <p>El usuario procede a clasificar el archivo Excel, asignando el código financiero correspondiente a cada orden de compra listada.</p>
+                </div>
+                <div class="flow-arrow-container"><span class="flow-arrow">⬇️</span></div>
+
+                <div class="flow-step-content">
+                    <h4 id="user-step-3"><span class="emoji">👤</span>3. Carga de Excel Clasificado</h4>
+                    <p>El usuario sube el archivo Excel, ya clasificado, nuevamente al sistema.</p>
+                </div>
+                <div class="flow-arrow-container"><span class="flow-arrow">⬇️</span></div>
+                
+                <div class="flow-step-content">
+                    <h4 id="user-step-4"><span class="emoji">👤</span>4. Visualización y Autorización Final</h4>
+                    <p>Este proceso permite que el sistema muestre a los usuarios finales (cada uno identificado con su código) las facturas que tienen disponibles para autorizar. Estas facturas ya se encuentran devengadas y con su orden de compra debidamente clasificada. <strong>Importante:</strong> La autorización se realiza considerando las variables clave como el cupo mensual disponible y que la factura esté devengada (ver "Aclaraciones Operativas").</p>
+                </div>
+            </div>
+        </section>
+
+        <section id="clarifications" class="">
+            <div class="card">
+                <h2 id="aclaraciones-operativas">Aclaraciones Operativas (Variables de Importancia para Autorización)</h2>
+                <ul>
+                    <li>Los usuarios pueden autorizar facturas únicamente hasta completar su <strong>cupo mensual asignado</strong>.</li>
+                    <li>La autorización de facturas por parte de los usuarios solo es posible a partir del momento en que estas se encuentren registradas como <strong>devengadas</strong> en el sistema.</li>
+                    <li>Existen perfiles de administrador con permisos para visualizar la totalidad de las facturas correspondientes a todos los códigos financieros.</li>
+                    <li>La interfaz principal (Home) de la aplicación permite filtrar y visualizar facturas según su estado: pendientes, autorizadas, con orden de pago (OP) emitida, o pagadas.</li>
+                </ul>
+            </div>
+        </section>
+
+    <div class="note">
+        <p><strong>Nota:</strong> Este documento HTML puede ser impreso a PDF directamente desde las opciones de impresión de su navegador (Ctrl+P o Cmd+P).</p>
+    </div>
+
+    </div> <footer>
+        <p>&copy; 2025 Automatizacion de Procesos y Mejoras Continuas.</p>
+        <p>¿Cómo funciona la app de pagos?.</p>
+    </footer>
+
+</body>
+</html>
