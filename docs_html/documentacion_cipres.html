@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Documentación del Proceso: Carga CIPRES</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif; line-height: 1.6; margin: 0;
+            background-color: #f4f4f4; color: #333; padding: 20px;
+        }
+        .container {
+            background-color: #fff; padding: 20px; border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+            max-width: 900px; margin: 0 auto 20px auto;
+        }
+        /* ESTILOS DEL BOTÓN VOLVER E ÍNDICE  */
+        .page-navigation {
+            display: flex;
+            justify-content: flex-end;
+            padding: 0 0 15px 0;
+        }
+        .back-to-index-btn {
+            background-color: #6c757d; color: white !important; padding: 8px 15px;
+            text-decoration: none; border-radius: 5px; font-size: 0.9em;
+            transition: background-color 0.3s ease; border: none;
+        }
+        .back-to-index-btn:hover { background-color: #5a6268; }
+
+        .index {
+            margin-bottom: 30px; padding: 20px; background-color: #eef7ff;
+            border: 1px solid #cce0ff; border-radius: 8px;
+        }
+        .index h2 {
+            margin-top: 0; margin-bottom: 15px; color: #005f73;
+            font-size: 1.5em; border-bottom: none;
+        }
+        .index ol { list-style-type: decimal; margin-left: 20px; padding-left: 0; }
+        .index ol li { margin-bottom: 8px; }
+        .index ol li a { text-decoration: none; color: #2980b9; font-weight: 500; }
+        .index ol li a:hover { text-decoration: underline; color: #1c5a85; }
+
+        /* ESTILOS ORIGINALES */
+        h1, h2, h3, h4 { color: #2c3e50; }
+        h1 { border-bottom: 2px solid #3498db; padding-bottom: 10px; margin-bottom: 20px; }
+        h2 { border-bottom: 1px solid #bdc3c7; padding-bottom: 5px; margin-top: 30px; }
+        h3 { margin-top: 20px; }
+        ul { list-style-type: disc; margin-left: 20px; }
+        li { margin-bottom: 5px; }
+        strong { color: #2980b9; }
+        code {
+            background-color: #ecf0f1; padding: 2px 5px; border-radius: 4px;
+            font-family: Consolas, Monaco, 'Andale Mono', 'Ubuntu Mono', monospace;
+        }
+        pre {
+            background-color: #ecf0f1; padding: 10px; border-radius: 4px;
+            overflow-x: auto; font-family: Consolas, Monaco, 'Andale Mono', 'Ubuntu Mono', monospace;
+        }
+        .note {
+            background-color: #e8f6fd; border-left: 5px solid #3498db;
+            padding: 10px; margin: 15px 0;
+        }
+        .view-flowchart-link {
+            display: inline-block; background-color: #3498db; color: white !important;
+            padding: 10px 15px; text-decoration: none; border-radius: 5px;
+            font-size: 0.95em; transition: background-color 0.3s ease;
+            margin-bottom: 10px; border: none;
+        }
+        .view-flowchart-link:hover { background-color: #2980b9; color: white !important; }
+    </style>
+</head>
+<body>
+    <div class="container" style="background-color: transparent; box-shadow: none; padding-bottom:0; margin-bottom:0;">
+        <div class="page-navigation">
+            <a href="../index.html" class="back-to-index-btn">« Volver al Inicio</a>
+        </div>
+    </div>
+
+    <div class="container">
+        <h1>Documentación del Proceso: Carga CIPRES</h1>
+
+        <div class="index">
+            <h2>Índice</h2>
+            <ol>
+                <li><a href="#descripcion-general">Descripción General</a></li>
+                <li><a href="#requerimientos">Requerimientos para la Ejecución</a></li>
+                <li><a href="#diagrama-flujo-seccion">Diagrama de Flujo</a></li>
+                <li><a href="#flujo-ejecucion">Flujo de Ejecución</a></li>
+                <li><a href="#salidas">Salidas (Outputs)</a></li>
+            </ol>
+        </div>
+
+        <h2 id="descripcion-general">1. Descripción General</h2>
+        <p>El proceso automatizado "Carga CIPRES" tiene como objetivo la carga de información de internaciones de pacientes en el sistema de Intranet. El robot toma los datos de un archivo Excel proporcionado por el usuario y los ingresa secuencialmente en la plataforma web, gestionando la navegación, el ingreso de datos específicos y el guardado de cada registro.</p>
+        <p>El robot inicia sesión en la Intranet, navega a través del menú hasta la sección de gestión de internaciones, y para cada paciente listado en el archivo Excel, busca al paciente y procede a cargar la información detallada de su internación, incluyendo datos demográficos básicos, detalles del informe clínico, fechas, tipo de egreso y diagnóstico. Al finalizar la carga de todos los pacientes del Excel, el proceso concluye.</p>
+
+        <h2 id="requerimientos">2. Requerimientos para la Ejecución</h2>
+        <ul>
+            <li><strong>Sistema Operativo:</strong> Windows (o el que soporte el navegador a utilizar).</li>
+            <li><strong>Aplicaciones/Software:</strong>
+                <ul>
+                    <li>Un navegador web moderno (Ej: Chrome, Firefox, Edge).</li>
+                    <li>Microsoft Excel (para el archivo de entrada).</li>
+                    <li>Acceso a la Intranet con credenciales válidas.</li>
+                </ul>
+            </li>
+            <li><strong>Archivo de Entrada de Datos (Excel):</strong>
+                <ul>
+                    <li>Un archivo Excel proporcionado por el usuario.</li>
+                    <li>Debe contener, como mínimo, las siguientes columnas (la primera fila se considera el encabezado):
+                        <ul>
+                            <li><code>DNI_PACIENTE</code>: DNI del paciente para búsqueda y carga en historia clínica.</li>
+                            <li><code>DOCUMENTO_PACIENTE</code>: Número de documento del paciente (puede ser el mismo DNI u otro).</li>
+                            <li><code>SEXO_PACIENTE</code>: Sexo del paciente.</li>
+                            <li><code>NUMERO_INFORME</code>: Número de informe de la internación.</li>
+                            <li><code>MOTIVO_INGRESO</code>: Motivo del ingreso del paciente.</li>
+                            <li><code>FECHA_EGRESO</code>: Fecha de egreso del paciente.</li>
+                            <li><code>TIPO_EGRESO</code>: Tipo de egreso (Ej: Alta médica, traslado, etc.).</li>
+                            <li><code>DIAGNOSTICO</code>: Diagnóstico principal del egreso.</li>
+                            <li><code>FECHA_INGRESO</code>: Fecha de ingreso del paciente.</li>
+                            <li><code>SERVICIO</code>: Servicio donde estuvo internado el paciente.</li>
+                            <li>(Opcional) <code>ESTADO_CARGA</code>: Columna para que el robot marque el estado del procesamiento (Ej: "Cargado", "Error: Paciente no encontrado", etc.).</li>
+                        </ul>
+                    </li>
+                </ul>
+            </li>
+            <li><strong>Credenciales de Acceso:</strong>
+                <ul>
+                    <li>Usuario y contraseña para la Intranet (se recomienda gestionarlos de forma segura, ej. a través de un gestor de credenciales o variables de entorno).</li>
+                </ul>
+            </li>
+             <li><strong>Estructura de Carpetas (Sugerida):</strong>
+<pre>
+C:\RPA_CIPRES\
+├── Inputs\
+│   └── archivo_pacientes_cipres.xlsx
+├── Outputs\ (si se generan reportes o logs)
+└── Config\ (si se usa archivo de configuración para URL, credenciales, etc.)
+</pre>
+            </li>
+        </ul>
+
+        <div id="diagrama-flujo-seccion" style="margin-top: 30px;">
+             <a href="diagrama_CargaCipres.html" class="view-flowchart-link" target="_blank">
+                Ver Diagrama de Flujo: Carga CIPRES
+            </a>
+        </div>
+
+        <h2 id="flujo-ejecucion">4. Flujo de Ejecución</h2>
+        <ol>
+            <li><strong>Inicio del Proceso:</strong>
+                <ul>
+                    <li>El robot es ejecutado.</li>
+                    <li>(Opcional) Lee un archivo de configuración para obtener la URL de la Intranet, ruta del Excel de entrada, etc.</li>
+                </ul>
+            </li>
+            <li><strong>Abrir Navegador e Iniciar Sesión:</strong>
+                <ul>
+                    <li>Abre el navegador web especificado.</li>
+                    <li>Navega a la URL de la Intranet.</li>
+                    <li>Ingresa el usuario y la contraseña en los campos correspondientes.</li>
+                    <li>Hace clic en el botón de "Ingresar" o similar.</li>
+                    <li>Maneja posibles errores de login (ej. credenciales incorrectas).</li>
+                </ul>
+            </li>
+            <li><strong>Navegación al Módulo de Internaciones:</strong>
+                <ul>
+                    <li>Una vez dentro de la Intranet, localiza y hace clic en la opción de menú "Pacientes".</li>
+                    <li>Dentro del submenú de "Pacientes", selecciona "Gestión de Internaciones".</li>
+                </ul>
+            </li>
+            <li><strong>Lectura del Archivo Excel de Entrada:</strong>
+                <ul>
+                    <li>Abre el archivo Excel proporcionado por el usuario.</li>
+                    <li>Lee los datos de los pacientes a procesar, típicamente iterando fila por fila.</li>
+                </ul>
+            </li>
+            <li><strong>Procesamiento por cada Paciente del Excel:</strong>
+                <ul>
+                    <li>Para cada fila (paciente) en el archivo Excel:
+                        <ol type="a">
+                            <li>Extrae los datos del paciente: <code>DNI_PACIENTE</code>, <code>DOCUMENTO_PACIENTE</code>, <code>SEXO_PACIENTE</code>, <code>NUMERO_INFORME</code>, etc.</li>
+                            <li><strong>Seleccionar Paciente:</strong>
+                                <ul>
+                                    <li>En la pantalla de "Gestión de Internaciones", busca la opción o campo para "Seleccionar Paciente" o buscar paciente (usualmente por DNI o Apellido y Nombre).</li>
+                                    <li>Ingresa el <code>DNI_PACIENTE</code> (o el criterio de búsqueda principal) y ejecuta la búsqueda.</li>
+                                    <li>Si el paciente no se encuentra, registra el error (ej. en la columna <code>ESTADO_CARGA</code> del Excel o en un log) y continúa con el siguiente paciente.</li>
+                                </ul>
+                            </li>
+                            <li><strong>Carga de Datos del Paciente (si se encontró):</strong>
+                                <ul>
+                                    <li>Una vez dentro del perfil/sección del paciente seleccionado:</li>
+                                    <li>Carga el <code>DOCUMENTO_PACIENTE</code> en el campo correspondiente.</li>
+                                    <li>Selecciona o carga el <code>SEXO_PACIENTE</code>.</li>
+                                </ul>
+                            </li>
+                            <li><strong>Acciones y Agregar Nueva Internación:</strong>
+                                <ul>
+                                    <li>Busca la sección de "Acciones" o similar.</li>
+                                    <li>Hace clic en el ícono o botón de "tilde" (correcto/confirmar/validar) si existe.</li>
+                                    <li>Hace clic en el botón "Agregar" (o "Nueva Internación", "Registrar Internación").</li>
+                                </ul>
+                            </li>
+                            <li><strong>Carga de Detalles de la Internación:</strong>
+                                <ul>
+                                    <li>En el formulario de la nueva internación:</li>
+                                    <li>Campo "Historia Clínica": Ingresa el <code>DNI_PACIENTE</code>.</li>
+                                    <li>Campo "Número de Informe": Ingresa el <code>NUMERO_INFORME</code>.</li>
+                                    <li>Campo "Motivo Ingreso": Ingresa el <code>MOTIVO_INGRESO</code>.</li>
+                                    <li>Campo "Fecha Egreso": Ingresa o selecciona la <code>FECHA_EGRESO</code>.</li>
+                                    <li>Campo "Tipo Egreso": Selecciona o ingresa el <code>TIPO_EGRESO</code>.</li>
+                                    <li>Campo "Diagnóstico": Ingresa el <code>DIAGNOSTICO</code>.</li>
+                                    <li>Campo "Fecha Ingreso": Ingresa o selecciona la <code>FECHA_INGRESO</code>.</li>
+                                    <li>Campo "Servicio": Selecciona o ingresa el <code>SERVICIO</code>.</li>
+                                </ul>
+                            </li>
+                            <li><strong>Guardar Internación:</strong>
+                                <ul>
+                                    <li>Hace clic en el botón "Guardar" (o "Aceptar", "Confirmar").</li>
+                                    <li>Verifica si hay mensajes de confirmación o error.</li>
+                                    <li>Si la carga es exitosa, actualiza el estado en el Excel (ej. <code>ESTADO_CARGA</code> = "Cargado").</li>
+                                    <li>Si hay un error en el guardado, registra el error y continúa.</li>
+                                </ul>
+                            </li>
+                        </ol>
+                    </li>
+                </ul>
+            </li>
+            <li><strong>Finalización del Proceso:</strong>
+                <ul>
+                    <li>Una vez procesadas todas las filas del Excel:</li>
+                    <li>(Opcional) Cierra la sesión en la Intranet.</li>
+                    <li>Cierra el navegador web.</li>
+                    <li>(Opcional) Guarda el archivo Excel con los estados actualizados.</li>
+                    <li>(Opcional) Genera un reporte de resumen.</li>
+                </ul>
+            </li>
+        </ol>
+
+        <h2 id="salidas">5. Salidas (Outputs)</h2>
+        <ul>
+            <li><strong>Archivo Excel de Entrada Modificado (Opcional):</strong>
+                <ul>
+                    <li>Si se incluye una columna de estado (ej. <code>ESTADO_CARGA</code>), esta se actualizará para cada paciente indicando si la carga fue exitosa o si hubo algún error específico (ej. "Paciente no encontrado", "Error al guardar").</li>
+                </ul>
+            </li>
+            <li><strong>Registros en Logs (Recomendado):</strong>
+                <ul>
+                    <li>Un archivo de log detallando las acciones realizadas por el robot, incluyendo:
+                        <ul>
+                            <li>Inicio y fin del proceso.</li>
+                            <li>Pacientes procesados.</li>
+                            <li>Confirmaciones de carga exitosa.</li>
+                            <li>Cualquier error encontrado durante la búsqueda de pacientes, carga de datos o guardado, junto con el DNI del paciente afectado.</li>
+                        </ul>
+                    </li>
+                </ul>
+            </li>
+            <li><strong>Reporte de Resumen (Opcional):</strong>
+                <ul>
+                    <li>Un archivo (ej. CSV o Excel) resumiendo la cantidad de pacientes procesados, cuántos fueron cargados exitosamente y cuántos presentaron errores.</li>
+                </ul>
+            </li>
+        </ul>
+
+        <div class="note">
+            <p><strong>Nota:</strong> Los nombres exactos de los botones, menús y campos en la Intranet pueden variar. Este flujo describe una secuencia general basada en la información proporcionada.</p>
+        </div>
+    </div>
+</body>
+</html>
