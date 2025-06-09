@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Documentación del Proceso: Sistema de Gestión de Camas</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif; line-height: 1.6; margin: 0;
+            background-color: #f4f4f4; color: #333; padding: 20px;
+        }
+        .container {
+            background-color: #fff; padding: 20px; border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+            max-width: 900px; margin: 0 auto 20px auto;
+        }
+        h1, h2, h3, h4 { color: #2c3e50; }
+        h1 { text-align: center; border-bottom: 2px solid #3498db; padding-bottom: 10px; margin-bottom: 20px; }
+        h2 { border-bottom: 1px solid #bdc3c7; padding-bottom: 5px; margin-top: 30px; }
+        .page-navigation {
+            display: flex;
+            justify-content: flex-end;
+            padding: 0 0 15px 0;
+        }
+        .back-to-index-btn {
+            background-color: #6c757d; color: white !important; padding: 8px 15px;
+            text-decoration: none; border-radius: 5px; font-size: 0.9em;
+            transition: background-color 0.3s ease; border: none;
+        }
+        .back-to-index-btn:hover { background-color: #5a6268; }
+
+        .index {
+            margin-bottom: 30px; padding: 20px; background-color: #eef7ff;
+            border: 1px solid #cce0ff; border-radius: 8px;
+        }
+        .index h2 {
+            margin-top: 0; margin-bottom: 15px; color: #005f73;
+            font-size: 1.5em; border-bottom: none;
+        }
+        .index ol { list-style-type: decimal; margin-left: 20px; padding-left: 0; }
+        .index ol li { margin-bottom: 8px; }
+        .index ol li a { text-decoration: none; color: #2980b9; font-weight: 500; }
+        .index ol li a:hover { text-decoration: underline; color: #1c5a85; }
+
+        ul, ol:not(.index ol) {
+            list-style-type: disc; margin-left: 20px;
+        }
+        h3 { margin-top: 20px; color: #34495e;}
+        li { margin-bottom: 8px;}
+        strong { color: #2980b9;}
+        code {
+            background-color: #ecf0f1; padding: 2px 5px; border-radius: 4px;
+            font-family: Consolas, Monaco, 'Andale Mono', 'Ubuntu Mono', monospace;
+        }
+        .note {
+            background-color: #e8f6fd; border-left: 5px solid #3498db;
+            padding: 10px; margin: 15px 0;
+        }
+        .view-flowchart-link {
+            display: inline-block; background-color: #3498db; color: white !important;
+            padding: 10px 15px; text-decoration: none; border-radius: 5px;
+            font-size: 0.95em; transition: background-color 0.3s ease;
+            margin-bottom: 10px; border: none;
+        }
+        .view-flowchart-link:hover { background-color: #2980b9; color: white !important; }
+    </style>
+</head>
+<body>
+    <div class="container" style="background-color: transparent; box-shadow: none; padding-bottom:0; margin-bottom:0;">
+        <div class="page-navigation">
+            <a href="../index.html" class="back-to-index-btn">« Volver al Inicio</a>
+        </div>
+    </div>
+
+    <div class="container">
+        <h1>Documentación del Proceso<br>"Sistema de Gestión de Camas"</h1>
+
+        <div class="index">
+            <h2>Índice</h2>
+            <ol>
+                <li><a href="#objetivo">Objetivo del Proceso</a></li>
+                <li><a href="#prerrequisitos">Prerrequisitos y Entradas</a></li>
+                <li><a href="#diagrama-flujo-seccion">Diagrama de Flujo</a></li>
+                <li><a href="#flujo-proceso">Flujo del Proceso Detallado</a></li>
+                <li><a href="#manejo-errores">Manejo de Errores y Excepciones</a></li>
+                <li><a href="#salidas">Resultado Final (Outputs)</a></li>
+            </ol>
+        </div>
+
+        <h2 id="objetivo">1. Objetivo del Proceso</h2>
+        <p>El objetivo de esta automatización es agilizar el ciclo completo de admisión y posterior egreso de pacientes en el <strong>Sistema de Gestión de Camas</strong> de la Intranet.</p>
+        <p>El robot procesa una lista de pacientes desde un archivo Excel, realizando cada paso de forma desatendida para minimizar el tiempo de gestión y reducir la posibilidad de errores manuales.</p>
+
+        <h2 id="prerrequisitos">2. Prerrequisitos y Entradas</h2>
+        <h3>Recursos Necesarios</h3>
+        <ul>
+            <li><strong>Archivo de Entrada:</strong> Se requiere un archivo Microsoft Excel (ej: <code>pacientes_a_procesar.xlsx</code>) ubicado en una carpeta predefinida. La existencia de este archivo es el primer punto de validación del proceso.</li>
+            <li><strong>Credenciales de Acceso:</strong> El robot debe tener acceso a las credenciales válidas para ingresar a la Intranet corporativa.</li>
+            <li><strong>Acceso al Sistema:</strong> Conectividad a la Intranet y al Sistema de Gestión de Camas.</li>
+        </ul>
+
+        <h3>Formato del Archivo Excel de Entrada</h3>
+        <p>El archivo de entrada debe contener, como mínimo, las siguientes columnas:</p>
+        <ul>
+            <li><code>DNI</code> (Formato numérico, sin puntos ni guiones)</li>
+            <li><code>SEXO</code> (Texto, ej: "Masculino", "Femenino")</li>
+            <li><code>FECHA_INGRESO</code> (Formato de fecha, ej: DD/MM/AAAA)</li>
+            <li><code>HORA_INGRESO</code> (Formato de hora, ej: HH:MM)</li>
+            <li><code>CODIGO_DIAGNOSTICO</code> (Código numérico o alfanumérico)</li>
+            <li><code>MOTIVO_EGRESO</code> (Texto descriptivo, ej: "Alta médica")</li>
+            <li><code>FECHA_EGRESO</code> (Formato de fecha, ej: DD/MM/AAAA)</li>
+        </ul>
+
+        <div id="diagrama-flujo-seccion" style="margin-top: 30px;">
+             <a href="diagrama_SGC.html" class="view-flowchart-link" target="_blank"> <!-- CORREGIDO: doble guion bajo a uno solo -->
+                Ver Diagrama de Flujo: Carga Depósitos
+            </a>
+        </div>
+
+        <h2 id="flujo-proceso">4. Flujo del Proceso Detallado</h2>
+        
+        <h3>Fase 1: Inicialización y Búsqueda del Paciente</h3>
+        <ol>
+            <li><strong>Validación de Archivo:</strong> El robot verifica si el archivo Excel de entrada existe. Si no lo encuentra, detiene el proceso y registra el error.</li>
+            <li><strong>Lectura de Datos:</strong> Abre el archivo Excel y lee los datos del primer paciente pendiente.</li>
+            <li><strong>Acceso a la Intranet:</strong> Inicia sesión en la Intranet con las credenciales preconfiguradas.</li>
+            <li><strong>Navegación al Sistema:</strong> Navega hasta el <strong>Sistema de Gestión de Camas</strong>.</li>
+            <li><strong>Búsqueda del Paciente:</strong> Accede al menú <strong>"Pacientes"</strong> e introduce la <strong>Nacionalidad ("Argentina")</strong>, <strong>DNI</strong> y <strong>Sexo</strong> del paciente.</li>
+            <li><strong>Validación Inicial:</strong> Confirma que el paciente encontrado coincide con los datos esperados.</li>
+        </ol>
+
+        <h3>Fase 2: Proceso de Admisión (Ingreso)</h3>
+        <ol>
+            <li><strong>Iniciar Admisión:</strong> Hace clic en el menú de acciones (icono de tres puntos) y selecciona <strong>"Ingresar"</strong>.</li>
+            <li><strong>Modificar Datos:</strong> Cambia el campo <strong>"Obra Social"</strong> a <code>0000</code>.</li>
+            <li><strong>Cargar Datos de Ingreso:</strong> Completa los campos de <strong>Fecha de Admisión</strong> (fecha + hora), tipo de <strong>Ingreso</strong> y <strong>Código de Diagnóstico</strong> desde el Excel.</li>
+            <li><strong>Asignación de Cama (Lógica Condicional):</strong>
+                <ul>
+                    <li>El robot intenta seleccionar la primera cama que aparezca como "Libre".</li>
+                    <li><strong>Si la cama está ocupada</strong>, el sistema mostrará un error. El robot lo gestionará seleccionando la siguiente cama libre y reintentará el proceso hasta encontrar una disponible.</li>
+                </ul>
+            </li>
+            <li><strong>Registro de Admisión:</strong> Una vez asignada la cama, presiona <strong>"Registrar"</strong> o <strong>"Continuar"</strong>.</li>
+        </ol>
+
+        <h3>Fase 3: Proceso de Egreso</h3>
+        <ol>
+            <li><strong>Iniciar Egreso:</strong> Inmediatamente, accede de nuevo al menú de acciones del paciente y selecciona <strong>"Egresar Paciente"</strong>.</li>
+            <li><strong>Carga de Datos de Egreso:</strong> Completa los campos <strong>"Motivo Egreso"</strong> y <strong>"Fecha Egreso"</strong>.</li>
+            <li><strong>Confirmar Egreso:</strong> Presiona el botón <strong>"Confirmar Egreso"</strong> para finalizar el ciclo.</li>
+        </ol>
+
+        <h2 id="manejo-errores">5. Manejo de Errores y Excepciones</h2>
+        <ul>
+            <li><strong>Archivo de Entrada No Encontrado:</strong> El proceso termina inmediatamente y notifica el error. Es una falla crítica.</li>
+            <li><strong>Paciente No Encontrado:</strong> El robot registra el error en el log, marca el caso como fallido y continúa con el siguiente paciente de la lista.</li>
+            <li><strong>Fallo de Inicio de Sesión:</strong> El proceso se detiene y envía una notificación para revisar las credenciales o la disponibilidad del sistema.</li>
+            <li><strong>Sin Camas Libres:</strong> Si tras intentar con todas las opciones no hay camas, el paciente se marca con error "Sin camas disponibles" y se continúa con el siguiente.</li>
+        </ul>
+
+        <h2 id="salidas">6. Resultado Final (Outputs)</h2>
+        <ul>
+            <li><strong>En el Sistema de Gestión de Camas:</strong>
+                <ul>
+                    <li>Todos los pacientes procesados con éxito estarán registrados con su ciclo de admisión y egreso completo.</li>
+                </ul>
+            </li>
+            <li><strong>Archivo de Reporte/Log:</strong>
+                <ul>
+                    <li>El robot generará un archivo de reporte (o actualizará el de entrada) con una columna de <strong>"Estado"</strong>.</li>
+                    <li>Posibles estados: "Procesado con Éxito", "Error: Paciente no encontrado", "Error: Sin camas disponibles".</li>
+                </ul>
+            </li>
+        </ul>
+
+        <div class="note">
+            <p><strong>Nota:</strong> Este documento HTML está diseñado para una visualización clara en el navegador y puede ser impreso a PDF directamente desde las opciones de impresión (Ctrl+P o Cmd+P).</p>
+        </div>
+    </div>
+</body>
+</html>
