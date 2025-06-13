@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Documentación del Proceso: Carga CIPRES</title>
+    <title>Documentación del Proceso: Carga CIPRES (BotCipres.py)</title>
     <style>
         body {
             font-family: Arial, sans-serif; line-height: 1.6; margin: 0;
@@ -14,7 +14,6 @@
             box-shadow: 0 0 10px rgba(0,0,0,0.1);
             max-width: 900px; margin: 0 auto 20px auto;
         }
-        /* ESTILOS DEL BOTÓN VOLVER E ÍNDICE  */
         .page-navigation {
             display: flex;
             justify-content: flex-end;
@@ -40,12 +39,12 @@
         .index ol li a { text-decoration: none; color: #2980b9; font-weight: 500; }
         .index ol li a:hover { text-decoration: underline; color: #1c5a85; }
 
-        /* ESTILOS ORIGINALES */
         h1, h2, h3, h4 { color: #2c3e50; }
         h1 { border-bottom: 2px solid #3498db; padding-bottom: 10px; margin-bottom: 20px; }
         h2 { border-bottom: 1px solid #bdc3c7; padding-bottom: 5px; margin-top: 30px; }
-        h3 { margin-top: 20px; }
-        ul { list-style-type: disc; margin-left: 20px; }
+        h3 { margin-top: 20px; font-size: 1.15em; } /* Ajustado tamaño de h3 */
+        h4 { margin-top: 15px; font-size: 1.05em; color: #34495e; } /* Añadido h4 */
+        ul, ol:not(.index ol) { list-style-type: disc; margin-left: 20px; }
         li { margin-bottom: 5px; }
         strong { color: #2980b9; }
         code {
@@ -67,6 +66,7 @@
             margin-bottom: 10px; border: none;
         }
         .view-flowchart-link:hover { background-color: #2980b9; color: white !important; }
+        .script-feature { font-style: italic; color: #555; }
     </style>
 </head>
 <body>
@@ -77,68 +77,84 @@
     </div>
 
     <div class="container">
-        <h1>Documentación del Proceso: Carga CIPRES</h1>
+        <h1>Documentación del Proceso: Carga CIPRES (<code>BotCipres.py</code>)</h1>
 
         <div class="index">
             <h2>Índice</h2>
             <ol>
                 <li><a href="#descripcion-general">Descripción General</a></li>
                 <li><a href="#requerimientos">Requerimientos para la Ejecución</a></li>
+                <li><a href="#configuracion-script">Configuración del Script</a></li>
                 <li><a href="#diagrama-flujo-seccion">Diagrama de Flujo</a></li>
-                <li><a href="#flujo-ejecucion">Flujo de Ejecución</a></li>
+                <li><a href="#flujo-ejecucion">Flujo de Ejecución Detallado</a></li>
                 <li><a href="#salidas">Salidas (Outputs)</a></li>
+                <li><a href="#manejo-errores">Manejo de Errores y Logging</a></li>
             </ol>
         </div>
 
         <h2 id="descripcion-general">1. Descripción General</h2>
-        <p>El proceso automatizado "Carga CIPRES" tiene como objetivo la carga de información de internaciones de pacientes en el sistema de Intranet. El robot toma los datos de un archivo Excel proporcionado por el usuario y los ingresa secuencialmente en la plataforma web, gestionando la navegación, el ingreso de datos específicos y el guardado de cada registro.</p>
-        <p>El robot inicia sesión en la Intranet, navega a través del menú hasta la sección de gestión de internaciones, y para cada paciente listado en el archivo Excel, busca al paciente y procede a cargar la información detallada de su internación, incluyendo datos demográficos básicos, detalles del informe clínico, fechas, tipo de egreso y diagnóstico. Al finalizar la carga de todos los pacientes del Excel, el proceso concluye.</p>
+        <p>El proceso automatizado "Carga CIPRES", implementado en el script <code>BotCipres.py</code>, se encarga de la carga masiva de información de internaciones de pacientes en el sistema web CIPRES de la Intranet. El robot utiliza Selenium para interactuar con la interfaz web, leyendo los datos de los pacientes desde un archivo Excel y completando los formularios correspondientes.</p>
+        <p>El script gestiona el inicio de sesión, la navegación a través del sistema, la búsqueda de pacientes, el llenado detallado de los formularios de internación (incluyendo datos del paciente, diagnóstico, fechas, tipo de egreso, servicio y causas externas de accidentes), y el guardado de cada registro. Incorpora manejo de errores, reintentos y un sistema de logging para rastrear el progreso y los incidentes.</p>
 
         <h2 id="requerimientos">2. Requerimientos para la Ejecución</h2>
         <ul>
-            <li><strong>Sistema Operativo:</strong> Windows (o el que soporte el navegador a utilizar).</li>
-            <li><strong>Aplicaciones/Software:</strong>
+            <li><strong>Sistema Operativo:</strong> Windows (donde se ejecutará el script Python y el navegador Chrome).</li>
+            <li><strong>Software:</strong>
                 <ul>
-                    <li>Un navegador web moderno (Ej: Chrome, Firefox, Edge).</li>
-                    <li>Microsoft Excel (para el archivo de entrada).</li>
-                    <li>Acceso a la Intranet con credenciales válidas.</li>
+                    <li>Python 3.11.9</li>
+                    <li>Navegador Google Chrome.</li>
+                    <li>WebDriver para Chrome (compatible con la versión de Chrome instalada).</li>
+                    <li>Microsoft Excel.</li>
                 </ul>
             </li>
-            <li><strong>Archivo de Entrada de Datos (Excel):</strong>
+            <li><strong>Librerías Python:</strong>
                 <ul>
-                    <li>Un archivo Excel proporcionado por el usuario.</li>
-                    <li>Debe contener, como mínimo, las siguientes columnas (la primera fila se considera el encabezado):
+                    <li><code>pandas</code></li>
+                    <li><code>selenium</code></li>
+                    <li><code>openpyxl</code> (generalmente instalada con pandas para soporte de `.xlsx`)</li>
+                </ul>
+            </li>
+            <li><strong>Archivos de Entrada:</strong>
+                <ul>
+                    <li><strong>Excel de Configuración (<code>settings.xlsx</code>):</strong> Ubicado en <code>Desktop\Bots_CoParticipacion\app\config\settings.xlsx</code>. Contiene URLs, credenciales y nombres de archivos.
                         <ul>
-                            <li><code>DNI_PACIENTE</code>: DNI del paciente para búsqueda y carga en historia clínica.</li>
-                            <li><code>DOCUMENTO_PACIENTE</code>: Número de documento del paciente (puede ser el mismo DNI u otro).</li>
-                            <li><code>SEXO_PACIENTE</code>: Sexo del paciente.</li>
-                            <li><code>NUMERO_INFORME</code>: Número de informe de la internación.</li>
-                            <li><code>MOTIVO_INGRESO</code>: Motivo del ingreso del paciente.</li>
-                            <li><code>FECHA_EGRESO</code>: Fecha de egreso del paciente.</li>
-                            <li><code>TIPO_EGRESO</code>: Tipo de egreso (Ej: Alta médica, traslado, etc.).</li>
-                            <li><code>DIAGNOSTICO</code>: Diagnóstico principal del egreso.</li>
-                            <li><code>FECHA_INGRESO</code>: Fecha de ingreso del paciente.</li>
-                            <li><code>SERVICIO</code>: Servicio donde estuvo internado el paciente.</li>
-                            <li>(Opcional) <code>ESTADO_CARGA</code>: Columna para que el robot marque el estado del procesamiento (Ej: "Cargado", "Error: Paciente no encontrado", etc.).</li>
+                            <li>CLAVES requeridas: <code>URL_LOGIN</code>, <code>URL_INTERN</code>, <code>Nombre Excel</code> (entrada principal), <code>EXCEL_OUT</code> (salida), <code>Usuario</code>, <code>Contraseña</code>.</li>
+                        </ul>
+                    </li>
+                    <li><strong>Excel de Pacientes (Entrada Principal):</strong> Nombre y ruta definidos en <code>settings.xlsx</code> (clave <code>Nombre Excel</code>). Debe contener como mínimo las columnas:
+                        <ul>
+                            <li><code>N° Documento</code>: DNI del paciente.</li>
+                            <li><code>Sexo</code>: (Ej: "MASCULINO", "FEMENINO").</li>
+                            <li><code>nro Informe</code></li>
+                            <li><code>Fecha Ingreso</code> (formato fecha)</li>
+                            <li><code>Fecha Egreso</code> (formato fecha)</li>
+                            <li><code>Tipo egreso</code> (Ej: "ALTA DEFINITIVA")</li>
+                            <li><code>Diagnostico de egreso</code> (código del diagnóstico)</li>
+                            <li><code>SERVICIO</code> (nombre del servicio)</li>
+                            <li>(Opcional para causas externas) <code>PRODUCIDO</code>, <code>LUGAR</code>, <code>COMO SE PRODUJO</code> (código de la causa)</li>
+                            <li><code>Resultado</code>: Columna para el feedback del bot (se actualizará a "OK" o con mensajes de error).</li>
+                        </ul>
+                    </li>
+                    <li><strong>Excel de Enfermedades por Sexo:</strong>
+                        <ul>
+                            <li><code>Desktop\Bots_CoParticipacion\Inputs\enfermedades_hombre.xlsx</code> (columnas: <code>id</code>, <code>nombre</code>)</li>
+                            <li><code>Desktop\Bots_CoParticipacion\Inputs\enfermedades_mujer.xlsx</code> (columnas: <code>id</code>, <code>nombre</code>)</li>
+                        </ul>
+                    </li>
+                     <li><strong>Excel de Causas Externas de Accidentes:</strong>
+                        <ul>
+                            <li><code>Desktop\Bots_CoParticipacion\Inputs\accidentes_causas.xlsx</code> (columnas: <code>id</code>, <code>nombre</code>)</li>
                         </ul>
                     </li>
                 </ul>
             </li>
-            <li><strong>Credenciales de Acceso:</strong>
-                <ul>
-                    <li>Usuario y contraseña para la Intranet (se recomienda gestionarlos de forma segura, ej. a través de un gestor de credenciales o variables de entorno).</li>
-                </ul>
-            </li>
-             <li><strong>Estructura de Carpetas (Sugerida):</strong>
-<pre>
-C:\RPA_CIPRES\
-├── Inputs\
-│   └── archivo_pacientes_cipres.xlsx
-├── Outputs\ (si se generan reportes o logs)
-└── Config\ (si se usa archivo de configuración para URL, credenciales, etc.)
-</pre>
-            </li>
+            <li><strong>Acceso a la Red/Intranet:</strong> El robot debe poder acceder a las URLs definidas en el archivo de configuración.</li>
         </ul>
+
+        <h2 id="configuracion-script">3. Configuración del Script</h2>
+        <p>El script utiliza un archivo <code>settings.xlsx</code> para cargar parámetros clave. La ruta base para la mayoría de los archivos es el escritorio del usuario (<code>os.path.expanduser("~") + "\\Desktop"</code>).</p>
+        <p>Además, se configuran diccionarios para mapear códigos a nombres para diagnósticos (separados por sexo) y causas externas, leídos desde archivos Excel específicos en la carpeta <code>Inputs</code>.</p>
+        <p class="script-feature">Se implementa un sistema de logging que guarda los registros en <code>Desktop\Bots_CoParticipacion\Logs\cipres_bot_YYYYMMDD_HHMMSS.log</code> y también los muestra en consola.</p>
 
         <div id="diagrama-flujo-seccion" style="margin-top: 30px;">
              <a href="diagrama_CargaCipres.html" class="view-flowchart-link" target="_blank">
@@ -146,125 +162,148 @@ C:\RPA_CIPRES\
             </a>
         </div>
 
-        <h2 id="flujo-ejecucion">4. Flujo de Ejecución</h2>
+        <h2 id="flujo-ejecucion">5. Flujo de Ejecución Detallado</h2>
         <ol>
-            <li><strong>Inicio del Proceso:</strong>
+            <li><strong>Inicialización (<code>CipresBot.__init__</code>):</strong>
                 <ul>
-                    <li>El robot es ejecutado.</li>
-                    <li>(Opcional) Lee un archivo de configuración para obtener la URL de la Intranet, ruta del Excel de entrada, etc.</li>
+                    <li>Configura el WebDriver de Selenium para Chrome (maximizado, con opciones para evitar detección).</li>
+                    <li>Carga el diccionario de causas externas desde <code>accidentes_causas.xlsx</code>.</li>
                 </ul>
             </li>
-            <li><strong>Abrir Navegador e Iniciar Sesión:</strong>
-                <ul>
-                    <li>Abre el navegador web especificado.</li>
-                    <li>Navega a la URL de la Intranet.</li>
-                    <li>Ingresa el usuario y la contraseña en los campos correspondientes.</li>
-                    <li>Hace clic en el botón de "Ingresar" o similar.</li>
-                    <li>Maneja posibles errores de login (ej. credenciales incorrectas).</li>
-                </ul>
+            <li><strong>Login (<code>CipresBot.login</code>):</strong>
+                <ol type="a">
+                    <li>Navega a <code>URL_LOGIN</code>.</li>
+                    <li>Ingresa <code>USERNAME</code> y <code>PASSWORD</code>.</li>
+                    <li>Envía el formulario de login.</li>
+                    <li>Hace clic en el enlace "CIPRES".</li>
+                    <li>Despliega el menú de navegación (<code>#navToggle</code>).</li>
+                    <li>Hace scroll y clic en "Gestión de:".</li>
+                    <li>Hace clic en el enlace de "Internación" para ir a la página principal de gestión.</li>
+                </ol>
             </li>
-            <li><strong>Navegación al Módulo de Internaciones:</strong>
-                <ul>
-                    <li>Una vez dentro de la Intranet, localiza y hace clic en la opción de menú "Pacientes".</li>
-                    <li>Dentro del submenú de "Pacientes", selecciona "Gestión de Internaciones".</li>
-                </ul>
-            </li>
-            <li><strong>Lectura del Archivo Excel de Entrada:</strong>
-                <ul>
-                    <li>Abre el archivo Excel proporcionado por el usuario.</li>
-                    <li>Lee los datos de los pacientes a procesar, típicamente iterando fila por fila.</li>
-                </ul>
-            </li>
-            <li><strong>Procesamiento por cada Paciente del Excel:</strong>
-                <ul>
-                    <li>Para cada fila (paciente) en el archivo Excel:
-                        <ol type="a">
-                            <li>Extrae los datos del paciente: <code>DNI_PACIENTE</code>, <code>DOCUMENTO_PACIENTE</code>, <code>SEXO_PACIENTE</code>, <code>NUMERO_INFORME</code>, etc.</li>
-                            <li><strong>Seleccionar Paciente:</strong>
+            <li><strong>Procesamiento del Excel (<code>CipresBot.procesar_excel</code>):</strong>
+                <ol type="a">
+                    <li>Carga el archivo Excel de pacientes (definido por <code>EXCEL_IN</code>).</li>
+                    <li>Crea una copia para mantener los resultados originales y otra para filtrar.</li>
+                    <li>Filtra las filas donde la columna "Resultado" no sea "OK" (para reintentar o procesar nuevos).</li>
+                    <li>Itera sobre cada fila filtrada (cada paciente):
+                        <ul>
+                            <li>Extrae "N° Documento" y "Sexo".</li>
+                            <li><strong>Búsqueda del Paciente (<code>CipresBot.buscar_paciente</code>):</strong>
                                 <ul>
-                                    <li>En la pantalla de "Gestión de Internaciones", busca la opción o campo para "Seleccionar Paciente" o buscar paciente (usualmente por DNI o Apellido y Nombre).</li>
-                                    <li>Ingresa el <code>DNI_PACIENTE</code> (o el criterio de búsqueda principal) y ejecuta la búsqueda.</li>
-                                    <li>Si el paciente no se encuentra, registra el error (ej. en la columna <code>ESTADO_CARGA</code> del Excel o en un log) y continúa con el siguiente paciente.</li>
+                                    <li>Navega a <code>URL_INTERN</code>.</li>
+                                    <li>Clic en botón "resto" (para limpiar/mostrar campos de búsqueda).</li>
+                                    <li>Ingresa el "N° Documento".</li>
+                                    <li>Selecciona el "Sexo" del paciente en el dropdown (mapeando el valor del Excel al texto visible en la web).</li>
+                                    <li>Clic en el botón "Buscar Paciente".</li>
+                                    <li>Si se encuentran resultados, hace clic en el primer botón "Seleccionar".</li>
+                                    <li><span class="script-feature">Incluye hasta 2 reintentos si el paciente no se encuentra inicialmente.</span></li>
+                                    <li>Si no se encuentra tras reintentos, se marca "Paciente no encontrado" en "Resultado" y se continúa con el siguiente.</li>
                                 </ul>
                             </li>
-                            <li><strong>Carga de Datos del Paciente (si se encontró):</strong>
+                            <li><strong>Agregar Internación (<code>CipresBot.agregar_internacion</code>):</strong>
                                 <ul>
-                                    <li>Una vez dentro del perfil/sección del paciente seleccionado:</li>
-                                    <li>Carga el <code>DOCUMENTO_PACIENTE</code> en el campo correspondiente.</li>
-                                    <li>Selecciona o carga el <code>SEXO_PACIENTE</code>.</li>
+                                    <li>Busca y hace clic en el botón "Agregar" (con icono de "+").</li>
+                                    <li>Espera a que los campos del formulario de internación estén presentes.</li>
+                                    <li>Modifica el atributo <code>maxlength</code> del campo diagnóstico (<code>internacion_diagnosticoP</code>) a 264.</li>
+                                    <li>Llena los campos:
+                                        <ul>
+                                            <li><code>internacion_historiaclinica</code> (con "N° Documento").</li>
+                                            <li><code>internacion_informe</code> (con "nro Informe").</li>
+                                            <li><code>internacion_fechaingreso</code> (formateada a dd/mm/yyyy).</li>
+                                            <li><code>internacion_fechaegreso</code> (formateada a dd/mm/yyyy).</li>
+                                        </ul>
+                                    </li>
+                                    <li>Selecciona "Tipo egreso" del dropdown (mapeando el valor del Excel).</li>
+                                    <li>Ingresa "Diagnostico de egreso":
+                                        <ul>
+                                            <li>Obtiene el nombre del diagnóstico usando el código del Excel y el diccionario correspondiente al sexo del paciente.</li>
+                                            <li>Escribe el nombre en <code>internacion_diagnosticoP</code>.</li>
+                                            <li>Espera la aparición de la lista de autocompletar, presiona FLECHA ABAJO y ENTER para seleccionar la primera sugerencia.</li>
+                                        </ul>
+                                    </li>
+                                    <li>Si hay errores al llenar el formulario, se marca el error en "Resultado" y se continúa.</li>
                                 </ul>
                             </li>
-                            <li><strong>Acciones y Agregar Nueva Internación:</strong>
+                            <li><strong>Agregar Servicio (<code>CipresBot.agregar_servicio</code>):</strong>
                                 <ul>
-                                    <li>Busca la sección de "Acciones" o similar.</li>
-                                    <li>Hace clic en el ícono o botón de "tilde" (correcto/confirmar/validar) si existe.</li>
-                                    <li>Hace clic en el botón "Agregar" (o "Nueva Internación", "Registrar Internación").</li>
+                                    <li>Si "Fecha Ingreso" y "SERVICIO" están presentes en el Excel:</li>
+                                    <li>Cuenta los campos de servicio existentes para determinar el índice del nuevo.</li>
+                                    <li>Hace clic en el botón "Agregar Servicio" (<code>.add-another-collection-widget</code>).</li>
+                                    <li>Llena la fecha del nuevo servicio (<code>internacion_servicio_X_fechaingreso</code>).</li>
+                                    <li>Escribe el nombre del servicio en <code>internacion_servicio_X_servicioP</code>.</li>
+                                    <li>Espera la aparición de la lista de autocompletar, presiona FLECHA ABAJO y ENTER.</li>
+                                    <li>Si hay errores, se marca en "Resultado".</li>
                                 </ul>
                             </li>
-                            <li><strong>Carga de Detalles de la Internación:</strong>
+                            <li><strong>Agregar Causa Externa (<code>CipresBot.agregar_causa_externa</code>):</strong>
                                 <ul>
-                                    <li>En el formulario de la nueva internación:</li>
-                                    <li>Campo "Historia Clínica": Ingresa el <code>DNI_PACIENTE</code>.</li>
-                                    <li>Campo "Número de Informe": Ingresa el <code>NUMERO_INFORME</code>.</li>
-                                    <li>Campo "Motivo Ingreso": Ingresa el <code>MOTIVO_INGRESO</code>.</li>
-                                    <li>Campo "Fecha Egreso": Ingresa o selecciona la <code>FECHA_EGRESO</code>.</li>
-                                    <li>Campo "Tipo Egreso": Selecciona o ingresa el <code>TIPO_EGRESO</code>.</li>
-                                    <li>Campo "Diagnóstico": Ingresa el <code>DIAGNOSTICO</code>.</li>
-                                    <li>Campo "Fecha Ingreso": Ingresa o selecciona la <code>FECHA_INGRESO</code>.</li>
-                                    <li>Campo "Servicio": Selecciona o ingresa el <code>SERVICIO</code>.</li>
+                                    <li>Si los campos "PRODUCIDO", "LUGAR" o "COMO SE PRODUJO" tienen datos en el Excel:</li>
+                                    <li>Selecciona "PRODUCIDO" del dropdown (mapeando valor).</li>
+                                    <li>Selecciona "LUGAR" del dropdown (mapeando valor).</li>
+                                    <li>Ingresa "COMO SE PRODUJO":
+                                        <ul>
+                                            <li>Obtiene el nombre de la causa usando el código del Excel y el diccionario <code>causas_dict</code>.</li>
+                                            <li>Escribe el nombre en <code>internacion_motivo</code>.</li>
+                                            <li>Espera la aparición de la lista de autocompletar, presiona FLECHA ABAJO y ENTER.</li>
+                                        </ul>
+                                    </li>
+                                    <li>Si hay errores, se marca en "Resultado".</li>
                                 </ul>
                             </li>
-                            <li><strong>Guardar Internación:</strong>
+                            <li><strong>Confirmar Guardado (<code>CipresBot.confirmar_guardado</code>):</strong>
                                 <ul>
-                                    <li>Hace clic en el botón "Guardar" (o "Aceptar", "Confirmar").</li>
-                                    <li>Verifica si hay mensajes de confirmación o error.</li>
-                                    <li>Si la carga es exitosa, actualiza el estado en el Excel (ej. <code>ESTADO_CARGA</code> = "Cargado").</li>
-                                    <li>Si hay un error en el guardado, registra el error y continúa.</li>
+                                    <li>Hace clic en el botón "guardar" (<code>#guardar</code>).</li>
+                                    <li>Espera un mensaje de confirmación (<code>div.alert.alert-ms.alert-success</code>) o error (<code>div.alert.alert-ms.alert-error</code>).</li>
+                                    <li>Actualiza la columna "Resultado" del Excel con el mensaje obtenido o "OK" si fue exitoso (en la copia <code>df1</code>).</li>
                                 </ul>
                             </li>
-                        </ol>
+                            <li>Navega de nuevo a la URL base de paciente (<code>URL_INTERN</code> o similar, actualmente es una URL fija en el script) para resetear la vista para el siguiente paciente. <span class="script-feature">(Anteriormente usaba <code>click_elegir_otro_paciente</code> que ahora parece ser un fallback).</span></li>
+                        </ul>
                     </li>
-                </ul>
+                </ol>
             </li>
-            <li><strong>Finalización del Proceso:</strong>
+            <li>Guarda el DataFrame con los resultados actualizados en el archivo Excel de salida (<code>EXCEL_OUT</code>).</li>
+            <li><strong>Cierre (<code>CipresBot.cerrar</code>):</strong>
                 <ul>
-                    <li>Una vez procesadas todas las filas del Excel:</li>
-                    <li>(Opcional) Cierra la sesión en la Intranet.</li>
-                    <li>Cierra el navegador web.</li>
-                    <li>(Opcional) Guarda el archivo Excel con los estados actualizados.</li>
-                    <li>(Opcional) Genera un reporte de resumen.</li>
+                    <li>Cierra el navegador.</li>
                 </ul>
             </li>
         </ol>
 
-        <h2 id="salidas">5. Salidas (Outputs)</h2>
+        <h2 id="salidas">6. Salidas (Outputs)</h2>
         <ul>
-            <li><strong>Archivo Excel de Entrada Modificado (Opcional):</strong>
+            <li><strong>Archivo Excel de Salida (<code>EXCEL_OUT</code>):</strong>
                 <ul>
-                    <li>Si se incluye una columna de estado (ej. <code>ESTADO_CARGA</code>), esta se actualizará para cada paciente indicando si la carga fue exitosa o si hubo algún error específico (ej. "Paciente no encontrado", "Error al guardar").</li>
+                    <li>Una copia del archivo de entrada principal, con la columna "Resultado" actualizada para cada paciente procesado. Contendrá "OK" para cargas exitosas o mensajes de error específicos.</li>
                 </ul>
             </li>
-            <li><strong>Registros en Logs (Recomendado):</strong>
+            <li><strong>Archivo de Log (<code>cipres_bot_YYYYMMDD_HHMMSS.log</code>):</strong>
                 <ul>
-                    <li>Un archivo de log detallando las acciones realizadas por el robot, incluyendo:
-                        <ul>
-                            <li>Inicio y fin del proceso.</li>
-                            <li>Pacientes procesados.</li>
-                            <li>Confirmaciones de carga exitosa.</li>
-                            <li>Cualquier error encontrado durante la búsqueda de pacientes, carga de datos o guardado, junto con el DNI del paciente afectado.</li>
-                        </ul>
-                    </li>
+                    <li>Ubicado en <code>Desktop\Bots_CoParticipacion\Logs\</code>.</li>
+                    <li>Contiene un registro detallado de las acciones del robot, incluyendo inicio/fin, procesamiento de cada fila, mensajes de éxito, advertencias y errores detallados con traceback.</li>
                 </ul>
             </li>
-            <li><strong>Reporte de Resumen (Opcional):</strong>
+            <li><strong>Capturas de Pantalla de Errores (Ocasionales):</strong>
                 <ul>
-                    <li>Un archivo (ej. CSV o Excel) resumiendo la cantidad de pacientes procesados, cuántos fueron cargados exitosamente y cuántos presentaron errores.</li>
+                    <li>En caso de ciertos errores críticos (ej. login, búsqueda de paciente, agregar internación, guardado), el script guarda capturas de pantalla en la carpeta <code>Outputs</code> (si existe) o en la raíz del script, con nombres como <code>error_buscar_DOCUMENTO_TIMESTAMP.png</code>.</li>
                 </ul>
             </li>
         </ul>
 
+        <h2 id="manejo-errores">7. Manejo de Errores y Logging</h2>
+        <p>El script implementa un robusto sistema de manejo de errores y logging:</p>
+        <ul>
+            <li><strong>Logging:</strong> Todas las acciones importantes, advertencias y errores se registran en un archivo de log y en la consola, facilitando la depuración y el seguimiento.</li>
+            <li><strong>Excepciones Específicas:</strong> Se capturan excepciones comunes de Selenium como <code>TimeoutException</code>, <code>NoSuchElementException</code>, <code>ElementClickInterceptedException</code>, <code>StaleElementReferenceException</code>.</li>
+            <li><strong>Funciones Seguras:</strong> <code>safe_click</code>, <code>safe_send_keys</code>, y <code>wait_and_find_element</code> encapsulan interacciones con elementos web para mayor resiliencia.</li>
+            <li><strong>Reintentos:</strong> La búsqueda de pacientes incluye un mecanismo de reintentos.</li>
+            <li><strong>Continuación del Proceso:</strong> Ante errores en el procesamiento de un paciente individual, el robot intenta registrar el error en el Excel y continuar con el siguiente paciente, en lugar de detener todo el proceso.</li>
+            <li><strong>Screenshots:</strong> Se toman capturas de pantalla en puntos críticos de error para ayudar a diagnosticar problemas visuales en la interfaz web.</li>
+        </ul>
+
         <div class="note">
-            <p><strong>Nota:</strong> Los nombres exactos de los botones, menús y campos en la Intranet pueden variar. Este flujo describe una secuencia general basada en la información proporcionada.</p>
+            <p><strong>Nota:</strong> Los selectores CSS y XPATH, así como los nombres de los campos y botones, son específicos de la interfaz web de CIPRES y podrían necesitar ajustes si la interfaz cambia.</p>
         </div>
     </div>
 </body>
