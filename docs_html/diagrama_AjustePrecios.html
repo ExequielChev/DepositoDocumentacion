@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Diagrama de Flujo: Ajuste de precios</title> <!-- CAMBIAR TÍTULO -->
+    <title>Diagrama de Flujo: Carga de CIPRES</title>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -16,12 +16,15 @@
             min-height: 100vh;
         }
         .header-nav {
-            background-color: #005f73; /* Mismo color que el header del index */
+            background-color: #005f73;
             color: white;
             padding: 15px 0;
             text-align: center;
             width: 100%;
             box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            position: sticky;
+            top: 0;
+            z-index: 100;
         }
         .header-nav a {
             color: white;
@@ -34,49 +37,77 @@
         .header-nav a:hover {
             background-color: #0a9396;
         }
-        .diagram-container {
-            background-color: #fff;
-            padding: 30px;
-            margin: 30px;
-            border-radius: 8px;
-            box-shadow: 0 0 15px rgba(0,0,0,0.15);
-            text-align: center;
-            max-width: 90%; /* Ajusta según el tamaño de tus diagramas */
-        }
-        .diagram-container h1 {
+        .diagram-title {
             color: #2c3e50;
-            margin-bottom: 25px;
-            border-bottom: 2px solid #3498db;
-            padding-bottom: 10px;
+            margin-top: 25px;
+            margin-bottom: 15px;
+            text-align: center;
+            font-size: 1.8em;
         }
-        .diagram-container img {
-            max-width: 100%;
-            height: auto;
-            border: 1px solid #ddd;
-            border-radius: 4px;
+        .diagram-viewport {
+            width: 90%;
+            max-width: 1000px;
+            height: 70vh;
+            border: 1px solid #ccc;
+            overflow: hidden; /* Muy importante */
+            position: relative;
+            margin: 20px auto;
+            background-color: #fff;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+            border-radius: 8px;
+            /* El cursor se manejará con JS */
         }
+        /* .diagram-viewport.zoomed-in { */
+            /* cursor: grab;  Podríamos cambiarlo a 'grab' o 'move' cuando está zoomeado */
+        /* } */
+        /* .diagram-viewport.zoomed-in:active { */
+            /* cursor: grabbing; */
+        /* } */
+        .diagram-viewport img {
+            display: block;
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+            transition: transform 0.3s ease-out; /* La transición solo para el scale inicial/final */
+            transform-origin: center center;
+            /* Evitar que la imagen sea arrastrable por el navegador por defecto */
+            pointer-events: none; /* La imagen en sí no captura eventos de mouse, el viewport sí */
+        }
+        /* Clase para aplicar el zoom */
+        .diagram-viewport.zoomed-in img {
+            transform: scale(7); /* Factor de zoom */
+            /* La transición aquí podría hacer el paneo menos responsivo, por eso la tenemos solo en el estado base */
+        }
+
         .footer-nav {
-            margin-top: auto; /* Empuja el footer hacia abajo */
+            margin-top: auto;
             padding: 20px 0;
             text-align: center;
             width: 100%;
-            background-color: #2a3236; /* Mismo color que el footer del index */
+            background-color: #2a3236;
             color: #bbb;
         }
          .footer-nav p {
             margin: 5px 0;
         }
+        .instructions {
+            text-align: center;
+            color: #555;
+            margin-bottom: 20px;
+            font-style: italic;
+        }
     </style>
 </head>
 <body>
     <div class="header-nav">
-        <!-- CAMBIAR EL href PARA VOLVER AL DOCUMENTO PRINCIPAL CORRECTO -->
-        <a href="documentacion_AjustePrecios.html">« Volver a la Documentación Principal</a>
+        <a href="documentacion_cipres.html">« Volver a la Documentación Principal</a>
     </div>
 
-    <div class="diagram-container">
-        <h1>Diagrama de Flujo: Ajuste de Precios</h1> <!-- CAMBIAR TÍTULO -->
-        <img src="images/flowchart_AjustePrecios.svg" alt="Diagrama de Flujo del Proceso Ajuste de Precios"> <!-- CAMBIAR SRC Y ALT -->
+    <h1 class="diagram-title">Diagrama de Flujo: Carga de CIPRES</h1>
+    <p class="instructions">Haz clic en el diagrama para acercar. Mueve el mouse para explorar. Haz clic de nuevo para alejar.</p>
+
+    <div class="diagram-viewport" id="diagramViewport">
+        <img src="images/flowchart_AjustePrecios.svg" alt="Diagrama de Flujo del Proceso Carga de CIPRES" id="flowchartImage">
     </div>
 
     <div class="footer-nav">
@@ -84,6 +115,68 @@
     </div>
     <script>
         document.getElementById('currentYear').textContent = new Date().getFullYear();
+
+        const viewport = document.getElementById('diagramViewport');
+        const image = document.getElementById('flowchartImage');
+        let isZoomed = false;
+
+        if (viewport && image) {
+            // Función para actualizar el origen de la transformación (paneo)
+            function panImage(e) {
+                if (!isZoomed) return; // Solo panear si está zoomeado
+
+                const rect = viewport.getBoundingClientRect();
+                const x = e.clientX - rect.left;
+                const y = e.clientY - rect.top;
+
+                const xPercent = (x / rect.width) * 100;
+                const yPercent = (y / rect.height) * 100;
+
+                // Aplicar el origen de la transformación para que el "centro" del zoom siga al cursor
+                // Usamos requestAnimationFrame para un paneo más suave
+                requestAnimationFrame(() => {
+                    image.style.transformOrigin = `${xPercent}% ${yPercent}%`;
+                });
+            }
+
+            // Evento de clic para alternar el zoom
+            viewport.addEventListener('click', function(e) {
+                if (!isZoomed) {
+                    // Aplicar zoom
+                    // El primer clic establece el origen del zoom inicial
+                    const rect = viewport.getBoundingClientRect();
+                    const x = e.clientX - rect.left;
+                    const y = e.clientY - rect.top;
+                    const xPercent = (x / rect.width) * 100;
+                    const yPercent = (y / rect.height) * 100;
+                    
+                    image.style.transition = 'transform 0.3s ease-out'; // Activar transición para el zoom inicial
+                    image.style.transformOrigin = `${xPercent}% ${yPercent}%`;
+                    viewport.classList.add('zoomed-in');
+                    viewport.style.cursor = 'grab'; // o 'move'
+                    isZoomed = true;
+                    // Una vez zoomeado, el movimiento del mouse controlará el paneo
+                    viewport.addEventListener('mousemove', panImage);
+                } else {
+                    // Quitar zoom
+                    image.style.transition = 'transform 0.3s ease-out'; // Activar transición para alejar
+                    viewport.classList.remove('zoomed-in');
+                    image.style.transformOrigin = 'center center'; // Opcional: resetear origen
+                    viewport.style.cursor = 'zoom-in';
+                    isZoomed = false;
+                    // Dejar de escuchar el movimiento del mouse para paneo
+                    viewport.removeEventListener('mousemove', panImage);
+                }
+            });
+
+            // Opcional: Resetear cursor si el mouse sale del viewport mientras está zoomeado
+            viewport.addEventListener('mouseleave', function() {
+                if (isZoomed) {
+                    // Podrías querer que el paneo se detenga o se mantenga el último estado
+                    // Por simplicidad, no hacemos nada aquí, el paneo se reanudará si vuelve a entrar
+                }
+            });
+        }
     </script>
 </body>
 </html>
