@@ -14,6 +14,7 @@
             justify-content: center;
             align-items: center;
             margin-bottom: 30px;
+            margin-top: 30px;
             flex-wrap: wrap;
         }
         .filter-label {
@@ -61,7 +62,7 @@
                     <option value="">Todos</option>
                     <option value="Cheveste Zahir">Cheveste Zahir</option>
                     <option value="Ortiz Emilio">Ortiz Emilio</option>
-                    <option value="Carbini Santiago">Carbini Santiago</option>
+                    <!-- <option value="Carbini Santiago">Carbini Santiago</option> -->
                 </select>
             <label for="filtroEstado" class="filter-label">Filtrar por estado:</label>
             <select id="filtroEstado" class="filter-select">
@@ -82,7 +83,7 @@
 
             <section class="document-grid" id="documentGrid">
                 <!-- Carga de Artículos -->
-                <article class="document-card" data-desarrollador="Cheveste Zahir" data-estado="proyecto" data-fecha-inicio="2024-07-01" data-fecha-fin="2024-07-22">
+                <article class="document-card" data-desarrollador="Cheveste Zahir" data-estado="Finalizado" data-fecha-inicio="2024-07-01" data-fecha-fin="2024-07-22">
                     <div class="card-content">
                         <h2>Carga de Artículos (CargaArt)</h2>
                         <p class="description">Creación o actualización de artículos y sus agrupamientos en Major desde un Excel.</p>
@@ -94,20 +95,21 @@
                             <p><strong>Desarrollador:</strong> Cheveste Zahir</p>
                             <p><strong>Fecha inicio:</strong> <span class="fecha-inicio">01/07/2024</span></p>
                             <p><strong>Fecha fin:</strong> <span class="fecha-fin">22/07/2024</span></p>
-                            <p><strong>Estado:</strong>
-                                <select class="estado-select">
-                                    <option value="proyecto" selected>Proyecto (sin comenzar)</option>
-                                    <option value="desarrollo">En desarrollo</option>
-                                    <option value="pausa">En pausa</option>
-                                    <option value="finalizado">Finalizado</option>
-                                </select>
+                            <p>
+                                <strong>Estado:</strong>
+                                <span class="estado-label estado-finalizado">Finalizado</span>
+                                <!--
+                                <span class="estado-label estado-desarrollo">En desarrollo</span>
+                                <span class="estado-label estado-proyecto">Proyecto (sin comenzar)</span>
+                                <span class="estado-label estado-pausa">En pausa</span>
+                                -->
                             </p>
                         </div>
                     </div>
                     <a href="docs_html/documentacion_CargaArt.html" class="btn">Ver Documentación</a>
                 </article>
                 <!-- Ajustes de Stock -->
-                <article class="document-card" data-desarrollador="Cheveste Zahir" data-estado="desarrollo" data-fecha-inicio="2024-06-15" data-fecha-fin="2024-07-25">
+                <article class="document-card" data-desarrollador="Cheveste Zahir" data-estado="Finalizado" data-fecha-inicio="2024-06-15" data-fecha-fin="2024-07-25">
                     <div class="card-content">
                         <h2>Ajustes de Stock</h2>
                         <p class="description">Actualización de cantidades de artículos en Major utilizando un archivo Excel de entrada.</p>
@@ -119,13 +121,14 @@
                             <p><strong>Desarrollador:</strong> Cheveste Zahir</p>
                             <p><strong>Fecha inicio:</strong> <span class="fecha-inicio">15/06/2024</span></p>
                             <p><strong>Fecha fin:</strong> <span class="fecha-fin">25/07/2024</span></p>
-                            <p><strong>Estado:</strong>
-                                <select class="estado-select">
-                                    <option value="proyecto">Proyecto (sin comenzar)</option>
-                                    <option value="desarrollo" selected>En desarrollo</option>
-                                    <option value="pausa">En pausa</option>
-                                    <option value="finalizado">Finalizado</option>
-                                </select>
+                            <p>
+                                <strong>Estado:</strong>
+                                <span class="estado-label estado-finalizado">Finalizado</span>
+                                <!--
+                                <span class="estado-label estado-desarrollo">En desarrollo</span>
+                                <span class="estado-label estado-proyecto">Proyecto (sin comenzar)</span>
+                                <span class="estado-label estado-pausa">En pausa</span>
+                                -->
                             </p>
                         </div>
                     </div>
@@ -144,20 +147,21 @@
                             <p><strong>Desarrollador:</strong> Cheveste Zahir</p>
                             <p><strong>Fecha inicio:</strong> <span class="fecha-inicio">01/05/2024</span></p>
                             <p><strong>Fecha fin:</strong> <span class="fecha-fin">01/06/2024</span></p>
-                            <p><strong>Estado:</strong>
-                                <select class="estado-select">
-                                    <option value="proyecto">Proyecto (sin comenzar)</option>
-                                    <option value="desarrollo">En desarrollo</option>
-                                    <option value="pausa">En pausa</option>
-                                    <option value="finalizado" selected>Finalizado</option>
-                                </select>
+                            <p>
+                                <strong>Estado:</strong>
+                                <span class="estado-label estado-finalizado">Finalizado</span>
+                                <!--
+                                <span class="estado-label estado-desarrollo">En desarrollo</span>
+                                <span class="estado-label estado-proyecto">Proyecto (sin comenzar)</span>
+                                <span class="estado-label estado-pausa">En pausa</span>
+                                -->
                             </p>
                         </div>
                     </div>
                     <a href="docs_html/documentacion_CargaDeposito.html" class="btn">Ver Documentación</a>
                 </article>
                 <!-- Ajuste de Precios -->
-                <article class="document-card" data-desarrollador="Cheveste Zahir" data-estado="proyecto" data-fecha-inicio="2024-07-10" data-fecha-fin="2024-07-28">
+                <article class="document-card" data-desarrollador="Cheveste Zahir" data-estado="Finalizado" data-fecha-inicio="2024-07-10" data-fecha-fin="2024-07-28">
                     <div class="card-content">
                         <h2>Ajuste de Precios (AjustePrecios)</h2>
                         <p class="description">Actualización de precios de artículos en Major y activación opcional de valorización de consumo OC.</p>
@@ -169,20 +173,21 @@
                             <p><strong>Desarrollador:</strong> Cheveste Zahir</p>
                             <p><strong>Fecha inicio:</strong> <span class="fecha-inicio">10/07/2024</span></p>
                             <p><strong>Fecha fin:</strong> <span class="fecha-fin">28/07/2024</span></p>
-                            <p><strong>Estado:</strong>
-                                <select class="estado-select">
-                                    <option value="proyecto" selected>Proyecto (sin comenzar)</option>
-                                    <option value="desarrollo">En desarrollo</option>
-                                    <option value="pausa">En pausa</option>
-                                    <option value="finalizado">Finalizado</option>
-                                </select>
+                            <p>
+                                <strong>Estado:</strong>
+                                <span class="estado-label estado-finalizado">Finalizado</span>
+                                <!--
+                                <span class="estado-label estado-desarrollo">En desarrollo</span>
+                                <span class="estado-label estado-proyecto">Proyecto (sin comenzar)</span>
+                                <span class="estado-label estado-pausa">En pausa</span>
+                                -->
                             </p>
                         </div>
                     </div>
                     <a href="docs_html/documentacion_AjustePrecios.html" class="btn">Ver Documentación</a>
                 </article>
                 <!-- Transferencia de Inventario -->
-                <article class="document-card" data-desarrollador="Cheveste Zahir" data-estado="desarrollo" data-fecha-inicio="2024-07-01" data-fecha-fin="2024-08-01">
+                <article class="document-card" data-desarrollador="Cheveste Zahir" data-estado="Finalizado" data-fecha-inicio="2024-07-01" data-fecha-fin="2024-08-01">
                     <div class="card-content">
                         <h2>Transferencia de Inventario (Transferencia)</h2>
                         <p class="description">Automatización de la creación y registro de transferencias de productos entre depósitos.</p>
@@ -194,20 +199,21 @@
                             <p><strong>Desarrollador:</strong> Cheveste Zahir</p>
                             <p><strong>Fecha inicio:</strong> <span class="fecha-inicio">01/07/2024</span></p>
                             <p><strong>Fecha fin:</strong> <span class="fecha-fin">01/08/2024</span></p>
-                            <p><strong>Estado:</strong>
-                                <select class="estado-select">
-                                    <option value="proyecto">Proyecto (sin comenzar)</option>
-                                    <option value="desarrollo" selected>En desarrollo</option>
-                                    <option value="pausa">En pausa</option>
-                                    <option value="finalizado">Finalizado</option>
-                                </select>
+                            <p>
+                                <strong>Estado:</strong>
+                                <span class="estado-label estado-finalizado">Finalizado</span>
+                                <!--
+                                <span class="estado-label estado-desarrollo">En desarrollo</span>
+                                <span class="estado-label estado-proyecto">Proyecto (sin comenzar)</span>
+                                <span class="estado-label estado-pausa">En pausa</span>
+                                -->
                             </p>
                         </div>
                     </div>
                     <a href="docs_html/documentacion_Transferencia.html" class="btn">Ver Documentación</a>
                 </article>
                 <!-- Sistema de gestion de camas (Intranet) -->
-                <article class="document-card" data-desarrollador="Cheveste Zahir" data-estado="pausa" data-fecha-inicio="2024-06-10" data-fecha-fin="2024-07-18">
+                <article class="document-card" data-desarrollador="Cheveste Zahir" data-estado="Proyecto" data-fecha-inicio="2024-06-10" data-fecha-fin="2024-07-18">
                     <div class="card-content">
                         <h2>Sistema de gestion de camas (Intranet)</h2>
                         <p class="description">Automatización la carga y registro de pacientes en el sistema de gestion de camas.</p>
@@ -219,45 +225,21 @@
                             <p><strong>Desarrollador:</strong> Cheveste Zahir</p>
                             <p><strong>Fecha inicio:</strong> <span class="fecha-inicio">10/06/2024</span></p>
                             <p><strong>Fecha fin:</strong> <span class="fecha-fin">18/07/2024</span></p>
-                            <p><strong>Estado:</strong>
-                                <select class="estado-select">
-                                    <option value="proyecto">Proyecto (sin comenzar)</option>
-                                    <option value="desarrollo">En desarrollo</option>
-                                    <option value="pausa" selected>En pausa</option>
-                                    <option value="finalizado">Finalizado</option>
-                                </select>
+                            <p>
+                                <strong>Estado:</strong>
+                                <span class="estado-label estado-proyecto">Proyecto (sin comenzar)</span>
+                                <!--
+                                    <span class="estado-label estado-finalizado">Finalizado</span>
+                                <span class="estado-label estado-desarrollo">En desarrollo</span>
+                                <span class="estado-label estado-pausa">En pausa</span>
+                                -->
                             </p>
                         </div>
                     </div>
                     <a href="docs_html/documentacionSGC.html" class="btn">Ver Documentación</a>
                 </article>
-                <!-- Aplicacion de Pagos -->
-                <article class="document-card" data-desarrollador="Carbini Santiago" data-estado="finalizado" data-fecha-inicio="2024-05-20" data-fecha-fin="2024-06-30">
-                    <div class="card-content">
-                        <h2>Aplicacion de Pagos</h2>
-                        <p class="description">Automatización de la creación de reportes de pagos.</p>
-                        <div class="card-details">
-                            <p><strong>Servidor:</strong> SRV-OPS03</p>
-                            <p><strong>Periodicidad:</strong> --</p>
-                            <p><strong>Sector Responsable:</strong> Contabilidad</p>
-                            <p><strong>Persona Responsable:</strong> Rodrigo</p>
-                            <p><strong>Desarrollador:</strong> Carbini Santiago</p>
-                            <p><strong>Fecha inicio:</strong> <span class="fecha-inicio">20/05/2024</span></p>
-                            <p><strong>Fecha fin:</strong> <span class="fecha-fin">30/06/2024</span></p>
-                            <p><strong>Estado:</strong>
-                                <select class="estado-select">
-                                    <option value="proyecto">Proyecto (sin comenzar)</option>
-                                    <option value="desarrollo">En desarrollo</option>
-                                    <option value="pausa">En pausa</option>
-                                    <option value="finalizado" selected>Finalizado</option>
-                                </select>
-                            </p>
-                        </div>
-                    </div>
-                    <a href="docs_html/app_pagos.html" class="btn">Ver Documentación</a>
-                </article>
                 <!-- Bot CIPRES -->
-                <article class="document-card" data-desarrollador="Cheveste Zahir" data-estado="proyecto" data-fecha-inicio="2024-07-05" data-fecha-fin="2024-08-02">
+                <article class="document-card" data-desarrollador="Cheveste Zahir" data-estado="desarrollo" data-fecha-inicio="2024-07-05" data-fecha-fin="2024-08-02">
                     <div class="card-content">
                         <h2>Bot CIPRES</h2>
                         <p class="description">Automatización de la carga del modulo CIPRES.</p>
@@ -269,13 +251,14 @@
                             <p><strong>Desarrollador:</strong> Cheveste Zahir</p>
                             <p><strong>Fecha inicio:</strong> <span class="fecha-inicio">05/07/2024</span></p>
                             <p><strong>Fecha fin:</strong> <span class="fecha-fin">02/08/2024</span></p>
-                            <p><strong>Estado:</strong>
-                                <select class="estado-select">
-                                    <option value="proyecto" selected>Proyecto (sin comenzar)</option>
-                                    <option value="desarrollo">En desarrollo</option>
-                                    <option value="pausa">En pausa</option>
-                                    <option value="finalizado">Finalizado</option>
-                                </select>
+                            <p>
+                                <strong>Estado:</strong>
+                                <span class="estado-label estado-desarrollo">En desarrollo</span>
+                                <!--
+                                <span class="estado-label estado-finalizado">Finalizado</span>
+                                <span class="estado-label estado-proyecto">Proyecto (sin comenzar)</span>
+                                <span class="estado-label estado-pausa">En pausa</span>
+                                -->
                             </p>
                         </div>
                     </div>
@@ -294,172 +277,70 @@
         </div>
     </footer>
 
-    <script>
-        document.getElementById('currentYear').textContent = new Date().getFullYear();
+<script>
+document.getElementById('currentYear').textContent = new Date().getFullYear();
 
-        // Lógica del Buscador
-        const searchInput = document.getElementById('searchInput');
-        const searchButton = document.getElementById('searchButton');
-        const documentGrid = document.getElementById('documentGrid');
-        const cards = Array.from(documentGrid.getElementsByClassName('document-card'));
-        const noResultsMessage = document.getElementById('noResultsMessage');
+// Referencias
+const searchInput = document.getElementById('searchInput');
+const searchButton = document.getElementById('searchButton');
+const documentGrid = document.getElementById('documentGrid');
+const cards = Array.from(documentGrid.getElementsByClassName('document-card'));
+const noResultsMessage = document.getElementById('noResultsMessage');
+const filtroDesarrollador = document.getElementById('filtroDesarrollador');
+const filtroEstado = document.getElementById('filtroEstado');
 
-        function filterCards() {
-            const searchTerm = searchInput.value.toLowerCase().trim();
-            let resultsFound = false;
+// ÚNICA función de filtros y orden
+function aplicarFiltros() {
+    const valorDesarrollador = filtroDesarrollador.value.toLowerCase();
+    const valorEstado = filtroEstado.value.toLowerCase();
+    const searchTerm = searchInput.value.toLowerCase().trim();
+    let found = false;
 
-            cards.forEach(card => {
-                const title = card.querySelector('h2').textContent.toLowerCase();
-                const description = card.querySelector('.description').textContent.toLowerCase();
-                const details = card.querySelector('.card-details').textContent.toLowerCase();
-                const dev = card.getAttribute('data-desarrollador')?.toLowerCase() || '';
-                const estado = card.getAttribute('data-estado')?.toLowerCase() || '';
-                const cardText = title + ' ' + description + ' ' + details + ' ' + dev + ' ' + estado;
-                if (cardText.includes(searchTerm)) {
-                    card.style.display = '';
-                    resultsFound = true;
-                } else {
-                    card.style.display = 'none';
-                }
-            });
+    cards.forEach(card => {
+        const dev = card.getAttribute('data-desarrollador')?.toLowerCase() || '';
+        const estado = card.getAttribute('data-estado')?.toLowerCase() || '';
+        const title = card.querySelector('h2').textContent.toLowerCase();
+        const description = card.querySelector('.description').textContent.toLowerCase();
+        const details = card.querySelector('.card-details').textContent.toLowerCase();
+        const cardText = title + ' ' + description + ' ' + details + ' ' + dev + ' ' + estado;
 
-            noResultsMessage.style.display = resultsFound ? 'none' : 'block';
+        const coincideDesarrollador = !valorDesarrollador || dev === valorDesarrollador;
+        const coincideEstado = !valorEstado || estado === valorEstado;
+        const coincideBusqueda = !searchTerm || cardText.includes(searchTerm);
+
+        if (coincideDesarrollador && coincideEstado && coincideBusqueda) {
+            card.style.display = '';
+            found = true;
+        } else {
+            card.style.display = 'none';
         }
-
-        searchInput.addEventListener('keyup', filterCards);
-        searchButton.addEventListener('click', filterCards);
-
-        // Filtro por desarrollador
-        const filtroDesarrollador = document.getElementById('filtroDesarrollador');
-        filtroDesarrollador.addEventListener('change', function() {
-            const valor = this.value.toLowerCase();
-            let found = false;
-            cards.forEach(card => {
-                const dev = card.getAttribute('data-desarrollador')?.toLowerCase() || '';
-                if (!valor || dev === valor) {
-                    card.style.display = '';
-                    found = true;
-                } else {
-                    card.style.display = 'none';
-                }
-            });
-            noResultsMessage.style.display = found ? 'none' : 'block';
-        });
-
-        // Ordenar tarjetas según estado
-        function ordenarTarjetas() {
-            const estadosOrden = ['desarrollo', 'proyecto', 'pausa', 'finalizado'];
-            const cardsArray = Array.from(documentGrid.children);
-            cardsArray.sort((a, b) => {
-                const estadoA = a.querySelector('.estado-select')?.value || a.getAttribute('data-estado');
-                const estadoB = b.querySelector('.estado-select')?.value || b.getAttribute('data-estado');
-                return estadosOrden.indexOf(estadoA) - estadosOrden.indexOf(estadoB);
-            });
-            cardsArray.forEach(card => documentGrid.appendChild(card));
-        }
-            // NUEVO: Función para setear el color del select según estado
-            function setEstadoColor(select) {
-                select.classList.remove('estado-proyecto', 'estado-desarrollo', 'estado-pausa', 'estado-finalizado');
-                switch(select.value) {
-                    case 'proyecto':
-                        select.classList.add('estado-proyecto'); break;
-                    case 'desarrollo':
-                        select.classList.add('estado-desarrollo'); break;
-                    case 'pausa':
-                        select.classList.add('estado-pausa'); break;
-                    case 'finalizado':
-                        select.classList.add('estado-finalizado'); break;
-                }
-            }
-
-            // Aplica el color inicial y cada vez que cambia
-            document.querySelectorAll('.estado-select').forEach(select => {
-                setEstadoColor(select); // Color inicial al cargar
-                select.addEventListener('change', function() {
-                    const card = this.closest('.document-card');
-                    card.setAttribute('data-estado', this.value);
-                    setEstadoColor(this); // Aplica el color al cambiar
-                    ordenarTarjetas();
-                });
-            });
-
-            // Guardar el estado de los selects en localStorage
-            function saveEstadosToLocalStorage() {
-                const estados = {};
-                document.querySelectorAll('.document-card').forEach(card => {
-                    const id = card.querySelector('h2').textContent.trim();
-                    const estado = card.querySelector('.estado-select').value;
-                    estados[id] = estado;
-                });
-                localStorage.setItem('estadoTarjetas', JSON.stringify(estados));
-            }
-
-            // Cargar el estado de los selects desde localStorage
-            function loadEstadosFromLocalStorage() {
-                const estados = JSON.parse(localStorage.getItem('estadoTarjetas') || '{}');
-                document.querySelectorAll('.document-card').forEach(card => {
-                    const id = card.querySelector('h2').textContent.trim();
-                    if (estados[id]) {
-                        const select = card.querySelector('.estado-select');
-                        select.value = estados[id];
-                        setEstadoColor(select); // actualiza color si recargás
-                        card.setAttribute('data-estado', estados[id]);
-                    }
-                });
-                ordenarTarjetas();
-            }
-
-            // Guardar cuando cambia un select
-            document.querySelectorAll('.estado-select').forEach(select => {
-                select.addEventListener('change', function() {
-                    saveEstadosToLocalStorage();
-                });
-            });
-
-            // Cargar los estados guardados al iniciar la página
-            loadEstadosFromLocalStorage();
-
-
-        // Ejecutar orden al cargar
-        ordenarTarjetas();
-
-    const filtroEstado = document.getElementById('filtroEstado');
-    filtroEstado.addEventListener('change', function() {
-        aplicarFiltros();
     });
-    filtroDesarrollador.addEventListener('change', function() {
-        aplicarFiltros();
+    noResultsMessage.style.display = found ? 'none' : 'block';
+
+    ordenarTarjetas();
+}
+
+// Ordena SOLO las visibles (por estado)
+function ordenarTarjetas() {
+    const estadosOrden = ['desarrollo', 'pausa', 'proyecto', 'finalizado'];
+    const visibles = Array.from(documentGrid.children).filter(card => card.style.display !== 'none');
+    visibles.sort((a, b) => {
+        const estadoA = (a.getAttribute('data-estado') || '').toLowerCase();
+        const estadoB = (b.getAttribute('data-estado') || '').toLowerCase();
+        return estadosOrden.indexOf(estadoA) - estadosOrden.indexOf(estadoB);
     });
-    searchInput.addEventListener('keyup', aplicarFiltros);
-    searchButton.addEventListener('click', aplicarFiltros);
+    visibles.forEach(card => documentGrid.appendChild(card));
+}
 
-    function aplicarFiltros() {
-        const valorDesarrollador = filtroDesarrollador.value.toLowerCase();
-        const valorEstado = filtroEstado.value.toLowerCase();
-        const searchTerm = searchInput.value.toLowerCase().trim();
-        let found = false;
-        cards.forEach(card => {
-            const dev = card.getAttribute('data-desarrollador')?.toLowerCase() || '';
-            const estado = card.getAttribute('data-estado')?.toLowerCase() || '';
-            const title = card.querySelector('h2').textContent.toLowerCase();
-            const description = card.querySelector('.description').textContent.toLowerCase();
-            const details = card.querySelector('.card-details').textContent.toLowerCase();
-            const cardText = title + ' ' + description + ' ' + details + ' ' + dev + ' ' + estado;
+// Listeners para todos los filtros
+searchInput.addEventListener('keyup', aplicarFiltros);
+searchButton.addEventListener('click', aplicarFiltros);
+filtroEstado.addEventListener('change', aplicarFiltros);
+filtroDesarrollador.addEventListener('change', aplicarFiltros);
 
-            const coincideDesarrollador = !valorDesarrollador || dev === valorDesarrollador;
-            const coincideEstado = !valorEstado || estado === valorEstado;
-            const coincideBusqueda = !searchTerm || cardText.includes(searchTerm);
+// Al cargar la página
+aplicarFiltros();
+</script>
 
-            if (coincideDesarrollador && coincideEstado && coincideBusqueda) {
-                card.style.display = '';
-                found = true;
-            } else {
-                card.style.display = 'none';
-            }
-        });
-        noResultsMessage.style.display = found ? 'none' : 'block';
-    }
-
-    </script>
 </body>
 </html>
