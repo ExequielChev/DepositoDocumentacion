@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Documentación del Proceso: Automatización de Pagos</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif; line-height: 1.6; margin: 0;
+            background-color: #f4f4f4; color: #333; padding: 20px;
+        }
+        .container {
+            background-color: #fff; padding: 20px; border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+            max-width: 900px; margin: 0 auto 20px auto;
+        }
+        h1, h2, h3, h4 { color: #2c3e50; }
+        h1 { text-align: center; border-bottom: 2px solid #3498db; padding-bottom: 10px; margin-bottom: 20px; }
+        h2 { border-bottom: 1px solid #bdc3c7; padding-bottom: 5px; margin-top: 30px; }
+        .page-navigation {
+            display: flex;
+            justify-content: flex-end;
+            padding: 0 0 15px 0;
+        }
+        .back-to-index-btn {
+            background-color: #6c757d; color: white !important; padding: 8px 15px;
+            text-decoration: none; border-radius: 5px; font-size: 0.9em;
+            transition: background-color 0.3s ease; border: none;
+        }
+        .back-to-index-btn:hover { background-color: #5a6268; }
+
+        .index {
+            margin-bottom: 30px; padding: 20px; background-color: #eef7ff;
+            border: 1px solid #cce0ff; border-radius: 8px;
+        }
+        .index h2 {
+            margin-top: 0; margin-bottom: 15px; color: #005f73;
+            font-size: 1.5em; border-bottom: none;
+        }
+        .index ol { list-style-type: decimal; margin-left: 20px; padding-left: 0; }
+        .index ol li { margin-bottom: 8px; }
+        .index ol li a { text-decoration: none; color: #2980b9; font-weight: 500; }
+        .index ol li a:hover { text-decoration: underline; color: #1c5a85; }
+
+        ul, ol:not(.index ol) {
+            list-style-type: disc; margin-left: 20px;
+        }
+        h3 { margin-top: 20px; color: #34495e;}
+        li { margin-bottom: 8px;}
+        strong { color: #2980b9;}
+        code {
+            background-color: #ecf0f1; padding: 2px 5px; border-radius: 4px;
+            font-family: Consolas, Monaco, 'Andale Mono', 'Ubuntu Mono', monospace;
+        }
+        .note {
+            background-color: #e8f6fd; border-left: 5px solid #3498db;
+            padding: 10px; margin: 15px 0;
+        }
+        .view-flowchart-link {
+            display: inline-block; background-color: #3498db; color: white !important;
+            padding: 10px 15px; text-decoration: none; border-radius: 5px;
+            font-size: 0.95em; transition: background-color 0.3s ease;
+            margin-bottom: 10px; border: none;
+        }
+        .view-flowchart-link:hover { background-color: #2980b9; color: white !important; }
+    </style>
+</head>
+<body>
+    <div class="container" style="background-color: transparent; box-shadow: none; padding-bottom:0; margin-bottom:0;">
+        <div class="page-navigation">
+            <a href="../index.html" class="back-to-index-btn">« Volver al Inicio</a>
+        </div>
+    </div>
+
+    <div class="container">
+        <h1>Documentación del Proceso<br>"Automatización de Pagos"</h1>
+
+        <div class="index">
+            <h2>Índice</h2>
+            <ol>
+                <li><a href="#objetivo">Objetivo del Proceso</a></li>
+                <li><a href="#prerrequisitos">Prerrequisitos y Entradas</a></li>
+                <li><a href="#diagrama-flujo-seccion">Diagrama de Flujo</a></li>
+                <li><a href="#flujo-proceso">Flujo del Proceso Detallado</a></li>
+                <li><a href="#manejo-errores">Manejo de Errores y Excepciones</a></li>
+                <li><a href="#salidas">Resultado Final (Outputs)</a></li>
+            </ol>
+        </div>
+
+        <h2 id="objetivo">1. Objetivo del Proceso</h2>
+        <p>El objetivo principal de esta automatización es **automatizar la extracción de datos financieros clave de facturas PDF** y compilarlos en un archivo Excel estructurado. Este proceso busca agilizar las tareas contables, reducir la entrada manual de datos y minimizar errores, generando finalmente un informe completo `resumen_pagos.xlsx`.</p>
+
+        <h2 id="prerrequisitos">2. Prerrequisitos y Entradas</h2>
+        <h3>Recursos Necesarios</h3>
+        <ul>
+            <li><strong>Archivo Excel de Entrada:</strong> Se requiere un archivo Excel (ej: <code>comprobantes.xlsx</code>) que contenga una lista de valores <code>TIPO</code> y <code>NUMERO</code> para las facturas a procesar. Este archivo guía la automatización en la búsqueda de documentos.</li>
+            <li><strong>Credenciales de Acceso:</strong> Se requieren un nombre de usuario y una contraseña válidos para iniciar sesión en el sistema "Contaduria".</li>
+            <li><strong>Acceso al Sistema:</strong> Conectividad a la aplicación "Contaduria" (sistema Major).</li>
+            <li><strong>Carpeta Predefinida para PDFs:</strong> Una carpeta designada (<code>C:\\Users\\zcheveste\\Desktop\\BOT_OP_Emilio\\OP_DESCARGAS</code>) donde se descargarán las facturas PDF.</li>
+            <li><strong>Imágenes Preconfiguradas:</strong> Archivos de imagen específicos (<code>imagen_inicio.png</code>, <code>imagen_boton.png</code>) utilizados por <code>pyautogui</code> para el reconocimiento e interacción en pantalla dentro de la aplicación.</li>
+        </ul>
+
+        <h3>Formato del Archivo Excel de Entrada</h3>
+        <p>El archivo Excel de entrada debe contener, como mínimo, las siguientes columnas en su hoja activa:</p>
+        <ul>
+            <li><code>TIPO</code> (ej: numérico o texto, representando un tipo de documento)</li>
+            <li><code>NUMERO</code> (ej: numérico o alfanumérico, representando un número de documento)</li>
+        </ul>
+
+        <div id="diagrama-flujo-seccion" style="margin-top: 30px;">
+             <a href="diagrama_descargaop.html" class="view-flowchart-link" target="_blank">
+                Ver Diagrama de Flujo: Proceso de Pagos
+            </a>
+        </div>
+
+        <h2 id="flujo-proceso">4. Flujo del Proceso Detallado</h2>
+        
+        <h3>Fase 1: Inicialización e Inicio de Sesión en el Sistema</h3>
+        <ol>
+            <li><strong>Entrada del Usuario:</strong> El robot solicita al usuario que ingrese su **nombre de usuario** y **contraseña** para el sistema "Contaduria".</li>
+            <li><strong>Lanzamiento de la Aplicación:</strong> Verifica si la aplicación "Contaduria" ya se está ejecutando. Si no es así, lanza el ejecutable (<code>Contaduria.exe</code>).</li>
+            <li><strong>Activación de la Ventana:</strong> El robot activa y maximiza la ventana de "Contaduria" para asegurar la visibilidad y una interacción adecuada.</li>
+            <li><strong>Inicio de Sesión:</strong> Introduce el **nombre de usuario** y la **contraseña** proporcionados en los campos de inicio de sesión de la aplicación y navega por las indicaciones iniciales.</li>
+            <li><strong>Validación de Pantalla Inicial:</strong> El robot espera y verifica la presencia de una imagen específica (<code>imagen_inicio.png</code>) en la pantalla, confirmando un inicio de sesión exitoso.</li>
+            <li><strong>Navegación a Búsqueda de Documentos:</strong> Hace clic en un botón específico identificado por <code>imagen_boton.png</code> y navega a través del menú para llegar a la interfaz de búsqueda de documentos.</li>
+        </ol>
+
+        <h3>Fase 2: Bucle de Procesamiento de Facturas</h3>
+        <ol>
+            <li><strong>Lectura de Datos de Excel:</strong> El robot lee el <code>TIPO</code> y el <code>NUMERO</code> de la hoja activa del archivo Excel de entrada, comenzando desde la segunda fila.</li>
+            <li><strong>Terminación del Bucle:</strong> El bucle continúa hasta que se encuentra una fila vacía (sin <code>TIPO</code> o <code>NUMERO</code>) en el archivo Excel. En este punto, el proceso "Contaduria.exe" se termina.</li>
+            <li><strong>Introducir Tipo de Documento:</strong> El robot escribe el valor <code>TIPO</code> en el campo correspondiente en la aplicación y presiona "enter".</li>
+            <li><strong>Introducir Número de Documento:</strong> Luego, escribe el valor <code>NUMERO</code> y presiona "enter" para iniciar la búsqueda del documento.</li>
+            <li><strong>Interacción de Descarga de PDF:</strong> El robot realiza una serie de pulsaciones de "tab" y "enter" para navegar por la interfaz de la aplicación y activar la descarga de la factura PDF asociada. Esta secuencia puede variar ligeramente para la primera fila procesada.</li>
+        </ol>
+
+        <h3>Fase 3: Extracción de Datos de PDF e Informe</h3>
+        <ol>
+            <li><strong>Recolección de PDFs:</strong> Después de procesar todas las entradas en el archivo Excel, el robot accede a una carpeta predefinida (<code>C:\\Users\\zcheveste\\Desktop\\BOT_OP_Emilio\\OP_DESCARGAS</code>) para recolectar todos los archivos PDF recién descargados.</li>
+            <li><strong>Extracción de Texto:</strong> Para cada archivo PDF, extrae todo el contenido de texto.</li>
+            <li><strong>Análisis de Datos:</strong> El texto extraído se analiza para identificar y extraer puntos de datos específicos, incluyendo:
+                <ul>
+                    <li><code>PROVEEDOR</code></li>
+                    <li><code>F.F</code> (Unidad Ejecutora)</li>
+                    <li><code>NRO OP</code> (Número de Documento, formateado como "21-2025-XXXX")</li>
+                    <li><code>OC</code> (Orden de Compra/Número de AVS)</li>
+                    <li><code>BRUTO OP</code> (Importe Bruto)</li>
+                    <li><code>NETO OP</code> (Importe Neto)</li>
+                    <li><code>DETALLE CONTRATACION</code> (Detalle de Contratación)</li>
+                    <li><code>FDO. AFECTADO</code> (Fondo Afectado)</li>
+                    <li><code>CF</code> (Valor constante "FFGOBLIGA")</li>
+                </ul>
+            </li>
+            <li><strong>Creación de DataFrame:</strong> Los datos extraídos de todos los PDFs se compilan en un DataFrame de Pandas.</li>
+            <li><strong>Exportación a Excel:</strong> El DataFrame se exporta a un nuevo archivo Excel llamado `resumen_pagos.xlsx` en el mismo directorio que el archivo Excel de entrada. Los datos se formatean como una tabla de Excel con un estilo predefinido.</li>
+            <li><strong>Limpieza de PDFs:</strong> Finalmente, todos los archivos PDF procesados se eliminan de la carpeta de descargas.</li>
+        </ol>
+
+        <h2 id="manejo-errores">5. Manejo de Errores y Excepciones</h2>
+        <ul>
+            <li><strong>Credenciales Faltantes:</strong> Si el usuario no proporciona un nombre de usuario o contraseña al inicio, el proceso termina inmediatamente.</li>
+            <li><strong>Archivo Excel No Encontrado:</strong> Si el archivo Excel seleccionado no existe, el proceso no continuará.</li>
+            <li><strong>Aplicación "Contaduria" No Ejecutándose/Encontrada:</strong> El robot intenta iniciar la aplicación. Si falla al activar o encontrar la ventana "Contaduria", el proceso podría no continuar correctamente.</li>
+            <li><strong>Fallo en el Inicio de Sesión:</strong> Aunque no se maneja explícitamente en el código proporcionado, los intentos repetidos de inicio de sesión fallidos podrían detener el proceso. El código espera una imagen específica, lo que implica que podría entrar en bucle o agotar el tiempo de espera si la imagen no se encuentra.</li>
+            <li><strong>Fallo en la Extracción de PDF:</strong> Si no se pueden extraer datos de los PDFs descargados, se muestra un mensaje de error al usuario.</li>
+            <li><strong>Errores de Eliminación de PDF:</strong> El robot intenta eliminar los archivos PDF procesados. Cualquier error durante esta eliminación se imprime en la consola, pero no detiene el proceso general.</li>
+            <li><strong>Valores <code>TIPO</code> o <code>NUMERO</code> Faltantes en Excel:</strong> El bucle de procesamiento de filas de Excel termina si la celda <code>TIPO</code> o <code>NUMERO</code> está vacía, indicando el final de los datos.</li>
+        </ul>
+
+        <h2 id="salidas">6. Resultado Final (Outputs)</h2>
+        <ul>
+            <li><strong>Informe Excel Generado:</strong> Se crea un nuevo archivo Excel llamado `resumen_pagos.xlsx` en el mismo directorio que el archivo Excel de entrada. Este archivo contiene una tabla estructurada con los detalles extraídos de todas las facturas PDF procesadas, incluyendo:
+                <ul>
+                    <li><strong>PROVEEDOR</strong></li>
+                    <li><strong>F.F</strong></li>
+                    <li><strong>NRO OP</strong></li>
+                    <li><strong>OC</strong></li>
+                    <li><strong>BRUTO OP</strong></li>
+                    <li><strong>NETO OP</strong></li>
+                    <li><strong>DETALLE CONTRATACION</strong></li>
+                    <li><strong>FDO. AFECTADO</strong></li>
+                    <li><strong>CF</strong></li>
+                </ul>
+            </li>
+            <li><strong>Carpeta de PDFs Limpiada:</strong> Todos los archivos PDF que fueron descargados y procesados serán eliminados de la carpeta <code>OP_DESCARGAS</code>.</li>
+            <li><strong>Notificación al Usuario:</strong> Se mostrará un cuadro de mensaje informando al usuario sobre la generación exitosa del archivo Excel y su ubicación.</li>
+        </ul>
+
+        <div class="note">
+            <p><strong>Nota:</strong> Este documento HTML está diseñado para una visualización clara en el navegador y puede ser impreso a PDF directamente desde las opciones de impresión (Ctrl+P o Cmd+P).</p>
+        </div>
+    </div>
+</body>
+</html>
