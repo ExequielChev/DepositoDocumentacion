@@ -254,3 +254,23 @@ footer p {
         font-size: 0.85em;
     }
 }
+
+.estado-select {
+    transition: background 0.2s, color 0.2s;
+    color: #fff !important;
+    font-weight: bold;
+    border: none;
+    padding: 8px 18px;
+    border-radius: 30px;
+    margin-left: 8px;
+    margin-top: 5px;
+    min-width: 170px;
+    appearance: none;
+    /* Ojo: algunos navegadores no dejarán cambiar color de las opciones */
+}
+
+/* Estados con colores */
+.estado-proyecto   { background: #bbb !important; color: #fff !important; }
+.estado-desarrollo { background: #2563eb !important; color: #fff !important; }
+.estado-pausa      { background: #ff9800 !important; color: #fff !important; }
+.estado-finalizado { background: #43a047 !important; color: #fff !important; }

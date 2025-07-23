@@ -4,10 +4,44 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Depósito de Documentación de Procesos RPA</title>
-    <link rel="stylesheet" href="style.css"> <!-- Asegúrate que este archivo CSS es el actualizado -->
+    <link rel="stylesheet" href="style.css">
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
-    <!-- Iconos de Font Awesome (opcional, para el icono de búsqueda) -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        .filters-bar {
+            display: flex;
+            gap: 30px;
+            justify-content: center;
+            align-items: center;
+            margin-bottom: 30px;
+            flex-wrap: wrap;
+        }
+        .filter-label {
+            font-weight: 500;
+            color: #005f73;
+            margin-right: 10px;
+            font-size: 1em;
+        }
+        .filter-select {
+            padding: 10px 18px;
+            border-radius: 30px;
+            border: 1px solid #ccc;
+            background: #fff;
+            font-size: 1em;
+            color: #333;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+            outline: none;
+            margin-right: 10px;
+            transition: border-color 0.2s;
+        }
+        .filter-select:focus {
+            border-color: #0a9396;
+        }
+        @media (max-width: 768px) {
+            .filters-bar { gap: 15px; flex-direction: column; }
+            .filter-label { margin-bottom: 4px; }
+        }
+    </style>
 </head>
 <body>
     <header>
@@ -19,6 +53,25 @@
 
     <main>
         <div class="container">
+
+            <!-- Barra de Filtros Visualmente Mejorada -->
+            <div class="filters-bar">
+                <label for="filtroDesarrollador" class="filter-label">Filtrar por desarrollador:</label>
+                <select id="filtroDesarrollador" class="filter-select">
+                    <option value="">Todos</option>
+                    <option value="Cheveste Zahir">Cheveste Zahir</option>
+                    <option value="Ortiz Emilio">Ortiz Emilio</option>
+                    <option value="Carbini Santiago">Carbini Santiago</option>
+                </select>
+            <label for="filtroEstado" class="filter-label">Filtrar por estado:</label>
+            <select id="filtroEstado" class="filter-select">
+                <option value="">Todos</option>
+                <option value="proyecto">Proyecto (sin comenzar)</option>
+                <option value="desarrollo">En desarrollo</option>
+                <option value="pausa">En pausa</option>
+                <option value="finalizado">Finalizado</option>
+            </select>
+            </div>
             <!-- Sección del Buscador -->
             <section class="search-section">
                 <div class="search-container">
@@ -28,111 +81,207 @@
             </section>
 
             <section class="document-grid" id="documentGrid">
-                <article class="document-card">
+                <!-- Carga de Artículos -->
+                <article class="document-card" data-desarrollador="Cheveste Zahir" data-estado="proyecto" data-fecha-inicio="2024-07-01" data-fecha-fin="2024-07-22">
                     <div class="card-content">
                         <h2>Carga de Artículos (CargaArt)</h2>
                         <p class="description">Creación o actualización de artículos y sus agrupamientos en Major desde un Excel.</p>
                         <div class="card-details">
                             <p><strong>Servidor:</strong> SRV-APP01</p>
                             <p><strong>Periodicidad:</strong> A demanda</p>
-                            <p><strong>Sector Responsable:</strong> Logística</p>
+                            <p><strong>Sector Responsable:</strong> Deposito</p>
+                            <p><strong>Persona Responsable:</strong> Deposito</p>
+                            <p><strong>Desarrollador:</strong> Cheveste Zahir</p>
+                            <p><strong>Fecha inicio:</strong> <span class="fecha-inicio">01/07/2024</span></p>
+                            <p><strong>Fecha fin:</strong> <span class="fecha-fin">22/07/2024</span></p>
+                            <p><strong>Estado:</strong>
+                                <select class="estado-select">
+                                    <option value="proyecto" selected>Proyecto (sin comenzar)</option>
+                                    <option value="desarrollo">En desarrollo</option>
+                                    <option value="pausa">En pausa</option>
+                                    <option value="finalizado">Finalizado</option>
+                                </select>
+                            </p>
                         </div>
                     </div>
                     <a href="docs_html/documentacion_CargaArt.html" class="btn">Ver Documentación</a>
                 </article>
-
-                <article class="document-card">
+                <!-- Ajustes de Stock -->
+                <article class="document-card" data-desarrollador="Cheveste Zahir" data-estado="desarrollo" data-fecha-inicio="2024-06-15" data-fecha-fin="2024-07-25">
                     <div class="card-content">
                         <h2>Ajustes de Stock</h2>
                         <p class="description">Actualización de cantidades de artículos en Major utilizando un archivo Excel de entrada.</p>
                         <div class="card-details">
                             <p><strong>Servidor:</strong> SRV-APP01</p>
-                            <p><strong>Periodicidad:</strong> Semanal</p>
-                            <p><strong>Sector Responsable:</strong> Inventario</p>
+                            <p><strong>Periodicidad:</strong> A demanda</p>
+                            <p><strong>Sector Responsable:</strong> Deposito</p>
+                            <p><strong>Persona Responsable:</strong> Deposito</p>
+                            <p><strong>Desarrollador:</strong> Cheveste Zahir</p>
+                            <p><strong>Fecha inicio:</strong> <span class="fecha-inicio">15/06/2024</span></p>
+                            <p><strong>Fecha fin:</strong> <span class="fecha-fin">25/07/2024</span></p>
+                            <p><strong>Estado:</strong>
+                                <select class="estado-select">
+                                    <option value="proyecto">Proyecto (sin comenzar)</option>
+                                    <option value="desarrollo" selected>En desarrollo</option>
+                                    <option value="pausa">En pausa</option>
+                                    <option value="finalizado">Finalizado</option>
+                                </select>
+                            </p>
                         </div>
                     </div>
                     <a href="docs_html/documentacion_AjustesStock.html" class="btn">Ver Documentación</a>
                 </article>
-
-                <article class="document-card">
+                <!-- Carga de Depósitos -->
+                <article class="document-card" data-desarrollador="Cheveste Zahir" data-estado="finalizado" data-fecha-inicio="2024-05-01" data-fecha-fin="2024-06-01">
                     <div class="card-content">
                         <h2>Carga de Depósitos (CargaDeposito)</h2>
                         <p class="description">Configuración y actualización de parámetros de inventario para artículos en oficinas/depósitos.</p>
                         <div class="card-details">
                             <p><strong>Servidor:</strong> SRV-DB02</p>
-                            <p><strong>Periodicidad:</strong> Mensual</p>
-                            <p><strong>Sector Responsable:</strong> Almacén Central</p>
+                            <p><strong>Periodicidad:</strong> A demanda</p>
+                            <p><strong>Sector Responsable:</strong> Deposito</p>
+                            <p><strong>Persona Responsable:</strong> Deposito</p>
+                            <p><strong>Desarrollador:</strong> Cheveste Zahir</p>
+                            <p><strong>Fecha inicio:</strong> <span class="fecha-inicio">01/05/2024</span></p>
+                            <p><strong>Fecha fin:</strong> <span class="fecha-fin">01/06/2024</span></p>
+                            <p><strong>Estado:</strong>
+                                <select class="estado-select">
+                                    <option value="proyecto">Proyecto (sin comenzar)</option>
+                                    <option value="desarrollo">En desarrollo</option>
+                                    <option value="pausa">En pausa</option>
+                                    <option value="finalizado" selected>Finalizado</option>
+                                </select>
+                            </p>
                         </div>
                     </div>
                     <a href="docs_html/documentacion_CargaDeposito.html" class="btn">Ver Documentación</a>
                 </article>
-
-                <article class="document-card">
+                <!-- Ajuste de Precios -->
+                <article class="document-card" data-desarrollador="Cheveste Zahir" data-estado="proyecto" data-fecha-inicio="2024-07-10" data-fecha-fin="2024-07-28">
                     <div class="card-content">
                         <h2>Ajuste de Precios (AjustePrecios)</h2>
                         <p class="description">Actualización de precios de artículos en Major y activación opcional de valorización de consumo OC.</p>
                         <div class="card-details">
                             <p><strong>Servidor:</strong> SRV-FIN01</p>
-                            <p><strong>Periodicidad:</strong> Trimestral</p>
-                            <p><strong>Sector Responsable:</strong> Finanzas</p>
+                            <p><strong>Periodicidad:</strong> A demanda</p>
+                            <p><strong>Sector Responsable:</strong> Deposito</p>
+                            <p><strong>Persona Responsable:</strong> Deposito</p>
+                            <p><strong>Desarrollador:</strong> Cheveste Zahir</p>
+                            <p><strong>Fecha inicio:</strong> <span class="fecha-inicio">10/07/2024</span></p>
+                            <p><strong>Fecha fin:</strong> <span class="fecha-fin">28/07/2024</span></p>
+                            <p><strong>Estado:</strong>
+                                <select class="estado-select">
+                                    <option value="proyecto" selected>Proyecto (sin comenzar)</option>
+                                    <option value="desarrollo">En desarrollo</option>
+                                    <option value="pausa">En pausa</option>
+                                    <option value="finalizado">Finalizado</option>
+                                </select>
+                            </p>
                         </div>
                     </div>
                     <a href="docs_html/documentacion_AjustePrecios.html" class="btn">Ver Documentación</a>
                 </article>
-
-                <article class="document-card">
+                <!-- Transferencia de Inventario -->
+                <article class="document-card" data-desarrollador="Cheveste Zahir" data-estado="desarrollo" data-fecha-inicio="2024-07-01" data-fecha-fin="2024-08-01">
                     <div class="card-content">
                         <h2>Transferencia de Inventario (Transferencia)</h2>
                         <p class="description">Automatización de la creación y registro de transferencias de productos entre depósitos.</p>
                         <div class="card-details">
                             <p><strong>Servidor:</strong> SRV-OPS03</p>
-                            <p><strong>Periodicidad:</strong> Diario</p>
-                            <p><strong>Sector Responsable:</strong> Operaciones</p>
+                            <p><strong>Periodicidad:</strong> A demanda</p>
+                            <p><strong>Sector Responsable:</strong> Deposito</p>
+                            <p><strong>Persona Responsable:</strong> Deposito</p>
+                            <p><strong>Desarrollador:</strong> Cheveste Zahir</p>
+                            <p><strong>Fecha inicio:</strong> <span class="fecha-inicio">01/07/2024</span></p>
+                            <p><strong>Fecha fin:</strong> <span class="fecha-fin">01/08/2024</span></p>
+                            <p><strong>Estado:</strong>
+                                <select class="estado-select">
+                                    <option value="proyecto">Proyecto (sin comenzar)</option>
+                                    <option value="desarrollo" selected>En desarrollo</option>
+                                    <option value="pausa">En pausa</option>
+                                    <option value="finalizado">Finalizado</option>
+                                </select>
+                            </p>
                         </div>
                     </div>
                     <a href="docs_html/documentacion_Transferencia.html" class="btn">Ver Documentación</a>
                 </article>
-
-                <article class="document-card">
+                <!-- Sistema de gestion de camas (Intranet) -->
+                <article class="document-card" data-desarrollador="Cheveste Zahir" data-estado="pausa" data-fecha-inicio="2024-06-10" data-fecha-fin="2024-07-18">
                     <div class="card-content">
                         <h2>Sistema de gestion de camas (Intranet)</h2>
                         <p class="description">Automatización la carga y registro de pacientes en el sistema de gestion de camas.</p>
                         <div class="card-details">
                             <p><strong>Servidor:</strong> SRV-OP303</p>
                             <p><strong>Periodicidad:</strong> Mensual</p>
-                            <p><strong>Sector Responsable:</strong> Servicios.</p>
+                            <p><strong>Sector Responsable:</strong> Coparticipacion.</p>
+                            <p><strong>Persona Responsable:</strong> Carolina</p>
+                            <p><strong>Desarrollador:</strong> Cheveste Zahir</p>
+                            <p><strong>Fecha inicio:</strong> <span class="fecha-inicio">10/06/2024</span></p>
+                            <p><strong>Fecha fin:</strong> <span class="fecha-fin">18/07/2024</span></p>
+                            <p><strong>Estado:</strong>
+                                <select class="estado-select">
+                                    <option value="proyecto">Proyecto (sin comenzar)</option>
+                                    <option value="desarrollo">En desarrollo</option>
+                                    <option value="pausa" selected>En pausa</option>
+                                    <option value="finalizado">Finalizado</option>
+                                </select>
+                            </p>
                         </div>
                     </div>
                     <a href="docs_html/documentacionSGC.html" class="btn">Ver Documentación</a>
                 </article>
-                
-                <article class="document-card">
+                <!-- Aplicacion de Pagos -->
+                <article class="document-card" data-desarrollador="Carbini Santiago" data-estado="finalizado" data-fecha-inicio="2024-05-20" data-fecha-fin="2024-06-30">
                     <div class="card-content">
                         <h2>Aplicacion de Pagos</h2>
                         <p class="description">Automatización de la creación de reportes de pagos.</p>
                         <div class="card-details">
                             <p><strong>Servidor:</strong> SRV-OPS03</p>
-                            <p><strong>Periodicidad:</strong> ??</p>
+                            <p><strong>Periodicidad:</strong> --</p>
                             <p><strong>Sector Responsable:</strong> Contabilidad</p>
+                            <p><strong>Persona Responsable:</strong> Rodrigo</p>
+                            <p><strong>Desarrollador:</strong> Carbini Santiago</p>
+                            <p><strong>Fecha inicio:</strong> <span class="fecha-inicio">20/05/2024</span></p>
+                            <p><strong>Fecha fin:</strong> <span class="fecha-fin">30/06/2024</span></p>
+                            <p><strong>Estado:</strong>
+                                <select class="estado-select">
+                                    <option value="proyecto">Proyecto (sin comenzar)</option>
+                                    <option value="desarrollo">En desarrollo</option>
+                                    <option value="pausa">En pausa</option>
+                                    <option value="finalizado" selected>Finalizado</option>
+                                </select>
+                            </p>
                         </div>
                     </div>
                     <a href="docs_html/app_pagos.html" class="btn">Ver Documentación</a>
                 </article>
-
-                <article class="document-card">
+                <!-- Bot CIPRES -->
+                <article class="document-card" data-desarrollador="Cheveste Zahir" data-estado="proyecto" data-fecha-inicio="2024-07-05" data-fecha-fin="2024-08-02">
                     <div class="card-content">
                         <h2>Bot CIPRES</h2>
                         <p class="description">Automatización de la carga del modulo CIPRES.</p>
                         <div class="card-details">
                             <p><strong>Servidor:</strong> SRV-OPS203</p>
-                            <p><strong>Periodicidad:</strong> ??</p>
-                            <p><strong>Sector Responsable:</strong> Servicios</p>
+                            <p><strong>Periodicidad:</strong> Mensual</p>
+                            <p><strong>Sector Responsable:</strong> Coparticipacion</p>
+                            <p><strong>Persona Responsable:</strong> Carolina</p>
+                            <p><strong>Desarrollador:</strong> Cheveste Zahir</p>
+                            <p><strong>Fecha inicio:</strong> <span class="fecha-inicio">05/07/2024</span></p>
+                            <p><strong>Fecha fin:</strong> <span class="fecha-fin">02/08/2024</span></p>
+                            <p><strong>Estado:</strong>
+                                <select class="estado-select">
+                                    <option value="proyecto" selected>Proyecto (sin comenzar)</option>
+                                    <option value="desarrollo">En desarrollo</option>
+                                    <option value="pausa">En pausa</option>
+                                    <option value="finalizado">Finalizado</option>
+                                </select>
+                            </p>
                         </div>
                     </div>
                     <a href="docs_html/documentacion_cipres.html" class="btn">Ver Documentación</a>
                 </article>
-
-                <!-- Agrega más <article class="document-card"> aquí para futuros documentos -->
+                <!-- Más tarjetas aquí si agregás nuevos procesos -->
             </section>
             <p id="noResultsMessage" style="text-align: center; margin-top: 20px; display: none;">No se encontraron resultados para su búsqueda.</p>
         </div>
@@ -160,33 +309,156 @@
             let resultsFound = false;
 
             cards.forEach(card => {
-                // El contenido a buscar es el mismo que ya tenías
                 const title = card.querySelector('h2').textContent.toLowerCase();
                 const description = card.querySelector('.description').textContent.toLowerCase();
                 const details = card.querySelector('.card-details').textContent.toLowerCase();
-                
-                const cardText = title + ' ' + description + ' ' + details;
-
+                const dev = card.getAttribute('data-desarrollador')?.toLowerCase() || '';
+                const estado = card.getAttribute('data-estado')?.toLowerCase() || '';
+                const cardText = title + ' ' + description + ' ' + details + ' ' + dev + ' ' + estado;
                 if (cardText.includes(searchTerm)) {
-                    card.style.display = ''; // Muestra la tarjeta
+                    card.style.display = '';
                     resultsFound = true;
                 } else {
-                    card.style.display = 'none'; // Oculta la tarjeta
+                    card.style.display = 'none';
                 }
             });
 
-            if (resultsFound) {
-                noResultsMessage.style.display = 'none';
-            } else {
-                noResultsMessage.style.display = 'block';
-            }
+            noResultsMessage.style.display = resultsFound ? 'none' : 'block';
         }
 
-        // Filtrar al escribir
         searchInput.addEventListener('keyup', filterCards);
-        
-        // Filtrar al hacer clic en el botón
         searchButton.addEventListener('click', filterCards);
+
+        // Filtro por desarrollador
+        const filtroDesarrollador = document.getElementById('filtroDesarrollador');
+        filtroDesarrollador.addEventListener('change', function() {
+            const valor = this.value.toLowerCase();
+            let found = false;
+            cards.forEach(card => {
+                const dev = card.getAttribute('data-desarrollador')?.toLowerCase() || '';
+                if (!valor || dev === valor) {
+                    card.style.display = '';
+                    found = true;
+                } else {
+                    card.style.display = 'none';
+                }
+            });
+            noResultsMessage.style.display = found ? 'none' : 'block';
+        });
+
+        // Ordenar tarjetas según estado
+        function ordenarTarjetas() {
+            const estadosOrden = ['desarrollo', 'proyecto', 'pausa', 'finalizado'];
+            const cardsArray = Array.from(documentGrid.children);
+            cardsArray.sort((a, b) => {
+                const estadoA = a.querySelector('.estado-select')?.value || a.getAttribute('data-estado');
+                const estadoB = b.querySelector('.estado-select')?.value || b.getAttribute('data-estado');
+                return estadosOrden.indexOf(estadoA) - estadosOrden.indexOf(estadoB);
+            });
+            cardsArray.forEach(card => documentGrid.appendChild(card));
+        }
+            // NUEVO: Función para setear el color del select según estado
+            function setEstadoColor(select) {
+                select.classList.remove('estado-proyecto', 'estado-desarrollo', 'estado-pausa', 'estado-finalizado');
+                switch(select.value) {
+                    case 'proyecto':
+                        select.classList.add('estado-proyecto'); break;
+                    case 'desarrollo':
+                        select.classList.add('estado-desarrollo'); break;
+                    case 'pausa':
+                        select.classList.add('estado-pausa'); break;
+                    case 'finalizado':
+                        select.classList.add('estado-finalizado'); break;
+                }
+            }
+
+            // Aplica el color inicial y cada vez que cambia
+            document.querySelectorAll('.estado-select').forEach(select => {
+                setEstadoColor(select); // Color inicial al cargar
+                select.addEventListener('change', function() {
+                    const card = this.closest('.document-card');
+                    card.setAttribute('data-estado', this.value);
+                    setEstadoColor(this); // Aplica el color al cambiar
+                    ordenarTarjetas();
+                });
+            });
+
+            // Guardar el estado de los selects en localStorage
+            function saveEstadosToLocalStorage() {
+                const estados = {};
+                document.querySelectorAll('.document-card').forEach(card => {
+                    const id = card.querySelector('h2').textContent.trim();
+                    const estado = card.querySelector('.estado-select').value;
+                    estados[id] = estado;
+                });
+                localStorage.setItem('estadoTarjetas', JSON.stringify(estados));
+            }
+
+            // Cargar el estado de los selects desde localStorage
+            function loadEstadosFromLocalStorage() {
+                const estados = JSON.parse(localStorage.getItem('estadoTarjetas') || '{}');
+                document.querySelectorAll('.document-card').forEach(card => {
+                    const id = card.querySelector('h2').textContent.trim();
+                    if (estados[id]) {
+                        const select = card.querySelector('.estado-select');
+                        select.value = estados[id];
+                        setEstadoColor(select); // actualiza color si recargás
+                        card.setAttribute('data-estado', estados[id]);
+                    }
+                });
+                ordenarTarjetas();
+            }
+
+            // Guardar cuando cambia un select
+            document.querySelectorAll('.estado-select').forEach(select => {
+                select.addEventListener('change', function() {
+                    saveEstadosToLocalStorage();
+                });
+            });
+
+            // Cargar los estados guardados al iniciar la página
+            loadEstadosFromLocalStorage();
+
+
+        // Ejecutar orden al cargar
+        ordenarTarjetas();
+
+    const filtroEstado = document.getElementById('filtroEstado');
+    filtroEstado.addEventListener('change', function() {
+        aplicarFiltros();
+    });
+    filtroDesarrollador.addEventListener('change', function() {
+        aplicarFiltros();
+    });
+    searchInput.addEventListener('keyup', aplicarFiltros);
+    searchButton.addEventListener('click', aplicarFiltros);
+
+    function aplicarFiltros() {
+        const valorDesarrollador = filtroDesarrollador.value.toLowerCase();
+        const valorEstado = filtroEstado.value.toLowerCase();
+        const searchTerm = searchInput.value.toLowerCase().trim();
+        let found = false;
+        cards.forEach(card => {
+            const dev = card.getAttribute('data-desarrollador')?.toLowerCase() || '';
+            const estado = card.getAttribute('data-estado')?.toLowerCase() || '';
+            const title = card.querySelector('h2').textContent.toLowerCase();
+            const description = card.querySelector('.description').textContent.toLowerCase();
+            const details = card.querySelector('.card-details').textContent.toLowerCase();
+            const cardText = title + ' ' + description + ' ' + details + ' ' + dev + ' ' + estado;
+
+            const coincideDesarrollador = !valorDesarrollador || dev === valorDesarrollador;
+            const coincideEstado = !valorEstado || estado === valorEstado;
+            const coincideBusqueda = !searchTerm || cardText.includes(searchTerm);
+
+            if (coincideDesarrollador && coincideEstado && coincideBusqueda) {
+                card.style.display = '';
+                found = true;
+            } else {
+                card.style.display = 'none';
+            }
+        });
+        noResultsMessage.style.display = found ? 'none' : 'block';
+    }
 
     </script>
 </body>
