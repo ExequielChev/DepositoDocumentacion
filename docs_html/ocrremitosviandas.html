@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Documentación del Proceso: Automatización de Extracción de Datos de Remitos de Viandas</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif; line-height: 1.6; margin: 0;
+            background-color: #f4f4f4; color: #333; padding: 20px;
+        }
+        .container {
+            background-color: #fff; padding: 20px; border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+            max-width: 900px; margin: 0 auto 20px auto;
+        }
+        h1, h2, h3, h4 { color: #2c3e50; }
+        h1 { text-align: center; border-bottom: 2px solid #3498db; padding-bottom: 10px; margin-bottom: 20px; }
+        h2 { border-bottom: 1px solid #bdc3c7; padding-bottom: 5px; margin-top: 30px; }
+        .page-navigation {
+            display: flex;
+            justify-content: flex-end;
+            padding: 0 0 15px 0;
+        }
+        .back-to-index-btn {
+            background-color: #6c757d; color: white !important; padding: 8px 15px;
+            text-decoration: none; border-radius: 5px; font-size: 0.9em;
+            transition: background-color 0.3s ease; border: none;
+        }
+        .back-to-index-btn:hover { background-color: #5a6268; }
+
+        .index {
+            margin-bottom: 30px; padding: 20px; background-color: #eef7ff;
+            border: 1px solid #cce0ff; border-radius: 8px;
+        }
+        .index h2 {
+            margin-top: 0; margin-bottom: 15px; color: #005f73;
+            font-size: 1.5em; border-bottom: none;
+        }
+        .index ol { list-style-type: decimal; margin-left: 20px; padding-left: 0; }
+        .index ol li { margin-bottom: 8px; }
+        .index ol li a { text-decoration: none; color: #2980b9; font-weight: 500; }
+        .index ol li a:hover { text-decoration: underline; color: #1c5a85; }
+
+        ul, ol:not(.index ol) {
+            list-style-type: disc; margin-left: 20px;
+        }
+        h3 { margin-top: 20px; color: #34495e;}
+        li { margin-bottom: 8px;}
+        strong { color: #2980b9;}
+        code {
+            background-color: #ecf0f1; padding: 2px 5px; border-radius: 4px;
+            font-family: Consolas, Monaco, 'Andale Mono', 'Ubuntu Mono', monospace;
+        }
+        .note {
+            background-color: #e8f6fd; border-left: 5px solid #3498db;
+            padding: 10px; margin: 15px 0;
+        }
+        .view-flowchart-link {
+            display: inline-block; background-color: #3498db; color: white !important;
+            padding: 10px 15px; text-decoration: none; border-radius: 5px;
+            font-size: 0.95em; transition: background-color 0.3s ease;
+            margin-bottom: 10px; border: none;
+        }
+        .view-flowchart-link:hover { background-color: #2980b9; color: white !important; }
+
+    </style>
+</head>
+<body>
+    <div class="container" style="background-color: transparent; box-shadow: none; padding-bottom:0; margin-bottom:0;">
+        <div class="page-navigation">
+            <a href="../index.html" class="back-to-index-btn">« Volver al Inicio</a>
+        </div>
+    </div>
+
+    <div class="container">
+        <h1>Documentación del Proceso<br>"Automatización de Extracción de Datos de Remitos de Viandas"</h1>
+
+        <div class="index">
+            <h2>Índice</h2>
+            <ol>
+                <li><a href="#objetivo">Objetivo del Proceso</a></li>
+                <li><a href="#funcionalidades">Funcionalidades Principales</a></li>
+                <li><a href="#flujo-proceso">Flujo del Proceso Detallado</a></li>
+                <li><a href="#manejo-errores">Manejo de Errores y Excepciones</a></li>
+                <li><a href="#salidas">Resultado Final (Outputs)</a></li>
+            </ol>
+        </div>
+
+        <h2 id="objetivo">1. Objetivo del Proceso</h2>
+        <p>El objetivo principal de esta automatización es **extraer de forma automática y precisa información clave** (fecha, turno de despacho, establecimiento, cantidad total de viandas y número de remito) de documentos PDF que son **remitos de viandas**, y organizar esta información en un archivo de Excel.</p>
+        <p>Este proceso busca **reducir el trabajo manual**, **evitar errores al pasar los datos** y **tener la información disponible más rápido** para lo que necesites hacer con ella.</p>
+
+        <h2 id="funcionalidades">2. Funcionalidades Principales</h2>
+        <ul>
+            <li><strong>Saca Texto de Documentos:</strong> El sistema es muy bueno para leer texto de remitos en PDF, incluso si son escaneados o con **muy baja calidad**, lo que es común en los remitos de viandas.</li>
+            <li><strong>Extrae por Zonas:</strong> Puede concentrarse en partes específicas del remito para sacar datos como la cantidad de viandas, lo que hace la lectura más precisa.</li>
+            <li><strong>Limpia los Datos:</strong> Los datos que saca los deja listos, quitando acentos, puntos y corrigiendo lo que haya leído mal para que la información sea uniforme.</li>
+            <li><strong>Entiende las Cantidades por Suma:</strong> Sabe cómo encontrar la cantidad total de viandas, y si no puede leer un número completo por la **baja calidad de impresión de los remitos**, intenta **sumar los números parciales** que sí logra detectar para llegar al resultado correcto. También maneja casos donde el total necesita una validación especial.</li>
+            <li><strong>Crea un Archivo de Excel:</strong> Toda la información extraída se guarda automáticamente en un Excel. Si ve algo raro en las cantidades, lo marca en rojo para que lo revises.</li>
+            <li><strong>Vigila Carpetas:</strong> Se puede configurar para que, si pones un nuevo remito PDF en una carpeta, lo procese solito sin que tengas que hacer nada.</li>
+            <li><strong>Es Fácil de Usar:</strong> Tiene una ventanita simple que te ayuda a elegir el remito y dónde guardar el Excel.</li>
+        </ul>
+
+        
+        <div id="diagrama-flujo-seccion" style="margin-top: 30px;">
+             <a href="diagrama_viandasocr.html" class="view-flowchart-link" target="_blank"> <!-- CORREGIDO: doble guion bajo a uno solo -->
+                Ver Diagrama de Flujo: OCR VIANDAS
+            </a>
+        </div>
+
+        <h2 id="flujo-proceso">3. Flujo del Proceso Detallado</h2>
+        <p>Para empezar, solo tenés que ejecutar el programa. Te va a pedir que elijas el archivo PDF del remito y dónde querés guardar el Excel con los datos.</p>
+        <ol>
+            <li><strong>Elegís los Archivos:</strong> Usando una ventana simple, seleccionás el remito PDF y la carpeta donde querés que se guarde el Excel.</li>
+            <li><strong>Verifica el Remito:</strong> El sistema se asegura de que el archivo que elegiste sea un PDF válido.</li>
+            <li><strong>Prepara el Excel:</strong> Si ya tenías un Excel con el mismo nombre, el programa lo borra para empezar de cero y crea uno nuevo con los títulos de las columnas.</li>
+            <li><strong>Lee Cada Página:</strong>
+                <ul>
+                    <li>El sistema lee cada página del remito PDF para sacar todo el texto que encuentra.</li>
+                    <li>Este texto completo se guarda en otro archivo para que lo puedas consultar si lo necesitás.</li>
+                </ul>
+            </li>
+            <li><strong>Saca los Datos Específicos:</strong>
+                <ul>
+                    <li>De cada página, el sistema busca y extrae:
+                        <ul>
+                            <li><strong>Fecha:</strong> Identifica la fecha del remito, sin confundirla con fechas de vencimiento u otras.</li>
+                            <li><strong>Turno de Despacho:</strong> Indica si la entrega fue en el turno "MAÑANA" o "TARDE".</li>
+                            <li><strong>Establecimiento:</strong> Encuentra el nombre del lugar donde se entregaron las viandas (hospital, UDI, etc.) y corrige posibles errores de lectura.</li>
+                            <li><strong>Cantidad Total de Viandas:</strong> El sistema se enfoca en la parte del remito que muestra las cantidades. Dada la **baja calidad o mala impresión de los remitos**, si no puede leer un número directamente, intenta **sumar los números individuales** que sí detecta para llegar al total correcto. También te avisa si hay algo que no cuadra.</li>
+                            <li><strong>Número de Remito:</strong> Identifica el número único del remito, sin importar cómo esté escrito.</li>
+                        </ul>
+                    </li>
+                </ul>
+            </li>
+            <li><strong>Actualiza el Excel:</strong>
+                <ul>
+                    <li>Toda la información que sacó (Fecha, Turno, Establecimiento, Cantidad Total de Viandas, Número de Remito) se agrega como una nueva fila en el Excel.</li>
+                    <li>Si la "Cantidad Total" parece tener un problema o fue calculada por suma por la baja calidad del original, ese número se pone en **rojo** en el Excel para que sepas que tenés que revisarlo.</li>
+                    <li>El Excel se acomoda solo para que sea fácil de leer.</li>
+                </ul>
+            </li>
+            <li><strong>Termina el Proceso:</strong> Cuando el sistema termina de leer todas las páginas del remito, te avisa que el Excel está listo.</li>
+        </ol>
+        <p class="note">Este sistema puede ser configurado para **vigilar una carpeta**. Así, cada vez que pongas un nuevo remito PDF ahí, lo procesará automáticamente, sin que tengas que hacer nada.</p>
+
+        <h2 id="manejo-errores">4. Manejo de Errores y Excepciones</h2>
+        <ul>
+            <li><strong>Remito Malo o Incompleto:</strong> Si el archivo PDF no es un remito válido o está dañado, el proceso se frena y te avisa.</li>
+            <li><strong>Páginas sin Información Relevante:</strong> Si alguna página del remito no tiene texto útil, el sistema la ignora y sigue con la siguiente, dejando un registro.</li>
+            <li><strong>Errores de Lectura por Baja Calidad:</strong> Dada la **mala calidad de impresión o el escaneo deficiente de los remitos**, es posible que el sistema no lea todo perfectamente. Si hay dudas en los números, los datos no encontrados se pondrán como "No Disponible" y las cantidades con dudas o calculadas por suma se resaltarán para que las revises.</li>
+            <li><strong>Problemas Técnicos:</strong> Si algo no está bien configurado internamente, el sistema te informará para que se pueda solucionar.</li>
+        </ul>
+
+        <h2 id="salidas">5. Resultado Final (Outputs)</h2>
+        <ul>
+            <li><strong>Archivo de Excel (`.xlsx`):</strong> Lo más importante es un archivo de Excel con todos los datos que sacó de los remitos, organizado así:
+                <ul>
+                    <li><code>Fecha</code></li>
+                    <li><code>Despacho</code></li>
+                    <li><code>Establecimiento</code></li>
+                    <li><code>Cantidad Total</code> (se pone en rojo si algo no cuadra o fue calculado por suma)</li>
+                    <li><code>Número de Remito</code></li>
+                </ul>
+            </li>
+            <li><strong>Archivos de Registro (Logs `.txt`):</strong>
+                <ul>
+                    <li>Un archivo de texto con todo el contenido del remito en texto, por si querés ver exactamente qué leyó el sistema.</li>
+                    <li>Un registro específico de los números de viandas que encontró en cada página.</li>
+                </ul>
+            </li>
+            <li><strong>Mensajes en Pantalla:</strong> Verás mensajes en tu computadora que te dirán cómo va el proceso y cuándo termina.</li>
+        </ul>
+    </div>
+</body>
+</html>
