@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Guía del Ciclo de Vida de un Proceso RPA</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 40px;
+      line-height: 1.6;
+      background: #f8f9fa;
+      color: #333;
+    }
+    h1, h2, h3 {
+      color: #003366;
+    }
+    h1 {
+      border-bottom: 3px solid #003366;
+      padding-bottom: 5px;
+    }
+    .toc {
+      background: #e9ecef;
+      padding: 15px;
+      border-radius: 8px;
+      margin-bottom: 30px;
+    }
+    .toc ul {
+      list-style: none;
+      padding-left: 0;
+    }
+    .toc li {
+      margin: 5px 0;
+    }
+    .toc a {
+      text-decoration: none;
+      color: #0056b3;
+    }
+    .toc a:hover {
+      text-decoration: underline;
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 20px;
+      margin-bottom: 30px;
+    }
+    table, th, td {
+      border: 1px solid #999;
+    }
+    th, td {
+      padding: 10px;
+      text-align: left;
+    }
+    th {
+      background: #003366;
+      color: white;
+    }
+    .section {
+      margin-bottom: 40px;
+    }
+  </style>
+</head>
+<body>
+  <a href="../../index.html" class="back-link">⬅ Volver a Guía del Ciclo de Vida</a>
+
+  <h1>Guía del Ciclo de Vida de un Proceso RPA</h1>
+
+  <div class="toc">
+    <h3>Tabla de Contenido</h3>
+    <ul>
+      <li><a href="#fase1">1. Identificación y Selección del Proceso</a></li>
+      <li><a href="#fase2">2. Mapeo y Análisis Detallado</a></li>
+      <li><a href="#fase3">3. Diseño de la Solución</a></li>
+      <li><a href="#fase4">4. Desarrollo (Build)</a></li>
+      <li><a href="#fase5">5. Testing</a></li>
+      <li><a href="#fase6">6. Deploy y Migración a Producción</a></li>
+      <li><a href="#fase7">7. Soporte y Mantenimiento</a></li>
+      <li><a href="#resumen">Resumen de Documentación RPA</a></li>
+    </ul>
+  </div>
+
+  <div class="section" id="fase1">
+    <h2>1. Identificación y Selección del Proceso</h2>
+    <p><strong>Objetivo:</strong> Detectar procesos candidatos para automatización que aporten valor.</p>
+    <p><strong>Actividades:</strong></p>
+    <ul>
+      <li>Reuniones con stakeholders.</li>
+      <li>Evaluación de viabilidad técnica y económica.</li>
+      <li>Priorización de procesos.</li>
+    </ul>
+    <p><strong>Documentación generada:</strong> Process Assessment Document (PAD).</p>
+  </div>
+
+  <div class="section" id="fase2">
+    <h2>2. Mapeo y Análisis Detallado</h2>
+    <p><strong>Objetivo:</strong> Comprender a fondo el proceso actual (AS-IS).</p>
+    <p><strong>Actividades:</strong></p>
+    <ul>
+      <li>Relevamiento con usuarios.</li>
+      <li>Identificación de aplicaciones, entradas y salidas.</li>
+      <li>Registro de excepciones y casos especiales.</li>
+      <li>Diagramación del flujo del proceso.</li>
+    </ul>
+    <p><strong>Documentación generada:</strong> Process Definition Document (PDD), diagramas de flujo.</p>
+  </div>
+
+  <div class="section" id="fase3">
+    <h2>3. Diseño de la Solución</h2>
+    <p><strong>Objetivo:</strong> Definir cómo se automatizará el proceso (TO-BE).</p>
+    <p><strong>Actividades:</strong></p>
+    <ul>
+      <li>Definición de arquitectura RPA.</li>
+      <li>Selección de objetos reutilizables.</li>
+      <li>Definición de excepciones técnicas y de negocio.</li>
+      <li>Diagramas de alto nivel de la solución.</li>
+    </ul>
+    <p><strong>Documentación generada:</strong> Solution Design Document (SDD), High Level Design (HLD), Low Level Design (LLD).</p>
+  </div>
+
+  <div class="section" id="fase4">
+    <h2>4. Desarrollo (Build)</h2>
+    <p><strong>Objetivo:</strong> Construir el robot en la herramienta RPA.</p>
+    <p><strong>Actividades:</strong></p>
+    <ul>
+      <li>Creación de objetos y workflows.</li>
+      <li>Implementación de validaciones y excepciones.</li>
+      <li>Configuración de logs y reportes.</li>
+    </ul>
+    <p><strong>Documentación generada:</strong> Código del proceso, Deployment Document, actualización del SDD.</p>
+  </div>
+
+  <div class="section" id="fase5">
+    <h2>5. Testing</h2>
+    <p><strong>Objetivo:</strong> Validar que el robot funciona correctamente.</p>
+    <p><strong>Tipos de pruebas:</strong></p>
+    <ul>
+      <li>Unit Testing.</li>
+      <li>System Testing.</li>
+      <li>User Acceptance Testing (UAT).</li>
+    </ul>
+    <p><strong>Documentación generada:</strong> Testing Results, UAT Sign-off Document.</p>
+  </div>
+
+  <div class="section" id="fase6">
+    <h2>6. Deploy y Migración a Producción</h2>
+    <p><strong>Objetivo:</strong> Mover la automatización a producción.</p>
+    <p><strong>Actividades:</strong></p>
+    <ul>
+      <li>Publicación del robot.</li>
+      <li>Configuración de colas y credenciales.</li>
+      <li>Piloto controlado en producción.</li>
+    </ul>
+    <p><strong>Documentación generada:</strong> Deployment Guide, Release Notes.</p>
+  </div>
+
+  <div class="section" id="fase7">
+    <h2>7. Soporte y Mantenimiento</h2>
+    <p><strong>Objetivo:</strong> Asegurar la continuidad del robot.</p>
+    <p><strong>Actividades:</strong></p>
+    <ul>
+      <li>Monitoreo de ejecución.</li>
+      <li>Gestión de incidencias.</li>
+      <li>Ajustes ante cambios en sistemas o negocio.</li>
+    </ul>
+    <p><strong>Documentación generada:</strong> Runbook, Change Request Document (CRD), Incident Report.</p>
+  </div>
+
+  <div class="section" id="resumen">
+    <h2>Resumen de Documentación RPA</h2>
+    <table>
+      <thead>
+        <tr>
+          <th>Fase</th>
+          <th>Documento principal</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Identificación</td>
+          <td>Process Assessment Document (PAD)</td>
+        </tr>
+        <tr>
+          <td>Análisis</td>
+          <td>Process Definition Document (PDD)</td>
+        </tr>
+        <tr>
+          <td>Diseño</td>
+          <td>Solution Design Document (SDD), HLD, LLD</td>
+        </tr>
+        <tr>
+          <td>Desarrollo</td>
+          <td>Deployment Document, Código fuente</td>
+        </tr>
+        <tr>
+          <td>Testing</td>
+          <td>Testing Results, UAT Sign-off</td>
+        </tr>
+        <tr>
+          <td>Deploy</td>
+          <td>Deployment Guide, Release Notes</td>
+        </tr>
+        <tr>
+          <td>Soporte</td>
+          <td>Runbook, Incident Report, Change Request</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- Botón a la página de ejemplos -->
+  <p style="text-align: center; margin-top: 50px;">
+    <div id="diagrama-flujo-seccion" style="margin-top: 30px; text-align: center;">
+        <a href="ejemplos.html" class="btn"
+          style="
+              display: inline-block;
+              padding: 12px 24px;
+              background-color: #005f73;
+              color: white;
+              text-decoration: none;
+              border-radius: 8px;
+              font-weight: bold;
+              transition: background-color 0.3s ease, transform 0.2s ease;
+              box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+          "
+          onmouseover="this.style.backgroundColor='#0056b3'; this.style.transform='scale(1.05)'"
+          onmouseout="this.style.backgroundColor='#005f73'; this.style.transform='scale(1)'">
+            Ver ejemplos de documentaciones.
+        </a>
+    </div>
+  </p>
+
+</body>
+</html>

@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Ejemplos de Documentación RPA</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 40px;
+      line-height: 1.6;
+      background: #fdfdfd;
+      color: #333;
+    }
+    h1, h2 {
+      color: #003366;
+    }
+    h1 {
+      border-bottom: 3px solid #003366;
+      padding-bottom: 5px;
+    }
+    .doc-example {
+      background: #f1f5f9;
+      padding: 15px;
+      border-left: 5px solid #003366;
+      margin-bottom: 30px;
+      border-radius: 8px;
+    }
+    .doc-example h3 {
+      margin-top: 0;
+    }
+    .back-link {
+      display: inline-block;
+      margin-bottom: 20px;
+      text-decoration: none;
+      color: #0056b3;
+      font-weight: bold;
+    }
+    .back-link:hover {
+      text-decoration: underline;
+    }
+    pre {
+      background: #eee;
+      padding: 10px;
+      border-radius: 5px;
+      overflow-x: auto;
+    }
+  </style>
+</head>
+<body>
+
+  <a href="documentaciones_general.html" class="back-link">⬅ Volver a Guía del Ciclo de Vida</a>
+
+  <h1>Ejemplos de Documentación RPA</h1>
+
+  <div class="doc-example">
+    <h2>1. Process Assessment Document (PAD)</h2>
+    <h3>Ejemplo:</h3>
+    <p><strong>Proceso:</strong> Conciliación bancaria automática</p>
+    <p><strong>Criterios de selección:</strong></p>
+    <ul>
+      <li>Volumen: 2,000 registros diarios</li>
+      <li>Reglas de negocio claras</li>
+      <li>Alto tiempo manual invertido (4 horas/día)</li>
+      <li>Bajo nivel de excepciones</li>
+    </ul>
+    <p><strong>Conclusión:</strong> Candidato viable para RPA, ROI en 4 meses.</p>
+  </div>
+
+  <div class="doc-example">
+    <h2>2. Process Definition Document (PDD)</h2>
+    <h3>Ejemplo:</h3>
+    <p><strong>Nombre del Proceso:</strong> Registro de facturas proveedores</p>
+    <p><strong>Aplicaciones utilizadas:</strong> Major, Excel</p>
+    <p><strong>Pasos principales (AS-IS):</strong></p>
+    <ol>
+      <li>Usuario descarga facturas desde correo.</li>
+      <li>Valida datos en Excel.</li>
+      <li>Ingresa manualmente en Major.</li>
+      <li>Genera reporte de confirmación.</li>
+    </ol>
+    <p><strong>Excepciones:</strong> Factura con datos incompletos → enviar a supervisor.</p>
+  </div>
+
+  <div class="doc-example">
+    <h2>3. Solution Design Document (SDD)</h2>
+    <h3>Ejemplo:</h3>
+    <p><strong>Arquitectura:</strong> Robot atendido en n8n + Orchestrator para colas.</p>
+    <p><strong>Componentes:</strong></p>
+    <ul>
+      <li>Workflow de descarga de correos</li>
+      <li>Validador de datos en Excel</li>
+      <li>Bot de carga en Major</li>
+      <li>Generador de reportes PDF</li>
+    </ul>
+    <p><strong>Manejo de errores:</strong> Reintentos automáticos (3), logging en Orchestrator.</p>
+  </div>
+
+  <div class="doc-example">
+    <h2>4. Testing Results</h2>
+    <h3>Ejemplo:</h3>
+    <table border="1" cellpadding="6" cellspacing="0">
+      <tr>
+        <th>Prueba</th>
+        <th>Resultado Esperado</th>
+        <th>Resultado Obtenido</th>
+        <th>Estado</th>
+      </tr>
+      <tr>
+        <td>Descarga de facturas</td>
+        <td>Correo leído y guardado</td>
+        <td>OK</td>
+        <td>✔</td>
+      </tr>
+      <tr>
+        <td>Carga en Major</td>
+        <td>Factura registrada</td>
+        <td>Error: campo vacío</td>
+        <td>✘</td>
+      </tr>
+    </table>
+    <p><strong>Conclusión:</strong> 8/10 pruebas superadas. Ajustar validación de campos vacíos.</p>
+  </div>
+
+  <div class="doc-example">
+    <h2>5. UAT Sign-off</h2>
+    <h3>Ejemplo:</h3>
+    <p><strong>Proceso:</strong> Registro de facturas proveedores</p>
+    <p><strong>Usuarios de negocio:</strong> Finanzas</p>
+    <p><strong>Resultado:</strong> Proceso validado y aprobado para producción.</p>
+    <p><strong>Firmas:</strong></p>
+    <pre>
+Usuario: _______________________
+Gerente: _______________________
+Fecha:   _______________________
+    </pre>
+  </div>
+
+  <div class="doc-example">
+    <h2>6. Deployment Guide</h2>
+    <h3>Ejemplo:</h3>
+    <p><strong>Entorno:</strong> Producción - n8n Orchestrator</p>
+    <p><strong>Pasos:</strong></p>
+    <ol>
+      <li>Importar paquete .nupkg en Orchestrator.</li>
+      <li>Asignar robot a cola "Facturas".</li>
+      <li>Configurar credenciales en Orchestrator Assets.</li>
+      <li>Activar trigger diario a las 8:00 AM.</li>
+    </ol>
+  </div>
+
+  <div class="doc-example">
+    <h2>7. Runbook / Manual Operativo</h2>
+    <h3>Ejemplo:</h3>
+    <p><strong>Robot:</strong> Bot_Registro_Facturas</p>
+    <p><strong>Frecuencia:</strong> Diario, 8:00 AM</p>
+    <p><strong>Acciones en caso de error:</strong></p>
+    <ul>
+      <li>Revisar logs en Orchestrator.</li>
+      <li>Si error de aplicación Major → Escalar a mesa de ayuda TI.</li>
+      <li>Si error de datos → Escalar a Finanzas.</li>
+    </ul>
+  </div>
+
+</body>
+</html>
