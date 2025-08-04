@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>PAD — Carga CIPRES</title>
+  <style>
+    :root { --c1:#0f62fe; --c2:#161616; --c3:#525252; --bg:#f7f8fa; }
+    *{box-sizing:border-box}
+    body{margin:0;font-family:Inter,system-ui,Segoe UI,Roboto,Arial,sans-serif;background:var(--bg);color:#222;line-height:1.5}
+    header{background:#fff;border-bottom:1px solid #e5e7eb}
+    .container{max-width:980px;margin:0 auto;padding:24px}
+    h1{margin:0 0 8px 0;font-size:28px;color:var(--c2)}
+    .meta{color:var(--c3);font-size:14px;margin-bottom:16px}
+    section{background:#fff;border:1px solid #eef0f3;border-radius:10px;padding:20px;margin:14px 0}
+    h2{font-size:18px;color:var(--c2);margin:0 0 10px 0}
+    h3{font-size:15px;color:var(--c2);margin:14px 0 8px 0}
+    ul{margin:8px 0 8px 18px}
+    ol{margin:8px 0 8px 18px}
+    table{width:100%;border-collapse:collapse;margin:8px 0}
+    th,td{border:1px solid #e5e7eb;padding:8px;text-align:left;font-size:14px}
+    th{background:#f3f4f6}
+    .badge{display:inline-block;background:var(--c1);color:#fff;border-radius:999px;padding:2px 10px;font-size:12px;margin-left:8px}
+    .grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+    @media (max-width:720px){.grid{grid-template-columns:1fr}}
+    .note{background:#eef5ff;border-left:4px solid var(--c1);padding:10px;border-radius:6px}
+    footer{color:#6b7280;font-size:12px;padding:16px 24px}
+    code{background:#f3f4f6;padding:2px 6px;border-radius:6px;font-family:ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace}
+.view-flowchart-link {
+display: inline-block; background-color: #3498db; color: white !important;
+padding: 10px 15px; text-decoration: none; border-radius: 5px;
+font-size: 0.95em; transition: background-color 0.3s ease;
+margin-bottom: 10px; border: none;
+}
+.view-flowchart-link:hover { background-color: #2980b9; color: white !important; }
+.script-feature { font-style: italic; color: #555; }
+.back-to-index-btn {
+    background-color: #6c757d; color: white !important; padding: 8px 15px;
+    text-decoration: none; border-radius: 5px; font-size: 0.9em;
+    transition: background-color 0.3s ease; border: none;
+}
+.back-to-index-btn:hover { background-color: #5a6268; }
+  </style>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+  <link rel="icon" href="../favicon.ico" type="image/x-icon">
+  <link rel="stylesheet" href="../styles.css">
+
+</head>
+<body>
+    <div class="container" style="background-color: transparent; box-shadow: none; padding-bottom:1; margin-bottom:1;">
+        <div class="page-navigation">
+            <a href="../../index.html" class="back-to-index-btn">« Volver al Inicio</a>
+            <a href="../documentacion_cipres.html" class="back-to-index-btn">« Volver a la Documentacion General</a>
+        </div>
+    </div>
+  <header>
+    <div class="container">
+      <h1>Process Assessment Document (PAD) — Carga CIPRES</h1>
+      <div class="meta">
+        Fecha: 04/08/2025 · Evaluado por: Zahir · Área responsable: Registro de Internaciones — Hospitales
+        <span class="badge">Frecuencia: Mensual</span>
+        <span class="badge">Volumen: 100 a &gt;1.000 registros/hospital</span>
+      </div>
+    </div>
+  </header>
+
+  <main class="container">
+
+    <section id="descripcion">
+      <h2>1. Descripción del Proceso (AS-IS)</h2>
+      <p>El proceso <strong>Carga CIPRES</strong> registra internaciones de pacientes en el sistema web CIPRES (Intranet). Actualmente se realiza de forma manual.</p>
+      <ol>
+        <li><strong>Recepción de datos:</strong> Listado de Excel de pacientes (Desde el Integrando).</li>
+        <li><strong>Descarga de PDFs:</strong> descarga masiva de los pdfs (F10) desde el repositorio hospitalario (consume &gt; 1 semana).</li>
+        <li><strong>Ingreso al sistema:</strong> login en CIPRES.</li>
+        <li><strong>Carga por paciente:</strong> búsqueda por documento/sexo; carga de datos de internación (fechas, diagnóstico, tipo de egreso); alta de servicio; registro de causas externas (si aplica); guardado.</li>
+        <li><strong>Registro de resultado:</strong> actualización con estado de cada paciente y motivos de error si aplican.</li>
+        <li><strong>Revisión:</strong> control y reintentos manuales cuando corresponde.</li>
+      </ol>
+    </section>
+
+    <section id="entradas">
+      <h2>2. Entradas</h2>
+      <ul>
+        <li><strong>PDFs descargados desde Integrando (F10)</strong> Por paciente.</li>
+        <li><strong>Impresión de los PDFs</strong> Por paciente.</li>
+      </ul>
+    </section>
+
+    <section id="salidas">
+      <h2>3. Salidas</h2>
+      <ul>
+        <li>Internación registrada en <strong>CIPRES</strong> por paciente.</li>
+        <li><strong>PDFs</strong> archivados/validados.</li>
+      </ul>
+    </section>
+
+    <section id="reglas">
+      <h2>4. Reglas de Negocio</h2>
+      <ul>
+        <li>Selección de <em>Tipo de egreso</em> y <em>Diagnóstico</em> conforme a opciones del sistema.</li>
+        <li>El <em>Servicio</em> debe corresponder a la internación indicada.</li>
+        <li>Si el paciente no existe en CIPRES se registra como <em>No encontrado</em> y se continúa.</li>
+        <li>Si hay datos incompletos o inválidos no se carga el registro y se documenta el motivo.</li>
+      </ul>
+    </section>
+
+    <section id="excepciones">
+      <h2>5. Excepciones</h2>
+      <ul>
+        <li>Pacientes no encontrados en el sistema.</li>
+        <li>Errores o caídas de la intranet.</li>
+        <li>Datos inconsistentes en el F10 (diganosticos no cargados, fechas inválidas, códigos inexistentes, etc.).</li>
+      </ul>
+    </section>
+
+    <section id="metricas">
+      <h2>6. Métricas del Proceso Actual</h2>
+      <table>
+        <thead>
+          <tr><th>Actividad</th><th>Tiempo estimado manual</th><th>Frecuencia</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>Descarga de PDFs</td><td>&gt; 1 semana (≈ 40 h)</td><td>Mensual</td></tr>
+          <tr><td>Carga de datos en CIPRES</td><td>&gt; 1 semana (≈ 40 h)</td><td>Mensual</td></tr>
+          <tr><th>Total</th><th>≈ 80 h</th><th>Mensual</th></tr>
+        </tbody>
+      </table>
+    </section>
+
+    <section id="viabilidad">
+      <h2>7. Evaluación de Viabilidad</h2>
+      <div class="grid">
+        <div>
+          <h3>Criterios</h3>
+          <ul>
+            <li>Reglas claras y repetitivas</li>
+            <li>Datos estructurados</li>
+            <li>Volumen/frecuencia justifican RPA</li>
+            <li>Aplicaciones estables</li>
+            <li>Baja necesidad de juicio humano</li>
+          </ul>
+        </div>
+        <div>
+          <h3>Valoración</h3>
+          <table>
+            <tbody>
+              <tr><td>Reglas claras y repetitivas</td><td>Alto</td></tr>
+              <tr><td>Datos estructurados</td><td>Alto</td></tr>
+              <tr><td>Volumen/frecuencia (ROI)</td><td>Alto</td></tr>
+              <tr><td>Estabilidad aplicación</td><td>Medio</td></tr>
+              <tr><td>Juicio humano requerido</td><td>Medio (Debido a inconsistencias en los F10)</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+      <p><strong>Conclusión:</strong> el proceso es <strong>altamente viable</strong> para automatización (ROI favorable por repetitividad y volumen).</p>
+    </section>
+
+    <section id="riesgos">
+      <h2>8. Riesgos y Consideraciones</h2>
+      <ul>
+        <li>Cambios en la interfaz del sistema CIPRES (impacto en pasos y validaciones).</li>
+        <li>Calidad de datos de entrada (necesidad de validación previa).</li>
+        <li>Disponibilidad de intranet/accesos.</li>
+      </ul>
+    </section>
+
+    </section>
+    <section id="Diagrama">
+        <div id="diagrama-flujo-seccion" style="margin-top: 30px;">
+             <a href="diagrama_pad/diagramaPAD_Cipres.html" class="view-flowchart-link"> <!-- CORREGIDO: doble guion bajo a uno solo -->
+                Ver Diagrama de Flujo: CIPRES
+            </a>
+        </div>
+    </section>
+
+  </main>
+
+  <footer>
+    <div class="container">
+      Documento PAD para evaluación de viabilidad de RPA — Carga CIPRES.
+    </div>
+  </footer>
+</body>
+</html>

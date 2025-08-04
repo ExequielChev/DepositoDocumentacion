@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Diagrama de Flujo: Carga de CIPRES</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
+        }
+        .header-nav {
+            background-color: #005f73;
+            color: white;
+            padding: 15px 0;
+            text-align: center;
+            width: 100%;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+        .header-nav a {
+            color: white;
+            text-decoration: none;
+            font-size: 1.2em;
+            padding: 10px 20px;
+            border-radius: 5px;
+            transition: background-color 0.3s ease;
+        }
+        .header-nav a:hover {
+            background-color: #0a9396;
+        }
+        .diagram-title {
+            color: #2c3e50;
+            margin-top: 25px;
+            margin-bottom: 15px;
+            text-align: center;
+            font-size: 1.8em;
+        }
+        .diagram-viewport {
+            width: 90%;
+            max-width: 1000px;
+            height: 70vh;
+            border: 1px solid #ccc;
+            overflow: hidden; /* Muy importante */
+            position: relative;
+            margin: 20px auto;
+            background-color: #fff;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+            border-radius: 8px;
+            /* El cursor se manejará con JS */
+        }
+        /* .diagram-viewport.zoomed-in { */
+            /* cursor: grab;  Podríamos cambiarlo a 'grab' o 'move' cuando está zoomeado */
+        /* } */
+        /* .diagram-viewport.zoomed-in:active { */
+            /* cursor: grabbing; */
+        /* } */
+        .diagram-viewport img {
+            display: block;
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+            transition: transform 0.3s ease-out; /* La transición solo para el scale inicial/final */
+            transform-origin: center center;
+            /* Evitar que la imagen sea arrastrable por el navegador por defecto */
+            pointer-events: none; /* La imagen en sí no captura eventos de mouse, el viewport sí */
+        }
+        /* Clase para aplicar el zoom */
+        .diagram-viewport.zoomed-in img {
+            transform: scale(5); /* Factor de zoom */
+            /* La transición aquí podría hacer el paneo menos responsivo, por eso la tenemos solo en el estado base */
+        }
+
+        .footer-nav {
+            margin-top: auto;
+            padding: 20px 0;
+            text-align: center;
+            width: 100%;
+            background-color: #2a3236;
+            color: #bbb;
+        }
+         .footer-nav p {
+            margin: 5px 0;
+        }
+        .instructions {
+            text-align: center;
+            color: #555;
+            margin-bottom: 20px;
+            font-style: italic;
+        }
+        .back-to-index-btn {
+            background-color: #6c757d; color: white !important; padding: 8px 15px;
+            text-decoration: none; border-radius: 5px; font-size: 0.9em;
+            transition: background-color 0.3s ease; border: none;
+        }
+        .back-to-index-btn:hover { background-color: #5a6268; }
+    </style>
+</head>
+<body>
+    <div class="header-nav">
+        <a href="../SDD_Carga_CIPRES.html">« Volver a la Documentación Principal</a>
+    </div>
+
+    <h1 class="diagram-title">Diagrama de Flujo: Carga de CIPRES</h1>
+    <p class="instructions">Haz clic en el diagrama para acercar. Mueve el mouse para explorar. Haz clic de nuevo para alejar.</p>
+
+    <div class="diagram-viewport" id="diagramViewport">
+        <img src="SDD_COMPONENTES _ Mermaid Chart-2025-08-04-172410.svg" alt="Diagrama de Flujo del Proceso Carga de CIPRES" id="flowchartImage">
+    </div>
+
+    <div class="footer-nav">
+        <p>© <span id="currentYear"></span> Automatizacion de Procesos. Todos los derechos reservados.</p>
+    </div>
+    <script>
+        document.getElementById('currentYear').textContent = new Date().getFullYear();
+
+        const viewport = document.getElementById('diagramViewport');
+        const image = document.getElementById('flowchartImage');
+        let isZoomed = false;
+
+        if (viewport && image) {
+            // Función para actualizar el origen de la transformación (paneo)
+            function panImage(e) {
+                if (!isZoomed) return; // Solo panear si está zoomeado
+
+                const rect = viewport.getBoundingClientRect();
+                const x = e.clientX - rect.left;
+                const y = e.clientY - rect.top;
+
+                const xPercent = (x / rect.width) * 100;
+                const yPercent = (y / rect.height) * 100;
+
+                // Aplicar el origen de la transformación para que el "centro" del zoom siga al cursor
+                // Usamos requestAnimationFrame para un paneo más suave
+                requestAnimationFrame(() => {
+                    image.style.transformOrigin = `${xPercent}% ${yPercent}%`;
+                });
+            }
+
+            // Evento de clic para alternar el zoom
+            viewport.addEventListener('click', function(e) {
+                if (!isZoomed) {
+                    // Aplicar zoom
+                    // El primer clic establece el origen del zoom inicial
+                    const rect = viewport.getBoundingClientRect();
+                    const x = e.clientX - rect.left;
+                    const y = e.clientY - rect.top;
+                    const xPercent = (x / rect.width) * 100;
+                    const yPercent = (y / rect.height) * 100;
+                    
+                    image.style.transition = 'transform 0.3s ease-out'; // Activar transición para el zoom inicial
+                    image.style.transformOrigin = `${xPercent}% ${yPercent}%`;
+                    viewport.classList.add('zoomed-in');
+                    viewport.style.cursor = 'grab'; // o 'move'
+                    isZoomed = true;
+                    // Una vez zoomeado, el movimiento del mouse controlará el paneo
+                    viewport.addEventListener('mousemove', panImage);
+                } else {
+                    // Quitar zoom
+                    image.style.transition = 'transform 0.3s ease-out'; // Activar transición para alejar
+                    viewport.classList.remove('zoomed-in');
+                    image.style.transformOrigin = 'center center'; // Opcional: resetear origen
+                    viewport.style.cursor = 'zoom-in';
+                    isZoomed = false;
+                    // Dejar de escuchar el movimiento del mouse para paneo
+                    viewport.removeEventListener('mousemove', panImage);
+                }
+            });
+
+            // Opcional: Resetear cursor si el mouse sale del viewport mientras está zoomeado
+            viewport.addEventListener('mouseleave', function() {
+                if (isZoomed) {
+                    // Podrías querer que el paneo se detenga o se mantenga el último estado
+                    // Por simplicidad, no hacemos nada aquí, el paneo se reanudará si vuelve a entrar
+                }
+            });
+        }
+    </script>
+</body>
+</html>
