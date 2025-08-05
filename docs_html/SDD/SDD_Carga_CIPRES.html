@@ -109,7 +109,7 @@
         <li>SO Windows con Python 3.11.9</li>
         <li>Navegador Google Chrome y ChromeDriver compatible</li>
         <li>Librerias: pandas selenium openpyxl pytesseract tabula opcional segun OCR</li>
-        <li>Acceso a intranet para Integrando y CIPRES</li>
+        <li>Acceso a Intranet y Integrando para CIPRES</li>
       </ul>
     </section>
 
@@ -132,18 +132,28 @@
     <section id="directorios">
       <h2>5. Estructura de directorios</h2>
       <pre>
-Base
-  config
-    settings.xlsx
+Bots_CoParticipacion
+  app
+    config
+      settings.xlsx
+    modulos
+      descarga.py
+      ocr.py
+      carga_cipres.py
+  inputs
     dic_diagnosticos_hombre.xlsx
     dic_diagnosticos_mujer.xlsx
     dic_causas_externas.xlsx
-  inputs
-    periodo_YYYYMM
+    excel_carga_cipres.xlsx
+    pdfs
+      2025-07-01-2025-07-31
+        1234567890.pdf
+        0987654321.pdf
   outputs
-    logs
+      dataset
+      cipres.xlsx
+  logs
     evidencias
-    dataset
   runtime
       </pre>
     </section>
