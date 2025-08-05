@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Runbook - Carga CIPRES</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f9f9f9;
+      margin: 0;
+      padding: 20px;
+      color: #333;
+      line-height: 1.6;
+    }
+
+    h1, h2, h3 {
+      color: #005f73;
+    }
+
+    h1 {
+      text-align: center;
+      margin-bottom: 30px;
+    }
+
+    code, pre {
+      background-color: #f4f4f4;
+      padding: 10px;
+      border-radius: 5px;
+      display: block;
+      overflow-x: auto;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 20px 0;
+    }
+
+    table, th, td {
+      border: 1px solid #ccc;
+    }
+
+    th, td {
+      padding: 10px;
+      text-align: left;
+    }
+
+    th {
+      background-color: #e0f7fa;
+    }
+
+    .section {
+      margin-top: 40px;
+    }
+
+    .view-flowchart-link {
+    display: inline-block; background-color: #3498db; color: white !important;
+    padding: 10px 15px; text-decoration: none; border-radius: 5px;
+    font-size: 0.95em; transition: background-color 0.3s ease;
+    margin-bottom: 10px; border: none;
+    }
+    .view-flowchart-link:hover { background-color: #2980b9; color: white !important; }
+    .script-feature { font-style: italic; color: #555; }
+    .back-to-index-btn {
+        background-color: #6c757d; color: white !important; padding: 8px 15px;
+        text-decoration: none; border-radius: 5px; font-size: 0.9em;
+        transition: background-color 0.3s ease; border: none;
+    }
+    .back-to-index-btn:hover { background-color: #5a6268; }
+      </style>
+      <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+      <link rel="icon" href="../favicon.ico" type="image/x-icon">
+      <link rel="stylesheet" href="../../style.css">
+
+  </style>
+</head>
+<body>
+    <div class="container" style="background-color: transparent; box-shadow: none; padding-bottom:0; margin-bottom:0;">
+        <div class="page-navigation">
+            <a href="../documentacion_cipres.html" class="back-to-index-btn">« Volver al Inicio</a>
+        </div>
+    </div>
+
+  <h1>🧾 RUNBOOK - CARGA DE INTERNACIONES EN CIPRES</h1>
+
+  <div class="section">
+    <h2>📌 Objetivo</h2>
+    <p>Automatizar el proceso de carga de registros de internación en el sistema <strong>CIPRES</strong>, a partir de un archivo Excel procesado previamente con bots de descarga y OCR.</p>
+  </div>
+
+  <div class="section">
+    <h2>📁 Estructura del proyecto</h2>
+    <pre><code>Bots_CoParticipacion/
+├── app/
+│   ├── config/
+│   │   └── settings.xlsx
+│   ├── modulos/
+│   │   ├── descarga.py
+│   │   ├── ocr.py
+│   │   └── carga_cipres.py
+│   └── interfaz.exe
+├── inputs/
+│   ├── dic_diagnosticos_hombre.xlsx
+│   ├── dic_diagnosticos_mujer.xlsx
+│   ├── dic_causas_externas.xlsx
+│   ├── excel_carga_cipres.xlsx
+│   └── pdfs/
+│       └── 2025-07-01-2025-07-31/
+├── outputs/
+│   ├── dataset/
+│   └── cipres.xlsx
+└── logs/
+    └── evidencias/
+</code></pre>
+  </div>
+
+  <div class="section">
+    <h2>🔧 Configuración Inicial</h2>
+    <ol>
+      <li>Ejecutar <code>interfaz.exe</code> desde la carpeta <code>app</code>.</li>
+      <li>Presionar <strong>CONFIGURACIÓN</strong>.</li>
+      <li>Completar los campos:</li>
+    </ol>
+
+    <table>
+      <thead>
+        <tr>
+          <th>Campo</th>
+          <th>Descripción</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr><td>Usuario</td><td>Usuario de acceso</td></tr>
+        <tr><td>Contraseña</td><td>Contraseña</td></tr>
+        <tr><td>Ruta de la carpeta</td><td>Ruta completa al proyecto</td></tr>
+        <tr><td>Nombre Excel</td><td>Ruta del archivo <code>excel_carga_cipres.xlsx</code></td></tr>
+        <tr><td>Nombre Hoja Excel</td><td>Generalmente <code>Sheet1</code></td></tr>
+        <tr><td>URL_LOGIN</td><td>URL del login de CIPRES</td></tr>
+        <tr><td>URL_INTERN</td><td>URL para carga de internaciones</td></tr>
+        <tr><td>EXCEL_OUT</td><td>Ruta para guardar resultados</td></tr>
+        <tr><td>Usuario_Integrando</td><td>Usuario de Integrando</td></tr>
+        <tr><td>Contraseña_Integrando</td><td>Contraseña de Integrando</td></tr>
+        <tr><td>Fecha Inicio / Fin</td><td>Rango de fechas de las internaciones</td></tr>
+        <tr><td>Efector</td><td>Hospital o institución</td></tr>
+      </tbody>
+    </table>
+
+    <p>Presionar <strong>Guardar Cambios</strong> al finalizar.</p>
+  </div>
+
+  <div class="section">
+    <h2>▶️ Ejecución</h2>
+    <ol>
+      <li>Volver a la pantalla principal.</li>
+      <li>Seleccionar <strong>SELECCIONAR SCRIPT</strong>.</li>
+      <li>Marcar únicamente <code>carga_cipres.py</code>.</li>
+      <li>Presionar <strong>INICIAR</strong>.</li>
+      <li>Ver logs en tiempo real desde el visor en la interfaz.</li>
+    </ol>
+  </div>
+
+  <div class="section">
+    <h2>📦 Resultados</h2>
+    <ul>
+      <li><code>outputs/cipres.xlsx</code>: archivo con estado de cada internación.</li>
+      <li><code>logs/evidencias/</code>: registros y capturas.</li>
+    </ul>
+  </div>
+
+  <div class="section">
+    <h2>🛠️ Posibles errores comunes</h2>
+    <table>
+      <thead>
+        <tr>
+          <th>Error</th>
+          <th>Causa</th>
+          <th>Solución</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr><td>El bot no inicia</td><td><code>settings.xlsx</code> mal configurado</td><td>Revisar rutas y credenciales</td></tr>
+        <tr><td>No encuentra archivo Excel</td><td>Ruta o nombre de hoja incorrectos</td><td>Verificar campos <code>Nombre Excel</code> y <code>Hoja</code></td></tr>
+        <tr><td>Carga parcial</td><td>Datos mal estructurados</td><td>Revisar salida del OCR y validación previa</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="section">
+    <h2>📍Notas adicionales</h2>
+    <ul>
+      <li>La interfaz no requiere conexión para abrir, pero sí para acceder a <strong>CIPRES e Integrando</strong>.</li>
+      <li>Ejecutar solo cuando los datos estén validados correctamente.</li>
+    </ul>
+  </div>
+
+</body>
+</html>
