@@ -68,13 +68,58 @@
         }
         .view-flowchart-link:hover { background-color: #2980b9; color: white !important; }
         .script-feature { font-style: italic; color: #555; }
+        /* Corrige visualización de <code> */
         code {
-        white-space: normal;
-        word-break: break-word;
+            background-color: #ecf0f1;
+            padding: 2px 5px;
+            border-radius: 4px;
+            font-family: Consolas, Monaco, 'Andale Mono', 'Ubuntu Mono', monospace;
+            white-space: normal;
+            word-break: break-word;
+            display: inline;
+            font-size: 1em;
         }
 
-        li {
-            overflow-wrap: break-word; /* asegura que el contenido largo se divida */
+        /* Ajustes responsive */
+        @media only screen and (max-width: 600px) {
+            body {
+                padding: 10px;
+                font-size: 0.95em;
+            }
+
+            .container {
+                padding: 15px;
+                margin: 0 5px;
+                box-shadow: none;
+            }
+
+            h1 {
+                font-size: 1.5em;
+            }
+
+            h2 {
+                font-size: 1.2em;
+            }
+
+            .back-to-index-btn, .view-flowchart-link {
+                font-size: 0.85em;
+                padding: 6px 10px;
+            }
+
+            code {
+                font-size: 0.9em;
+                word-break: break-word;
+            }
+
+            ul, ol {
+                padding-left: 20px;
+                margin-left: 10px;
+            }
+        }
+
+        /* Mejora cálculo de anchos */
+        *, *::before, *::after {
+            box-sizing: border-box;
         }
 
     </style>
