@@ -68,6 +68,14 @@
         }
         .view-flowchart-link:hover { background-color: #2980b9; color: white !important; }
         .script-feature { font-style: italic; color: #555; }
+        code {
+        white-space: pre-wrap; /* permite el salto de línea */
+        word-break: break-word; /* rompe palabras largas si es necesario */
+        }
+        li {
+            overflow-wrap: break-word; /* asegura que el contenido largo se divida */
+        }
+
     </style>
 </head>
 <body>
@@ -177,7 +185,7 @@
         <p class="script-feature">Se implementa un sistema de logging que guarda los registros en <code>Desktop\Bots_CoParticipacion\Logs\cipres_bot_YYYYMMDD_HHMMSS.log</code> y también los muestra en consola.</p>
 
         <div id="diagrama-flujo-seccion" style="margin-top: 30px;">
-             <a href="diagrama_CargaCipres.html" class="view-flowchart-link" target="_blank">
+             <a href="diagrama_CargaCipres.html" class="view-flowchart-link">
                 Ver Diagrama de Flujo: Carga CIPRES
             </a>
         </div>
