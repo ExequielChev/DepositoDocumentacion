@@ -1,11 +1,12 @@
 <!DOCTYPE html>
+
 <html lang="es">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>SDD — Carga CIPRES</title>
-      <link rel="icon" href="../../favicon.png" type="image/png">
-  <style>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>SDD — Carga CIPRES</title>
+<link href="../../favicon.png" rel="icon" type="image/png"/>
+<style>
     :root { --c1:#0f62fe; --c2:#161616; --c3:#525252; --bg:#f7f8fa; }
     *{box-sizing:border-box}
     body{margin:0;font-family:Inter,system-ui,Segoe UI,Roboto,Arial,sans-serif;background:var(--bg);color:#222;line-height:1.5}
@@ -42,70 +43,73 @@
       text-decoration: none; border-radius: 5px; font-size: 0.9em;
       transition: background-color 0.3s ease; border: none;
   }
-    .responsive-table-container {
-      width: 100%;
-      overflow-x: auto;
-    }
-
-    .responsive-table-container table {
-      min-width: 600px; /* o lo que necesites para que no se aplaste */
-    }
-
   .back-to-index-btn:hover { background-color: #ffffff; }
-    </style>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
-    <link rel="icon" href="../favicon.ico" type="image/x-icon">
-    <link rel="stylesheet" href="../../style.css">
-
-
-
-    </style>
     
+/* Ajuste de tablas para que sean responsivas */
+.responsive-table-container {
+    width: 100%;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+}
+
+.responsive-table-container table {
+    border-collapse: collapse;
+    width: 100%;
+    min-width: 600px;
+}
+
+.responsive-table-container th,
+.responsive-table-container td {
+    padding: 8px;
+    text-align: left;
+    white-space: nowrap;
+    border: 1px solid #ddd;
+}
+</style>
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet"/>
+<link href="../favicon.ico" rel="icon" type="image/x-icon"/>
+<link href="../../style.css" rel="stylesheet"/>
+
 </head>
 <body>
-
-    <div class="container" style="background-color: transparent; box-shadow: none; padding-bottom:1; margin-bottom:1;">
-        <div class="page-navigation">
-            <a href="../../index.html" class="back-to-index-btn">« Volver al Inicio</a>
-            <a href="../documentacion_cipres.html" class="back-to-index-btn">« Volver a la Documentacion General</a>
-        </div>
-    </div>
-  <header>
-    <div class="container">
-      <h1>Solution Design Document SDD — Carga CIPRES</h1>
-      <div class="meta">
+<div class="container" style="background-color: transparent; box-shadow: none; padding-bottom:1; margin-bottom:1;">
+<div class="page-navigation">
+<a class="back-to-index-btn" href="../../index.html">« Volver al Inicio</a>
+<a class="back-to-index-btn" href="../documentacion_cipres.html">« Volver a la Documentacion General</a>
+</div>
+</div>
+<header>
+<div class="container">
+<h1>Solution Design Document SDD — Carga CIPRES</h1>
+<div class="meta">
         Fecha: 04/08/2025 · Autor: Zahir · Área responsable: Registro de Internaciones — Hospitales
         <span class="badge">Versión 1.0</span>
-      </div>
-    </div>
-  </header>
-
-  <main class="container">
-
-    <section id="proposito">
-      <h2>1. Proposito</h2>
-      <p>Describir el diseño tecnico de la solucion de RPA para Carga CIPRES, detallando arquitectura, componentes, configuraciones, manejo de errores, logging, seguridad, despliegue y monitoreo. Este documento baja a detalle tecnico basado en el PDD.</p>
-    </section>
-
-    <section id="arquitectura">
-      <h2>2. Arquitectura de la solucion</h2>
-      <div class="grid2">
-        <div>
-          <h3>Componentes</h3>
-          <ul>
-            <li>Modulo Descarga integra Integrando para listado y PDFs.</li>
-            <li>Modulo OCR procesa PDFs y genera dataset estructurado.</li>
-            <li>Modulo Carga CIPRES ejecuta la carga en el sistema destino.</li>
-            <li>Orquestador programa y dispara ejecuciones mensuales.</li>
-            <li>Repositorio de configuracion y diccionarios.</li>
-            <li>Modulo de logging y evidencias.</li>
-          </ul>
-        </div>
-        <div style="margin-top: 30px;">
-          <h3 style="margin-bottom: 10px;">Diagrama de Componentes: CIPRES</h3>
-          <div style="background: #f9fafb; border: 1px solid #e5e7eb; padding: 20px; border-radius: 12px;">
-            <a href="diagrama_sdd/diagramaSDDcomponentesCipres.html"
-              style="
+</div>
+</div>
+</header>
+<main class="container">
+<section id="proposito">
+<h2>1. Proposito</h2>
+<p>Describir el diseño tecnico de la solucion de RPA para Carga CIPRES, detallando arquitectura, componentes, configuraciones, manejo de errores, logging, seguridad, despliegue y monitoreo. Este documento baja a detalle tecnico basado en el PDD.</p>
+</section>
+<section id="arquitectura">
+<h2>2. Arquitectura de la solucion</h2>
+<div class="grid2">
+<div>
+<h3>Componentes</h3>
+<ul>
+<li>Modulo Descarga integra Integrando para listado y PDFs.</li>
+<li>Modulo OCR procesa PDFs y genera dataset estructurado.</li>
+<li>Modulo Carga CIPRES ejecuta la carga en el sistema destino.</li>
+<li>Orquestador programa y dispara ejecuciones mensuales.</li>
+<li>Repositorio de configuracion y diccionarios.</li>
+<li>Modulo de logging y evidencias.</li>
+</ul>
+</div>
+<div style="margin-top: 30px;">
+<h3 style="margin-bottom: 10px;">Diagrama de Componentes: CIPRES</h3>
+<div style="background: #f9fafb; border: 1px solid #e5e7eb; padding: 20px; border-radius: 12px;">
+<a href="diagrama_sdd/diagramaSDDcomponentesCipres.html" style="
                 display: inline-block;
                 background-color: #0f62fe;
                 color: white;
@@ -118,41 +122,36 @@
               ">
               Ver Diagrama de Componentes
             </a>
-          </div>
-        </div>
-    </section>
-
-    <section id="entorno">
-      <h2>3. Entorno de ejecucion</h2>
-      <ul>
-        <li>SO Windows con Python 3.11.9</li>
-        <li>Navegador Google Chrome y ChromeDriver compatible</li>
-        <li>Librerias: pandas selenium openpyxl pytesseract tabula opcional segun OCR</li>
-        <li>Acceso a Intranet y Integrando para CIPRES</li>
-      </ul>
-    </section>
-
-    <section id="configuracion">
-      <h2>4. Configuracion y parametros</h2>
-    <div class="responsive-table-container"></div>
-      <table>
-        <tr><th>Parametro</th><th>Descripcion</th><th>Ejemplo</th></tr>
-        <tr><td>EFECTOR</td><td>Hospital o sede a procesar</td><td>Hospital Central</td></tr>
-        <tr><td>FECHA_DESDE</td><td>Inicio del periodo a descargar</td><td>01/07/2025</td></tr>
-        <tr><td>FECHA_HASTA</td><td>Fin del periodo a descargar</td><td>31/07/2025</td></tr>
-        <tr><td>RUTA_PDFS</td><td>Directorio de almacenamiento de PDFs</td><td>C:\Ruta\PDFs</td></tr>
-        <tr><td>RUTA_DATASET</td><td>Ruta del Excel estructurado</td><td>C:\Dataset\cipres.xlsx</td></tr>
-        <tr><td>REINTENTOS_BUSQUEDA</td><td>Reintentos en busqueda de paciente</td><td>2</td></tr>
-        <tr><td>TIMEOUT_WEB</td><td>Timeout maximo de espera en UI segundos</td><td>30</td></tr>
-        <tr><td>HEADLESS</td><td>Ejecucion sin UI para modulos no interactivos</td><td>True</td></tr>
-      </table>
-    </div>
-      <p class="note">Las credenciales se administran fuera de archivos en un almacen seguro y se inyectan en tiempo de ejecucion.</p>
-    </section>
-
-    <section id="directorios">
-      <h2>5. Estructura de directorios</h2>
-      <pre>
+</div>
+</div>
+</div></section>
+<section id="entorno">
+<h2>3. Entorno de ejecucion</h2>
+<ul>
+<li>SO Windows con Python 3.11.9</li>
+<li>Navegador Google Chrome y ChromeDriver compatible</li>
+<li>Librerias: pandas selenium openpyxl pytesseract tabula opcional segun OCR</li>
+<li>Acceso a Intranet y Integrando para CIPRES</li>
+</ul>
+</section>
+<section id="configuracion">
+<h2>4. Configuracion y parametros</h2>
+<div class="responsive-table-container"><table>
+<tr><th>Parametro</th><th>Descripcion</th><th>Ejemplo</th></tr>
+<tr><td>EFECTOR</td><td>Hospital o sede a procesar</td><td>Hospital Central</td></tr>
+<tr><td>FECHA_DESDE</td><td>Inicio del periodo a descargar</td><td>01/07/2025</td></tr>
+<tr><td>FECHA_HASTA</td><td>Fin del periodo a descargar</td><td>31/07/2025</td></tr>
+<tr><td>RUTA_PDFS</td><td>Directorio de almacenamiento de PDFs</td><td>C:\Ruta\PDFs</td></tr>
+<tr><td>RUTA_DATASET</td><td>Ruta del Excel estructurado</td><td>C:\Dataset\cipres.xlsx</td></tr>
+<tr><td>REINTENTOS_BUSQUEDA</td><td>Reintentos en busqueda de paciente</td><td>2</td></tr>
+<tr><td>TIMEOUT_WEB</td><td>Timeout maximo de espera en UI segundos</td><td>30</td></tr>
+<tr><td>HEADLESS</td><td>Ejecucion sin UI para modulos no interactivos</td><td>True</td></tr>
+</table></div>
+<p class="note">Las credenciales se administran fuera de archivos en un almacen seguro y se inyectan en tiempo de ejecucion.</p>
+</section>
+<section id="directorios">
+<h2>5. Estructura de directorios</h2>
+<pre>
 Bots_CoParticipacion
   app
     config
@@ -177,13 +176,11 @@ Bots_CoParticipacion
     evidencias
   runtime
       </pre>
-    </section>
-
-    <section id="secuencia">
-      <h2>6. Secuencia técnica de ejecución</h2>
-      <div style="background: #f9fafb; border: 1px solid #e5e7eb; padding: 20px; border-radius: 12px; margin-top: 20px;">
-        <a href="diagrama_sdd/diagramaSDDestructuraCipres.html"
-          style="
+</section>
+<section id="secuencia">
+<h2>6. Secuencia técnica de ejecución</h2>
+<div style="background: #f9fafb; border: 1px solid #e5e7eb; padding: 20px; border-radius: 12px; margin-top: 20px;">
+<a href="diagrama_sdd/diagramaSDDestructuraCipres.html" style="
             display: inline-block;
             background-color: #0f62fe;
             color: white;
@@ -196,116 +193,99 @@ Bots_CoParticipacion
           ">
           Ver Diagrama de Secuencia: CIPRES
         </a>
-      </div>
-    </section>
-
-
-    <section id="mapa_datos">
-      <h2>7. Mapeo de datos</h2>
-    <div class="responsive-table-container"></div>
-      <table>
-        <tr><th>Origen</th><th>Campo</th><th>Transformacion</th><th>Destino</th></tr>
-        <tr><td>OCR</td><td>Nro Documento</td><td>Solo digitos y trim</td><td>Busqueda paciente</td></tr>
-        <tr><td>OCR</td><td>Sexo</td><td>Normalizar a Masculino Femenino</td><td>Busqueda paciente</td></tr>
-        <tr><td>OCR</td><td>Fecha Ingreso</td><td>Parse dd mm yyyy a dd/mm/yyyy</td><td>internacion_fechaingreso</td></tr>
-        <tr><td>OCR</td><td>Fecha Egreso</td><td>Parse y validar no menor a ingreso</td><td>internacion_fechaegreso</td></tr>
-        <tr><td>OCR</td><td>Tipo Egreso</td><td>Tabla equivalencias</td><td>Dropdown tipo egreso</td></tr>
-        <tr><td>OCR y Diccionario</td><td>Diagnostico</td><td>Resolver por codigo y sexo</td><td>Autocompletar diagnostico</td></tr>
-        <tr><td>OCR</td><td>Servicio</td><td>Normalizar segun catalogo</td><td>Autocompletar servicio</td></tr>
-        <tr><td>OCR</td><td>Causas externas</td><td>Mapeo producido lugar como</td><td>Campos motivo</td></tr>
-      </table>
-    </div>
-    </section>
-
-    <section id="selectores">
-      <h2>8. Selectores y puntos de anclaje</h2>
-      <ul>
-        <li>Login CIPRES usuario id usuario contraseña id password boton ingresar id loginButton</li>
-        <li>Busqueda paciente documento id doc sexo select id sexo boton buscar id btnBuscar</li>
-        <li>Internacion campos historia clinica id internacion_historiaclinica informe id internacion_informe fechas id internacion_fechaingreso e id internacion_fechaegreso</li>
-        <li>Diagnostico input id internacion_diagnosticoP lista autocompletar class ui autocomplete</li>
-        <li>Servicio contenedor clase collection widget boton agregar clase add another collection widget</li>
-        <li>Guardar id guardar mensajes de alerta div alert alert ms</li>
-      </ul>
-      <p class="note">Los selectores pueden variar por version de CIPRES. Mantener archivo de mapeo por version.</p>
-    </section>
-
-    <section id="manejo_errores">
-      <h2>9. Manejo de errores y reintentos</h2>
-    <div class="responsive-table-container"></div>
-      <table>
-        <tr><th>Escenario</th><th>Politica</th><th>Detalle</th></tr>
-        <tr><td>Login fallido</td><td>Reintentar 1</td><td>Si falla registrar incidencia y abortar modulo</td></tr>
-        <tr><td>Elemento no encontrado</td><td>Reintentar 2</td><td>Refrescar vista o navegar a inicio de modulo</td></tr>
-        <tr><td>Guardar con validacion</td><td>Continuar</td><td>Capturar mensaje y marcar fila con error</td></tr>
-        <tr><td>Busqueda sin resultados</td><td>Continuar</td><td>Marcar No encontrado y seguir</td></tr>
-      </table>
-    </div>
-    </section>
-
-    <section id="logging">
-      <h2>10. Logging y evidencias</h2>
-      <ul>
-        <li>Formato log nivel timestamp modulo mensaje</li>
-        <li>Archivo por ejecucion en carpeta logs con fecha y hora</li>
-        <li>Capturas de pantalla ante errores criticos login busqueda cargar guardar</li>
-        <li>Reporte final de resultados por fila con conteos</li>
-      </ul>
-    </section>
-
-    <section id="seguridad">
-      <h2>11. Seguridad</h2>
-      <ul>
-        <li>Credenciales en almacen seguro con rotacion periodica</li>
-        <li>Datos sensibles minimizados en logs y evidencias</li>
-        <li>Control de acceso a carpetas PDFs dataset y logs</li>
-      </ul>
-    </section>
-
-    <section id="rendimiento">
-      <h2>12. Metricas y objetivos de rendimiento</h2>
-      <ul>
-        <li>Descarga en minutos segun ancho de banda</li>
-        <li>OCR y estructuracion menor a 60 min para 1000 registros</li>
-        <li>Carga en CIPRES cercana a 2 horas para 1000 registros</li>
-        <li>Tasa de exito mayor o igual a 98 por ciento</li>
-      </ul>
-    </section>
-
-    <section id="pruebas">
-      <h2>13. Plan de pruebas</h2>
-    <div class="responsive-table-container"></div>
-      <table>
-        <tr><th>Tipo</th><th>Objetivo</th><th>Entradas</th><th>Resultado esperado</th></tr>
-        <tr><td>Unitario</td><td>Validar parseo de fechas y mapeos</td><td>PDFs de muestra</td><td>Fechas y codigos correctos</td></tr>
-        <tr><td>Integrado</td><td>Fin a fin de lote pequeno</td><td>10 episodios</td><td>Registros creados y log consistente</td></tr>
-        <tr><td>UAT</td><td>Validacion funcional con el area</td><td>Lote representativo</td><td>Aceptacion segun criterios</td></tr>
-      </table>
-    </div>
-    </section>
-
-    <section id="deploy">
-      <h2>14. Despliegue y versionado</h2>
-      <ul>
-        <li>Version semantica mayor menor parche</li>
-        <li>Paquete de despliegue con scripts configuraciones y dependencias</li>
-        <li>Checklist post despliegue smoke test</li>
-      </ul>
-    </section>
-
-    <section id="operacion">
-      <h2>15. Operacion y monitoreo</h2>
-      <ul>
-        <li>Orquestacion con scheduler mensual</li>
-        <li>Alertas por email o canal interno ante errores criticos</li>
-        <li>Dashboard de ejecuciones con ultimos estados</li>
-      </ul>
-    </section>
-
-    <section id="pseudocodigo">
-      <h2>16. Pseudocodigo de modulos</h2>
-      <h3>Modulo Descarga</h3>
-      <pre>
+</div>
+</section>
+<section id="mapa_datos">
+<h2>7. Mapeo de datos</h2>
+<div class="responsive-table-container"><table>
+<tr><th>Origen</th><th>Campo</th><th>Transformacion</th><th>Destino</th></tr>
+<tr><td>OCR</td><td>Nro Documento</td><td>Solo digitos y trim</td><td>Busqueda paciente</td></tr>
+<tr><td>OCR</td><td>Sexo</td><td>Normalizar a Masculino Femenino</td><td>Busqueda paciente</td></tr>
+<tr><td>OCR</td><td>Fecha Ingreso</td><td>Parse dd mm yyyy a dd/mm/yyyy</td><td>internacion_fechaingreso</td></tr>
+<tr><td>OCR</td><td>Fecha Egreso</td><td>Parse y validar no menor a ingreso</td><td>internacion_fechaegreso</td></tr>
+<tr><td>OCR</td><td>Tipo Egreso</td><td>Tabla equivalencias</td><td>Dropdown tipo egreso</td></tr>
+<tr><td>OCR y Diccionario</td><td>Diagnostico</td><td>Resolver por codigo y sexo</td><td>Autocompletar diagnostico</td></tr>
+<tr><td>OCR</td><td>Servicio</td><td>Normalizar segun catalogo</td><td>Autocompletar servicio</td></tr>
+<tr><td>OCR</td><td>Causas externas</td><td>Mapeo producido lugar como</td><td>Campos motivo</td></tr>
+</table></div>
+</section>
+<section id="selectores">
+<h2>8. Selectores y puntos de anclaje</h2>
+<ul>
+<li>Login CIPRES usuario id usuario contraseña id password boton ingresar id loginButton</li>
+<li>Busqueda paciente documento id doc sexo select id sexo boton buscar id btnBuscar</li>
+<li>Internacion campos historia clinica id internacion_historiaclinica informe id internacion_informe fechas id internacion_fechaingreso e id internacion_fechaegreso</li>
+<li>Diagnostico input id internacion_diagnosticoP lista autocompletar class ui autocomplete</li>
+<li>Servicio contenedor clase collection widget boton agregar clase add another collection widget</li>
+<li>Guardar id guardar mensajes de alerta div alert alert ms</li>
+</ul>
+<p class="note">Los selectores pueden variar por version de CIPRES. Mantener archivo de mapeo por version.</p>
+</section>
+<section id="manejo_errores">
+<h2>9. Manejo de errores y reintentos</h2>
+<div class="responsive-table-container"><table>
+<tr><th>Escenario</th><th>Politica</th><th>Detalle</th></tr>
+<tr><td>Login fallido</td><td>Reintentar 1</td><td>Si falla registrar incidencia y abortar modulo</td></tr>
+<tr><td>Elemento no encontrado</td><td>Reintentar 2</td><td>Refrescar vista o navegar a inicio de modulo</td></tr>
+<tr><td>Guardar con validacion</td><td>Continuar</td><td>Capturar mensaje y marcar fila con error</td></tr>
+<tr><td>Busqueda sin resultados</td><td>Continuar</td><td>Marcar No encontrado y seguir</td></tr>
+</table></div>
+</section>
+<section id="logging">
+<h2>10. Logging y evidencias</h2>
+<ul>
+<li>Formato log nivel timestamp modulo mensaje</li>
+<li>Archivo por ejecucion en carpeta logs con fecha y hora</li>
+<li>Capturas de pantalla ante errores criticos login busqueda cargar guardar</li>
+<li>Reporte final de resultados por fila con conteos</li>
+</ul>
+</section>
+<section id="seguridad">
+<h2>11. Seguridad</h2>
+<ul>
+<li>Credenciales en almacen seguro con rotacion periodica</li>
+<li>Datos sensibles minimizados en logs y evidencias</li>
+<li>Control de acceso a carpetas PDFs dataset y logs</li>
+</ul>
+</section>
+<section id="rendimiento">
+<h2>12. Metricas y objetivos de rendimiento</h2>
+<ul>
+<li>Descarga en minutos segun ancho de banda</li>
+<li>OCR y estructuracion menor a 60 min para 1000 registros</li>
+<li>Carga en CIPRES cercana a 2 horas para 1000 registros</li>
+<li>Tasa de exito mayor o igual a 98 por ciento</li>
+</ul>
+</section>
+<section id="pruebas">
+<h2>13. Plan de pruebas</h2>
+<div class="responsive-table-container"><table>
+<tr><th>Tipo</th><th>Objetivo</th><th>Entradas</th><th>Resultado esperado</th></tr>
+<tr><td>Unitario</td><td>Validar parseo de fechas y mapeos</td><td>PDFs de muestra</td><td>Fechas y codigos correctos</td></tr>
+<tr><td>Integrado</td><td>Fin a fin de lote pequeno</td><td>10 episodios</td><td>Registros creados y log consistente</td></tr>
+<tr><td>UAT</td><td>Validacion funcional con el area</td><td>Lote representativo</td><td>Aceptacion segun criterios</td></tr>
+</table></div>
+</section>
+<section id="deploy">
+<h2>14. Despliegue y versionado</h2>
+<ul>
+<li>Version semantica mayor menor parche</li>
+<li>Paquete de despliegue con scripts configuraciones y dependencias</li>
+<li>Checklist post despliegue smoke test</li>
+</ul>
+</section>
+<section id="operacion">
+<h2>15. Operacion y monitoreo</h2>
+<ul>
+<li>Orquestacion con scheduler mensual</li>
+<li>Alertas por email o canal interno ante errores criticos</li>
+<li>Dashboard de ejecuciones con ultimos estados</li>
+</ul>
+</section>
+<section id="pseudocodigo">
+<h2>16. Pseudocodigo de modulos</h2>
+<h3>Modulo Descarga</h3>
+<pre>
 iniciar navegador
 login a integrando
 ir a listar episodios
@@ -314,15 +294,15 @@ descargar listado
 para cada episodio descargar pdf
 registrar resultados descarga
       </pre>
-      <h3>Modulo OCR</h3>
-      <pre>
+<h3>Modulo OCR</h3>
+<pre>
 para cada pdf del periodo
   extraer campos clave
   normalizar y validar valores
 construir excel estructurado
       </pre>
-      <h3>Modulo Carga CIPRES</h3>
-      <pre>
+<h3>Modulo Carga CIPRES</h3>
+<pre>
 login a CIPRES
 para cada fila del excel
   buscar paciente por documento y sexo
@@ -334,14 +314,12 @@ para cada fila del excel
     marcar no encontrado
 registrar reporte final
       </pre>
-    </section>
-
-  </main>
-
-  <footer>
-    <div class="container">
+</section>
+</main>
+<footer>
+<div class="container">
       Documento SDD — Diseno tecnico de la solucion Carga CIPRES.
     </div>
-  </footer>
+</footer>
 </body>
 </html>
