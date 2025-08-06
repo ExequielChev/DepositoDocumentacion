@@ -3,8 +3,8 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>PDD — Carga CIPRES</title>
-      <link rel="icon" href="../../favicon.png" type="image/png">
+  <title>Process Definition Document PDD — Carga CIPRES</title>
+  <link rel="icon" href="../../favicon.png" type="image/png">
   <style>
     :root { --c1:#0f62fe; --c2:#161616; --c3:#525252; --bg:#f7f8fa; }
     *{box-sizing:border-box}
@@ -29,26 +29,26 @@
     code{background:#f3f4f6;padding:2px 6px;border-radius:6px;font-family:ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace}
     pre{white-space:pre-wrap;background:#f8fafc;border:1px dashed #e5e7eb;border-radius:8px;padding:10px}
 
-.view-flowchart-link {
-display: inline-block; background-color: #3498db; color: white !important;
-padding: 10px 15px; text-decoration: none; border-radius: 5px;
-font-size: 0.95em; transition: background-color 0.3s ease;
-margin-bottom: 10px; border: none;
-}
-.view-flowchart-link:hover { background-color: #2980b9; color: white !important; }
-.script-feature { font-style: italic; color: #555; }
-.back-to-index-btn {
-    background-color: #6c757d; color: white !important; padding: 8px 15px;
-    text-decoration: none; border-radius: 5px; font-size: 0.9em;
-    transition: background-color 0.3s ease; border: none;
-}
-.back-to-index-btn:hover { background-color: #5a6268; }
-  </style>
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
-  <link rel="icon" href="../favicon.ico" type="image/x-icon">
-  <link rel="stylesheet" href="../../style.css">
-  </style>
-  
+  .view-flowchart-link {
+  display: inline-block; background-color: #3498db; color: white !important;
+  padding: 10px 15px; text-decoration: none; border-radius: 5px;
+  font-size: 0.95em; transition: background-color 0.3s ease;
+  margin-bottom: 10px; border: none;
+  }
+  .view-flowchart-link:hover { background-color: #2980b9; color: white !important; }
+  .script-feature { font-style: italic; color: #555; }
+  .back-to-index-btn {
+      background-color: #6c757d; color: white !important; padding: 8px 15px;
+      text-decoration: none; border-radius: 5px; font-size: 0.9em;
+      transition: background-color 0.3s ease; border: none;
+  }
+  .back-to-index-btn:hover { background-color: #ffffff; }
+    </style>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <link rel="icon" href="../favicon.ico" type="image/x-icon">
+    <link rel="stylesheet" href="../../style.css">
+    </style>
+
 </head>
 <body>
 
@@ -58,98 +58,66 @@ margin-bottom: 10px; border: none;
             <a href="../documentacion_cipres.html" class="back-to-index-btn">« Volver a la Documentacion General</a>
         </div>
     </div>
-
   <header>
     <div class="container">
-      <h1>Process Definition Document PDD — Carga CIPRES</h1>
+      <h1>Process Definition Document PDD — Carga Manual CIPRES</h1>
       <div class="meta">
         Fecha: 04/08/2025 · Autor: Zahir · Área responsable: Registro de Internaciones — Hospitales
         <span class="badge">Versión 1.0</span>
       </div>
     </div>
+
+
   </header>
-
-  <main class="container">
-
-    <section id="proposito">
+    <section>
       <h2>1. Propósito</h2>
-      <p>Definir el proceso objetivo TO-BE de Carga CIPRES para construir una automatización que descargue listados y PDFs, extraiga datos con OCR y cargue internaciones en CIPRES. Este documento describe el comportamiento esperado del proceso automatizado sin detallar implementación técnica, la cual se cubrirá en el SDD.</p>
+      <p>Describir el proceso actual (AS-IS) realizado manualmente por el personal hospitalario para la carga de datos en CIPRES utilizando documentos provenientes de la plataforma Integrando.</p>
     </section>
 
-    <section id="alcance">
+    <section>
       <h2>2. Alcance</h2>
       <ul>
-        <li>Hospitales incluidos según efector configurado.</li>
-        <li>Período mensual filtrado por fechas de egreso.</li>
-        <li>Volumen de 100 a más de 1000 registros por hospital.</li>
+        <li>Aplicable a todos los efectores hospitalarios con acceso a Integrando y CIPRES.</li>
+        <li>Incluye únicamente la carga mensual de internaciones según fecha de egreso.</li>
+        <li>El volumen de registros puede ir de 100 a más de 1000 pacientes mensuales.</li>
       </ul>
-      <div class="note">Quedan fuera del alcance cambios en Integrando o CIPRES y modificaciones normativas de negocio.</div>
     </section>
 
-    <section id="stakeholders">
-      <h2>3. Stakeholders y Roles</h2>
+    <section>
+      <h2>3. Actores y Roles</h2>
       <table>
-        <tr><th>Rol</th><th>Responsabilidades</th></tr>
-        <tr><td>Propietario del Proceso</td><td>Define criterios de éxito, valida resultados, prioriza incidencias.</td></tr>
-        <tr><td>Equipo de Operaciones</td><td>Monitorea ejecuciones, revisa excepciones, gatilla reintentos asistidos.</td></tr>
-        <tr><td>RPA Developer</td><td>Construye, mantiene y versiona la automatización.</td></tr>
-        <tr><td>IT Seguridad</td><td>Gestión de credenciales, accesos e identidades.</td></tr>
+        <tr><th>Rol</th><th>Responsabilidad</th></tr>
+        <tr><td>Personal Administrativo</td><td>Realiza todo el proceso: descarga, impresión y carga manual de datos.</td></tr>
+        <tr><td>Sistemas</td><td>Asiste en accesos y soporte básico si ocurre un error técnico.</td></tr>
       </table>
     </section>
 
-    <section id="precondiciones">
-      <h2>4. Precondiciones y Disparadores</h2>
-      <div class="grid2">
-        <div>
-          <h3>Precondiciones</h3>
-          <ul>
-            <li>Credenciales vigentes para Integrando y CIPRES.</li>
-            <li>Configuración de efector y rango de fechas del período.</li>
-            <li>Conectividad y disponibilidad de ambos sistemas.</li>
-          </ul>
-        </div>
-        <div>
-          <h3>Disparadores</h3>
-          <ul>
-            <li>Ejecución mensual planificada.</li>
-            <li>Ejecución ad hoc por pedido del área.</li>
-          </ul>
-        </div>
-      </div>
+    <section>
+      <h2>4. Flujo actual AS-IS</h2>
+      <ol>
+        <li>Ingresar a la plataforma <strong>Integrando</strong>.</li>
+        <li>Aplicar filtros por efector y fechas de egreso.</li>
+        <li>Descargar el Excel con las internaciones.</li>
+        <li>Ingresar en cada uno de los registros para descargar el PDF del F10.</li>
+        <li>Imprimir los formularios F10 descargados.</li>
+        <li>Si algún F10 no contiene todos los datos necesarios, acceden manualmente a la historia clínica electrónica para completar la información faltante.</li>
+        <li>Acceder al sistema <strong>CIPRES</strong> desde Intranet.</li>
+        <li>Transcribir manualmente los datos de los F10 impresos al sistema.</li>
+        <li>Guardar cada registro en CIPRES uno por uno.</li>
+      </ol>
     </section>
 
-    <section id="tobe">
-      <h2>5. Flujo TO-BE de Alto Nivel</h2>
-      <div class="grid3">
-        <div>
-          <h3>Módulo A Descarga</h3>
-          <ul>
-            <li>Login en Integrando.</li>
-            <li>Navegar a Listar Episodios por efector.</li>
-            <li>Filtrar por fechas.</li>
-            <li>Descargar listado y PDFs.</li>
-          </ul>
-        </div>
-        <div>
-          <h3>Módulo B Extracción OCR</h3>
-          <ul>
-            <li>Leer PDFs del período.</li>
-            <li>Extraer campos relevantes.</li>
-            <li>Normalizar y limpiar textos.</li>
-            <li>Generar Excel estructurado.</li>
-          </ul>
-        </div>
-        <div>
-          <h3>Módulo C Carga en CIPRES</h3>
-          <ul>
-            <li>Login en CIPRES.</li>
-            <li>Búsqueda por documento y sexo.</li>
-            <li>Cargar datos de internación.</li>
-            <li>Registrar servicio y causas externas si aplica.</li>
-            <li>Guardar y registrar resultado por fila.</li>
-          </ul>
-        </div>
-      </div>
+    <section>
+      <h2>5. Problemas frecuentes</h2>
+      <ul>
+        <li>El volumen elevado de PDFs implica días enteros de trabajo manual.</li>
+        <li>La impresión física ralentiza y complica la operación.</li>
+        <li>Errores de tipeo y omisión durante la transcripción a CIPRES.</li>
+        <li>Dependencia total de la disponibilidad de los sistemas.</li>
+        <li>Algunos F10 no están completos, lo que obliga a consultar manualmente la historia clínica electrónica, algo que el bot no puede hacer por limitaciones de acceso o interpretación.</li>
+      </ul>
+    </section>
+
 
     <section id="diagrama-tobe">
       <h3>Diagrama de Flujo TO-BE: CIPRES</h3>
@@ -171,145 +139,20 @@ margin-bottom: 10px; border: none;
       </div>
     </section>
 
-
-    <section id="detalle_pasos">
-      <h2>6. Detalle paso a paso del proceso automatizado</h2>
-      <ol>
-        <li><strong>Inicio del período</strong> definir efector fecha inicio y fecha fin.</li>
-        <li><strong>Descarga</strong> autenticar en Integrando navegar a episodios aplicar filtros descargar listado y PDFs.</li>
-        <li><strong>OCR</strong> leer cada PDF extraer campos validar mínimos construir dataset.</li>
-        <li><strong>Preparación</strong> normalizar fechas y textos resolver mapeos básicos.</li>
-        <li><strong>Carga en CIPRES</strong> login búsqueda por documento y sexo carga de internación selección de tipo de egreso diagnóstico servicio causas externas si corresponde.</li>
-        <li><strong>Confirmación</strong> guardar capturar mensaje actualizar resultado por fila.</li>
-        <li><strong>Cierre</strong> generar reporte consolidado y logs de ejecución.</li>
-      </ol>
-    </section>
-
-    <section id="reglas">
-      <h2>7. Reglas de negocio y decisiones</h2>
-      <table>
-        <tr><th>Regla</th><th>Descripción</th><th>Acción del bot</th></tr>
-        <tr><td>Selección de tipo de egreso</td><td>Debe coincidir con opciones del sistema</td><td>Selecciona por texto visible conforme a tabla de equivalencias</td></tr>
-        <tr><td>Diagnóstico principal</td><td>Nombre mapeado al código y sexo</td><td>Busca en diccionario y selecciona en autocompletar</td></tr>
-        <tr><td>Servicio</td><td>Debe ser válido para el efector</td><td>Escribe y confirma por autocompletar</td></tr>
-        <tr><td>Causas externas</td><td>Solo si están los tres datos mínimos</td><td>Mapea valores y selecciona opción</td></tr>
-      </table>
-      <p class="note">Las tablas de equivalencias y diccionarios se definen funcionalmente aquí y se implementan técnicamente en el SDD.</p>
-    </section>
-
-    <section id="validaciones">
-      <h2>8. Validaciones de datos</h2>
+    <section>
+      <h2>6. Requisitos funcionales esperados</h2>
       <ul>
-        <li>Documento y sexo presentes para búsqueda.</li>
-        <li>Fechas válidas dd/mm/yyyy o derivadas del OCR.</li>
-        <li>Tipo de egreso reconocido por catálogo.</li>
-        <li>Diagnóstico principal no vacío.</li>
-        <li>Servicio presente si aplica.</li>
+        <li>Eliminar tareas repetitivas de descarga y carga de datos.</li>
+        <li>Reducir el tiempo de ejecución de semanas a horas.</li>
+        <li>Minimizar errores humanos en la transcripción.</li>
+        <li>Brindar trazabilidad de resultados y errores en logs.</li>
       </ul>
     </section>
 
-    <section id="excepciones">
-      <h2>9. Excepciones y manejo</h2>
-      <table>
-        <tr><th>Situación</th><th>Causa probable</th><th>Comportamiento esperado</th><th>Salida</th></tr>
-        <tr><td>Paciente no encontrado</td><td>Datos incompletos o inexistentes</td><td>Registrar como No encontrado y continuar</td><td>Marca en reporte</td></tr>
-        <tr><td>Sesión expirada o login fallido</td><td>Interrupción del sistema o credenciales</td><td>Reintentar una vez y si persiste abortar módulo</td><td>Incidencia en log</td></tr>
-        <tr><td>Diagnóstico o servicio sin coincidencia</td><td>Catálogo desactualizado u OCR ambiguo</td><td>Intentar mapeo alterno; si falla registrar error</td><td>Marca en reporte</td></tr>
-        <tr><td>Error al guardar</td><td>Validaciones del sistema</td><td>Capturar mensaje y continuar con siguiente registro</td><td>Mensaje en reporte</td></tr>
-      </table>
-    </section>
+    <footer>
+      Documento PDD — Proceso manual actual de carga de internaciones en CIPRES.
+    </footer>
+  </div>
 
-    <section id="entradas_salidas">
-      <h2>10. Entradas y salidas</h2>
-      <div class="grid2">
-        <div>
-          <h3>Entradas</h3>
-          <ul>
-            <li>Parámetros del período efector fecha inicio fecha fin.</li>
-            <li>PDFs de informes de hospitalización.</li>
-            <li>Tablas de equivalencias diagnóstico servicio causas externas.</li>
-          </ul>
-        </div>
-        <div>
-          <h3>Salidas</h3>
-          <ul>
-            <li>Registros en CIPRES.</li>
-            <li>Excel de resultados por registro.</li>
-            <li>Logs y evidencias de error.</li>
-          </ul>
-        </div>
-      </div>
-    </section>
-
-    <section id="diccionario">
-      <h2>11. Diccionario de datos funcional</h2>
-      <table>
-        <tr><th>Campo</th><th>Descripción</th></tr>
-        <tr><td>Nro Informe</td><td>Identificador del informe del episodio.</td></tr>
-        <tr><td>Nro Documento</td><td>Documento del paciente para búsqueda.</td></tr>
-        <tr><td>Sexo</td><td>Masculino Femenino u otros válidos en sistema.</td></tr>
-        <tr><td>Fecha Ingreso</td><td>Fecha de ingreso dd/mm/yyyy.</td></tr>
-        <tr><td>Fecha Egreso</td><td>Fecha de egreso dd/mm/yyyy o dd/mm/yyyy - HH:MM.</td></tr>
-        <tr><td>Tipo Egreso</td><td>Alta definitiva Alta transitoria Traslado Defunción Retiro voluntario Otro.</td></tr>
-        <tr><td>Diagnóstico principal</td><td>Nombre mapeado al código de egreso.</td></tr>
-        <tr><td>Servicio</td><td>Servicio de internación de ingreso.</td></tr>
-        <tr><td>Causas externas</td><td>Producido por lugar y descripción cuando corresponda.</td></tr>
-        <tr><td>Resultado</td><td>OK o mensaje de error capturado.</td></tr>
-      </table>
-    </section>
-
-    <section id="rendimiento">
-      <h2>12. Rendimiento objetivo y umbrales</h2>
-      <ul>
-        <li>Descarga del período en minutos.</li>
-        <li>Extracción y estructuración en menos de una hora para 1000 registros.</li>
-        <li>Carga en CIPRES cercana a 2 horas para 1000 registros según disponibilidad del sistema.</li>
-        <li>Tasa de éxito objetivo igual o mayor a 98 por ciento en registros válidos.</li>
-      </ul>
-    </section>
-
-    <section id="programacion">
-      <h2>13. Programación y orquestación</h2>
-      <ul>
-        <li>Ejecución mensual planificada dentro de ventana operativa.</li>
-        <li>Reintentos parametrizados por módulo.</li>
-        <li>Continuidad por registro para evitar paradas totales.</li>
-      </ul>
-    </section>
-
-    <section id="seguridad">
-      <h2>14. Seguridad y cumplimiento</h2>
-      <ul>
-        <li>Gestión de credenciales en almacén seguro.</li>
-        <li>Evidencias mínimas necesarias para auditoría.</li>
-        <li>Resguardo de PDFs conforme a políticas del hospital.</li>
-      </ul>
-    </section>
-
-    <section id="aceptacion">
-      <h2>15. Criterios de aceptación UAT</h2>
-      <ul>
-        <li>Registros creados correctamente para lote de prueba representativo.</li>
-        <li>Reporte final consistente con entradas y estados esperados.</li>
-        <li>Excepciones registradas con trazabilidad suficiente.</li>
-      </ul>
-    </section>
-
-    <section id="supos">
-      <h2>16. Suposiciones y limitaciones</h2>
-      <ul>
-        <li>Los PDFs contienen la información mínima para identificar paciente e internación.</li>
-        <li>Los catálogos de diagnóstico servicio y causas externas están actualizados.</li>
-        <li>Disponibilidad de Integrando y CIPRES en la ventana de ejecución.</li>
-      </ul>
-    </section>
-
-  </main>
-
-  <footer>
-    <div class="container">
-      Documento PDD — Definición funcional detallada del proceso automatizado Carga CIPRES.
-    </div>
-  </footer>
 </body>
 </html>
