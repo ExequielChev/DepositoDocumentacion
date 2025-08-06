@@ -69,14 +69,12 @@
         .view-flowchart-link:hover { background-color: #2980b9; color: white !important; }
         .script-feature { font-style: italic; color: #555; }
         code {
-            white-space: normal !important;
-            word-break: break-word !important;
-            display: inline !important;
-            font-size: 1em;
+        white-space: normal;
+        word-break: break-word;
         }
 
-        li code {
-            display: inline !important;
+        li {
+            overflow-wrap: break-word; /* asegura que el contenido largo se divida */
         }
 
     </style>
