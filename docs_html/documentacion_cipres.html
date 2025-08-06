@@ -1,384 +1,124 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Documentación del Proceso: Carga CIPRES (BotCipres.py)</title>
-    <link rel="icon" href="../favicon.png" type="image/png">
-    <style>
-        body {
-            font-family: Arial, sans-serif; line-height: 1.6; margin: 0;
-            background-color: #f4f4f4; color: #333; padding: 20px;
-        }
-        .container {
-            background-color: #fff; padding: 20px; border-radius: 8px;
-            box-shadow: 0 0 10px rgba(0,0,0,0.1);
-            max-width: 900px; margin: 0 auto 20px auto;
-        }
-        .page-navigation {
-            display: flex;
-            justify-content: flex-end;
-            padding: 0 0 15px 0;
-        }
-        .back-to-index-btn {
-            background-color: #6c757d; color: white !important; padding: 8px 15px;
-            text-decoration: none; border-radius: 5px; font-size: 0.9em;
-            transition: background-color 0.3s ease; border: none;
-        }
-        .back-to-index-btn:hover { background-color: #5a6268; }
-
-        .index {
-            margin-bottom: 30px; padding: 20px; background-color: #eef7ff;
-            border: 1px solid #cce0ff; border-radius: 8px;
-        }
-        .index h2 {
-            margin-top: 0; margin-bottom: 15px; color: #005f73;
-            font-size: 1.5em; border-bottom: none;
-        }
-        .index ol { list-style-type: decimal; margin-left: 20px; padding-left: 0; }
-        .index ol li { margin-bottom: 8px; }
-        .index ol li a { text-decoration: none; color: #2980b9; font-weight: 500; }
-        .index ol li a:hover { text-decoration: underline; color: #1c5a85; }
-
-        h1, h2, h3, h4 { color: #2c3e50; }
-        h1 { border-bottom: 2px solid #3498db; padding-bottom: 10px; margin-bottom: 20px; }
-        h2 { border-bottom: 1px solid #bdc3c7; padding-bottom: 5px; margin-top: 30px; }
-        h3 { margin-top: 20px; font-size: 1.15em; } /* Ajustado tamaño de h3 */
-        h4 { margin-top: 15px; font-size: 1.05em; color: #34495e; } /* Añadido h4 */
-        ul, ol:not(.index ol) { list-style-type: disc; margin-left: 20px; }
-        li { margin-bottom: 5px; }
-        strong { color: #2980b9; }
-        code {
-            background-color: #ecf0f1; padding: 2px 5px; border-radius: 4px;
-            font-family: Consolas, Monaco, 'Andale Mono', 'Ubuntu Mono', monospace;
-        }
-        pre {
-            background-color: #ecf0f1; padding: 10px; border-radius: 4px;
-            overflow-x: auto; font-family: Consolas, Monaco, 'Andale Mono', 'Ubuntu Mono', monospace;
-        }
-        .note {
-            background-color: #e8f6fd; border-left: 5px solid #3498db;
-            padding: 10px; margin: 15px 0;
-        }
-        .view-flowchart-link {
-            display: inline-block; background-color: #3498db; color: white !important;
-            padding: 10px 15px; text-decoration: none; border-radius: 5px;
-            font-size: 0.95em; transition: background-color 0.3s ease;
-            margin-bottom: 10px; border: none;
-        }
-        .view-flowchart-link:hover { background-color: #2980b9; color: white !important; }
-        .script-feature { font-style: italic; color: #555; }
-        /* Corrige visualización de <code> */
-        code {
-            background-color: #ecf0f1;
-            padding: 2px 5px;
-            border-radius: 4px;
-            font-family: Consolas, Monaco, 'Andale Mono', 'Ubuntu Mono', monospace;
-            white-space: normal;
-            word-break: break-word;
-            display: inline;
-            font-size: 1em;
-        }
-
-        /* Ajustes responsive */
-        @media only screen and (max-width: 600px) {
-            body {
-                padding: 10px;
-                font-size: 0.95em;
-            }
-
-            .container {
-                padding: 15px;
-                margin: 0 5px;
-                box-shadow: none;
-            }
-
-            h1 {
-                font-size: 1.5em;
-            }
-
-            h2 {
-                font-size: 1.2em;
-            }
-
-            .back-to-index-btn, .view-flowchart-link {
-                font-size: 0.85em;
-                padding: 6px 10px;
-            }
-
-            code {
-                font-size: 0.9em;
-                word-break: break-word;
-            }
-
-            ul, ol {
-                padding-left: 20px;
-                margin-left: 10px;
-            }
-        }
-
-        /* Mejora cálculo de anchos */
-        *, *::before, *::after {
-            box-sizing: border-box;
-        }
-
-    </style>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Documentación CIPRES</title>
+  <link rel="icon" href="../favicon.png" type="image/png">
+  <link rel="stylesheet" href="../style.css">
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f9f9f9;
+      color: #333;
+      margin: 0;
+      padding: 20px;
+    }
+    .container {
+      max-width: 950px;
+      margin: auto;
+      background: #fff;
+      padding: 20px;
+      border-radius: 8px;
+      box-shadow: 0 0 10px rgba(0,0,0,.1);
+    }
+    h1, h2 {
+      color: #005f73;
+    }
+    .doc-link {
+      display: block;
+      margin: 10px 0;
+      padding: 10px 15px;
+      background: #0f62fe;
+      color: white;
+      text-decoration: none;
+      border-radius: 6px;
+      transition: background 0.3s ease;
+      text-align: center;
+    }
+    .doc-link:hover {
+      background: #084cdf;
+    }
+    .back-button {
+      display: inline-block;
+      margin-bottom: 20px;
+      background: #6c757d;
+      color: white;
+      padding: 8px 15px;
+      border-radius: 5px;
+      text-decoration: none;
+    }
+    p {
+      margin-bottom: 15px;
+    }
+    ul {
+      padding-left: 20px;
+    }
+  </style>
 </head>
 <body>
-    <div class="container" style="background-color: transparent; box-shadow: none; padding-bottom:0; margin-bottom:0;">
-        <div class="page-navigation">
-            <a href="../index.html" class="back-to-index-btn">« Volver al Inicio</a>
-        </div>
-    </div>
+  <div class="container">
+    <a href="../index.html" class="back-button">« Volver al Inicio</a>
+    <h1>📄 Documentación General del Proceso - Carga CIPRES</h1>
 
+    <h2>📘 Resumen General</h2>
+    <p>
+      El proceso automatizado “Carga CIPRES” tiene como objetivo registrar internaciones de pacientes en el sistema web CIPRES, a partir de un Excel generado por otros procesos automatizados. El flujo completo combina tareas humanas y automatizadas. El usuario solicita un reporte desde el sistema <strong>Integrando</strong>, que es procesado por bots que descargan los documentos PDF (F10), extraen datos mediante OCR, y generan un Excel preliminar. Ese Excel es revisado manualmente y luego usado por el bot de carga CIPRES para completar los registros en la intranet hospitalaria.
+    </p>
 
-    <div class="container">
-        <h1>Documentación del Proceso: Carga CIPRES (<code>BotCipres.py</code>)</h1>
+    <p>
+      Esta documentación está dividida en cuatro entregables principales, cada uno con un enfoque específico:
+    </p>
 
-        <div class="index">
-            <h2>Índice</h2>
-            <ol>
-                <li><a href="#Documentaciones">Documentaciones</a></li>
-                <li><a href="#descripcion-general">Descripción General</a></li>
-                <li><a href="#requerimientos">Requerimientos para la Ejecución</a></li>
-                <li><a href="#configuracion-script">Configuración del Script</a></li>
-                <li><a href="#diagrama-flujo-seccion">Diagrama de Flujo</a></li>
-                <li><a href="#flujo-ejecucion">Flujo de Ejecución Detallado</a></li>
-                <li><a href="#salidas">Salidas (Outputs)</a></li>
-                <li><a href="#manejo-errores">Manejo de Errores y Logging</a></li>
-            </ol>
-        </div>
+    <h2>📂 Accesos Directos a las Documentaciones</h2>
+    <a href="PAD/PAD_Carga_CIPRES.html" class="doc-link">📄 PAD (Proceso Actual del Usuario)</a>
+    <a href="PDD/PDD_Carga_CIPRES_v2.html" class="doc-link">📝 PDD (Diseño del Proceso Automatizado)</a>
+    <a href="SDD/SDD_Carga_CIPRES.html" class="doc-link">⚙️ SDD (Diseño Técnico del Script)</a>
+    <a href="RB/CIPRESrunbook.html" class="doc-link">📕 Runbook (Libro de Ejecución)</a>
 
-        
-        <div id="Documentaciones" style="margin-top: 30px; border-radius: 20px; margin-left: 20px; margin-right: 20px;">
-            <a href="PAD/PAD_Carga_CIPRES.html" class="view-flowchart-link">
-                Ver documentacion PAD CIPRES
-            </a>
-            <a href="PDD/PDD_Carga_CIPRES_v2.html" class="view-flowchart-link">
-                Ver documentacion PDD CIPRES
-            </a>
-            <a href="SDD/SDD_Carga_CIPRES.html" class="view-flowchart-link">
-                Ver documentacion SDD CIPRES
-            </a>
-            <a href="RB/CIPRESrunbook.html" class="view-flowchart-link">
-                Ver documentacion Libro de Ejecución (Runbook) CIPRES
-            </a>
-        </div>
+    <h2>📌 Descripción Resumida de Cada Documento</h2>
 
+    <h3>🔹 PAD - Proceso As-Is</h3>
+    <ul>
+      <li>El usuario accede a Integrando, solicita el reporte mensual de internaciones y descarga un Excel.</li>
+      <li>Luego, recorre cada paciente y descarga manualmente los formularios F10.</li>
+      <li>Los F10 se imprimen y con ellos, el usuario accede a la intranet para cargar los datos uno por uno en CIPRES.</li>
+      <li>Cuando los F10 están incompletos, accede manualmente a la historia clínica para verificar los datos antes de la carga.</li>
+    </ul>
 
-        <h2 id="descripcion-general">1. Descripción General</h2>
-        <p>El proceso automatizado "Carga CIPRES", implementado en el script <code>BotCipres.py</code>, se encarga de la carga masiva de información de internaciones de pacientes en el sistema web CIPRES de la Intranet. El robot utiliza Selenium para interactuar con la interfaz web, leyendo los datos de los pacientes desde un archivo Excel y completando los formularios correspondientes.</p>
-        <p>El script gestiona el inicio de sesión, la navegación a través del sistema, la búsqueda de pacientes, el llenado detallado de los formularios de internación (incluyendo datos del paciente, diagnóstico, fechas, tipo de egreso, servicio y causas externas de accidentes), y el guardado de cada registro. Incorpora manejo de errores, reintentos y un sistema de logging para rastrear el progreso y los incidentes.</p>
+    <h3>🔹 PDD - Proceso To-Be</h3>
+    <ul>
+      <li>El usuario ejecuta la interfaz y solicita bots de descarga y OCR.</li>
+      <li>El bot descarga automáticamente los F10 desde Integrando, aplica OCR y construye el Excel.</li>
+      <li>El Excel es validado por el usuario antes de ser usado para la carga.</li>
+      <li>El bot de carga ingresa a CIPRES, busca al paciente por DNI y sexo, y completa los campos del formulario usando datos del Excel.</li>
+      <li>Registra cada resultado en una columna adicional (“Resultado”).</li>
+    </ul>
 
-        <h2 id="requerimientos">2. Requerimientos para la Ejecución</h2>
-        <ul>
-            <li><strong>Sistema Operativo:</strong> Windows (donde se ejecutará el script Python y el navegador Chrome).</li>
-            <li><strong>Software:</strong>
-                <ul>
-                    <li>Python 3.11.9</li>
-                    <li>Navegador Google Chrome.</li>
-                    <li>WebDriver para Chrome (compatible con la versión de Chrome instalada).</li>
-                    <li>Microsoft Excel.</li>
-                </ul>
-            </li>
-            <li><strong>Librerías Python:</strong>
-                <ul>
-                    <li><code>pandas</code></li>
-                    <li><code>selenium</code></li>
-                    <li><code>openpyxl</code> (generalmente instalada con pandas para soporte de `.xlsx`)</li>
-                </ul>
-            </li>
-            <li><strong>Archivos de Entrada:</strong>
-                <ul>
-                    <li><strong>Excel de Configuración (<code>settings.xlsx</code>):</strong> Ubicado en <code>Desktop\Bots_CoParticipacion\app\config\settings.xlsx</code>. Contiene URLs, credenciales y nombres de archivos.
-                        <ul>
-                            <li>CLAVES requeridas: <code>URL_LOGIN</code>, <code>URL_INTERN</code>, <code>Nombre Excel</code> (entrada principal), <code>EXCEL_OUT</code> (salida), <code>Usuario</code>, <code>Contraseña</code>.</li>
-                        </ul>
-                    </li>
-                    <li><strong>Excel de Pacientes (Entrada Principal):</strong> Nombre y ruta definidos en <code>settings.xlsx</code> (clave <code>Nombre Excel</code>). Debe contener como mínimo las columnas:
-                        <ul>
-                            <li><code>N° Documento</code>: DNI del paciente.</li>
-                            <li><code>Sexo</code>: (Ej: "MASCULINO", "FEMENINO").</li>
-                            <li><code>nro Informe</code></li>
-                            <li><code>Fecha Ingreso</code> (formato fecha)</li>
-                            <li><code>Fecha Egreso</code> (formato fecha)</li>
-                            <li><code>Tipo egreso</code> (Ej: "ALTA DEFINITIVA")</li>
-                            <li><code>Diagnostico de egreso</code> (código del diagnóstico)</li>
-                            <li><code>SERVICIO</code> (nombre del servicio)</li>
-                            <li>(Opcional para causas externas) <code>PRODUCIDO</code>, <code>LUGAR</code>, <code>COMO SE PRODUJO</code> (código de la causa)</li>
-                            <li><code>Resultado</code>: Columna para el feedback del bot (se actualizará a "OK" o con mensajes de error).</li>
-                        </ul>
-                    </li>
-                    <li><strong>Excel de Enfermedades por Sexo:</strong>
-                        <ul>
-                            <li><code>Desktop\Bots_CoParticipacion\Inputs\enfermedades_hombre.xlsx</code> (columnas: <code>id</code>, <code>nombre</code>)</li>
-                            <li><code>Desktop\Bots_CoParticipacion\Inputs\enfermedades_mujer.xlsx</code> (columnas: <code>id</code>, <code>nombre</code>)</li>
-                        </ul>
-                    </li>
-                     <li><strong>Excel de Causas Externas de Accidentes:</strong>
-                        <ul>
-                            <li><code>Desktop\Bots_CoParticipacion\Inputs\accidentes_causas.xlsx</code> (columnas: <code>id</code>, <code>nombre</code>)</li>
-                        </ul>
-                    </li>
-                </ul>
-            </li>
-            <li><strong>Acceso a la Red/Intranet:</strong> El robot debe poder acceder a las URLs definidas en el archivo de configuración.</li>
-        </ul>
+    <h3>🔹 SDD - Diseño Técnico del Bot</h3>
+    <ul>
+      <li>Implementado en Python 3.11.9 utilizando Selenium, Pandas y Openpyxl.</li>
+      <li>El script lee un archivo <code>settings.xlsx</code> que define rutas, URLs y credenciales.</li>
+      <li>Se apoya en diccionarios para mapear códigos de enfermedades y causas externas.</li>
+      <li>El robot realiza la navegación web, llena los campos, y guarda los registros.</li>
+      <li>Registra todos los pasos en logs y en un Excel final.</li>
+    </ul>
 
-        <h2 id="configuracion-script">3. Configuración del Script</h2>
-        <p>El script utiliza un archivo <code>settings.xlsx</code> para cargar parámetros clave. La ruta base para la mayoría de los archivos es el escritorio del usuario (<code>os.path.expanduser("~") + "\\Desktop"</code>).</p>
-        <p>Además, se configuran diccionarios para mapear códigos a nombres para diagnósticos (separados por sexo) y causas externas, leídos desde archivos Excel específicos en la carpeta <code>Inputs</code>.</p>
-        <p class="script-feature">Se implementa un sistema de logging que guarda los registros en <code>Desktop\Bots_CoParticipacion\Logs\cipres_bot_YYYYMMDD_HHMMSS.log</code> y también los muestra en consola.</p>
+    <h3>🔹 Runbook - Ejecución del Bot</h3>
+    <ul>
+      <li>Se ejecuta desde la interfaz gráfica (<code>interfaz.exe</code>).</li>
+      <li>Se deben configurar usuario, fechas, hospital, Excel de entrada y URLs desde la sección CONFIGURACIÓN.</li>
+      <li>El usuario selecciona el script de carga y lo inicia.</li>
+      <li>Los resultados se guardan en <code>outputs/cipres.xlsx</code> y los errores se documentan en <code>logs/evidencias</code>.</li>
+    </ul>
 
-        <div id="diagrama-flujo-seccion" style="margin-top: 30px;">
-             <a href="diagrama_CargaCipres.html" class="view-flowchart-link">
-                Ver Diagrama de Flujo: Carga CIPRES
-            </a>
-        </div>
+    <h2>📎 Observaciones Importantes</h2>
+    <ul>
+      <li>El proceso requiere conexión a la intranet hospitalaria.</li>
+      <li>Los datos deben estar verificados antes de ejecutar la carga.</li>
+      <li>Cuando los formularios F10 están incompletos, el bot no puede continuar sin intervención humana.</li>
+    </ul>
 
-        <h2 id="flujo-ejecucion">5. Flujo de Ejecución Detallado</h2>
-        <ol>
-            <li><strong>Inicialización (<code>CipresBot.__init__</code>):</strong>
-                <ul>
-                    <li>Configura el WebDriver de Selenium para Chrome (maximizado, con opciones para evitar detección).</li>
-                    <li>Carga el diccionario de causas externas desde <code>accidentes_causas.xlsx</code>.</li>
-                </ul>
-            </li>
-            <li><strong>Login (<code>CipresBot.login</code>):</strong>
-                <ol type="a">
-                    <li>Navega a <code>URL_LOGIN</code>.</li>
-                    <li>Ingresa <code>USERNAME</code> y <code>PASSWORD</code>.</li>
-                    <li>Envía el formulario de login.</li>
-                    <li>Hace clic en el enlace "CIPRES".</li>
-                    <li>Despliega el menú de navegación (<code>#navToggle</code>).</li>
-                    <li>Hace scroll y clic en "Gestión de:".</li>
-                    <li>Hace clic en el enlace de "Internación" para ir a la página principal de gestión.</li>
-                </ol>
-            </li>
-            <li><strong>Procesamiento del Excel (<code>CipresBot.procesar_excel</code>):</strong>
-                <ol type="a">
-                    <li>Carga el archivo Excel de pacientes (definido por <code>EXCEL_IN</code>).</li>
-                    <li>Crea una copia para mantener los resultados originales y otra para filtrar.</li>
-                    <li>Filtra las filas donde la columna "Resultado" no sea "OK" (para reintentar o procesar nuevos).</li>
-                    <li>Itera sobre cada fila filtrada (cada paciente):
-                        <ul>
-                            <li>Extrae "N° Documento" y "Sexo".</li>
-                            <li><strong>Búsqueda del Paciente (<code>CipresBot.buscar_paciente</code>):</strong>
-                                <ul>
-                                    <li>Navega a <code>URL_INTERN</code>.</li>
-                                    <li>Clic en botón "resto" (para limpiar/mostrar campos de búsqueda).</li>
-                                    <li>Ingresa el "N° Documento".</li>
-                                    <li>Selecciona el "Sexo" del paciente en el dropdown (mapeando el valor del Excel al texto visible en la web).</li>
-                                    <li>Clic en el botón "Buscar Paciente".</li>
-                                    <li>Si se encuentran resultados, hace clic en el primer botón "Seleccionar".</li>
-                                    <li><span class="script-feature">Incluye hasta 2 reintentos si el paciente no se encuentra inicialmente.</span></li>
-                                    <li>Si no se encuentra tras reintentos, se marca "Paciente no encontrado" en "Resultado" y se continúa con el siguiente.</li>
-                                </ul>
-                            </li>
-                            <li><strong>Agregar Internación (<code>CipresBot.agregar_internacion</code>):</strong>
-                                <ul>
-                                    <li>Busca y hace clic en el botón "Agregar" (con icono de "+").</li>
-                                    <li>Espera a que los campos del formulario de internación estén presentes.</li>
-                                    <li>Modifica el atributo <code>maxlength</code> del campo diagnóstico (<code>internacion_diagnosticoP</code>) a 264.</li>
-                                    <li>Llena los campos:
-                                        <ul>
-                                            <li>internacion_historiaclinica (con "N° Documento").</li>
-                                            <li>internacion_informe (con "nro Informe").</li>
-                                            <li>internacion_fechaingreso (formateada a dd/mm/yyyy).</li>
-                                            <li>internacion_fechaegreso (formateada a dd/mm/yyyy).</li>
-                                        </ul>
-                                    </li>
-                                    <li>Selecciona "Tipo egreso" del dropdown (mapeando el valor del Excel).</li>
-                                    <li>Ingresa "Diagnostico de egreso":
-                                        <ul>
-                                            <li>Obtiene el nombre del diagnóstico usando el código del Excel y el diccionario correspondiente al sexo del paciente.</li>
-                                            <li>Escribe el nombre en <code>internacion_diagnosticoP</code>.</li>
-                                            <li>Espera la aparición de la lista de autocompletar, presiona FLECHA ABAJO y ENTER para seleccionar la primera sugerencia.</li>
-                                        </ul>
-                                    </li>
-                                    <li>Si hay errores al llenar el formulario, se marca el error en "Resultado" y se continúa.</li>
-                                </ul>
-                            </li>
-                            <li><strong>Agregar Servicio (<code>CipresBot.agregar_servicio</code>):</strong>
-                                <ul>
-                                    <li>Si "Fecha Ingreso" y "SERVICIO" están presentes en el Excel:</li>
-                                    <li>Cuenta los campos de servicio existentes para determinar el índice del nuevo.</li>
-                                    <li>Hace clic en el botón "Agregar Servicio" (<code>.add-another-collection-widget</code>).</li>
-                                    <li>Llena la fecha del nuevo servicio (<code>internacion_servicio_X_fechaingreso</code>).</li>
-                                    <li>Escribe el nombre del servicio en <code>internacion_servicio_X_servicioP</code>.</li>
-                                    <li>Espera la aparición de la lista de autocompletar, presiona FLECHA ABAJO y ENTER.</li>
-                                    <li>Si hay errores, se marca en "Resultado".</li>
-                                </ul>
-                            </li>
-                            <li><strong>Agregar Causa Externa (<code>CipresBot.agregar_causa_externa</code>):</strong>
-                                <ul>
-                                    <li>Si los campos "PRODUCIDO", "LUGAR" o "COMO SE PRODUJO" tienen datos en el Excel:</li>
-                                    <li>Selecciona "PRODUCIDO" del dropdown (mapeando valor).</li>
-                                    <li>Selecciona "LUGAR" del dropdown (mapeando valor).</li>
-                                    <li>Ingresa "COMO SE PRODUJO":
-                                        <ul>
-                                            <li>Obtiene el nombre de la causa usando el código del Excel y el diccionario <code>causas_dict</code>.</li>
-                                            <li>Escribe el nombre en <code>internacion_motivo</code>.</li>
-                                            <li>Espera la aparición de la lista de autocompletar, presiona FLECHA ABAJO y ENTER.</li>
-                                        </ul>
-                                    </li>
-                                    <li>Si hay errores, se marca en "Resultado".</li>
-                                </ul>
-                            </li>
-                            <li><strong>Confirmar Guardado (<code>CipresBot.confirmar_guardado</code>):</strong>
-                                <ul>
-                                    <li>Hace clic en el botón "guardar" (<code>#guardar</code>).</li>
-                                    <li>Espera un mensaje de confirmación (<code>div.alert.alert-ms.alert-success</code>) o error (<code>div.alert.alert-ms.alert-error</code>).</li>
-                                    <li>Actualiza la columna "Resultado" del Excel con el mensaje obtenido o "OK" si fue exitoso (en la copia <code>df1</code>).</li>
-                                </ul>
-                            </li>
-                            <li>Navega de nuevo a la URL base de paciente (<code>URL_INTERN</code> o similar, actualmente es una URL fija en el script) para resetear la vista para el siguiente paciente. <span class="script-feature">(Anteriormente usaba <code>click_elegir_otro_paciente</code> que ahora parece ser un fallback).</span></li>
-                        </ul>
-                    </li>
-                </ol>
-            </li>
-            <li>Guarda el DataFrame con los resultados actualizados en el archivo Excel de salida (<code>EXCEL_OUT</code>).</li>
-            <li><strong>Cierre (<code>CipresBot.cerrar</code>):</strong>
-                <ul>
-                    <li>Cierra el navegador.</li>
-                </ul>
-            </li>
-        </ol>
-
-        <h2 id="salidas">6. Salidas (Outputs)</h2>
-        <ul>
-            <li><strong>Archivo Excel de Salida (<code>EXCEL_OUT</code>):</strong>
-                <ul>
-                    <li>Una copia del archivo de entrada principal, con la columna "Resultado" actualizada para cada paciente procesado. Contendrá "OK" para cargas exitosas o mensajes de error específicos.</li>
-                </ul>
-            </li>
-            <li><strong>Archivo de Log (<code>cipres_bot_YYYYMMDD_HHMMSS.log</code>):</strong>
-                <ul>
-                    <li>Ubicado en <code>Desktop\Bots_CoParticipacion\Logs\</code>.</li>
-                    <li>Contiene un registro detallado de las acciones del robot, incluyendo inicio/fin, procesamiento de cada fila, mensajes de éxito, advertencias y errores detallados con traceback.</li>
-                </ul>
-            </li>
-            <li><strong>Capturas de Pantalla de Errores (Ocasionales):</strong>
-                <ul>
-                    <li>En caso de ciertos errores críticos (ej. login, búsqueda de paciente, agregar internación, guardado), el script guarda capturas de pantalla en la carpeta <code>Outputs</code> (si existe) o en la raíz del script, con nombres como <code>error_buscar_DOCUMENTO_TIMESTAMP.png</code>.</li>
-                </ul>
-            </li>
-        </ul>
-
-        <h2 id="manejo-errores">7. Manejo de Errores y Logging</h2>
-        <p>El script implementa un robusto sistema de manejo de errores y logging:</p>
-        <ul>
-            <li><strong>Logging:</strong> Todas las acciones importantes, advertencias y errores se registran en un archivo de log y en la consola, facilitando la depuración y el seguimiento.</li>
-            <li><strong>Excepciones Específicas:</strong> Se capturan excepciones comunes de Selenium como <code>TimeoutException</code>, <code>NoSuchElementException</code>, <code>ElementClickInterceptedException</code>, <code>StaleElementReferenceException</code>.</li>
-            <li><strong>Funciones Seguras:</strong> <code>safe_click</code>, <code>safe_send_keys</code>, y <code>wait_and_find_element</code> encapsulan interacciones con elementos web para mayor resiliencia.</li>
-            <li><strong>Reintentos:</strong> La búsqueda de pacientes incluye un mecanismo de reintentos.</li>
-            <li><strong>Continuación del Proceso:</strong> Ante errores en el procesamiento de un paciente individual, el robot intenta registrar el error en el Excel y continuar con el siguiente paciente, en lugar de detener todo el proceso.</li>
-            <li><strong>Screenshots:</strong> Se toman capturas de pantalla en puntos críticos de error para ayudar a diagnosticar problemas visuales en la interfaz web.</li>
-        </ul>
-
-        <div class="note">
-            <p><strong>Nota:</strong> Los selectores CSS y XPATH, así como los nombres de los campos y botones, son específicos de la interfaz web de CIPRES y podrían necesitar ajustes si la interfaz cambia.</p>
-        </div>
-    </div>
+  </div>
 </body>
 </html>

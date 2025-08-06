@@ -60,8 +60,8 @@
     </div>
   <header>
     <div class="container">
-      <h1>Process Definition Document PDD — Carga Manual CIPRES</h1>
-      <div class="meta">
+        <h1>📘 Process Definition Document (PDD) — Carga CIPRES</h1>
+        <div class="meta">
         Fecha: 04/08/2025 · Autor: Zahir · Área responsable: Registro de Internaciones — Hospitales
         <span class="badge">Versión 1.0</span>
       </div>
@@ -69,90 +69,125 @@
 
 
   </header>
-    <section>
-      <h2>1. Propósito</h2>
-      <p>Describir el proceso actual (AS-IS) realizado manualmente por el personal hospitalario para la carga de datos en CIPRES utilizando documentos provenientes de la plataforma Integrando.</p>
-    </section>
 
-    <section>
-      <h2>2. Alcance</h2>
+<section>
+  <h2>1. Nombre del Proceso</h2>
+  <p>Carga de Internaciones Mensuales en el sistema CIPRES mediante automatización RPA.</p>
+</section>
+
+<section>
+  <h2>2. Objetivo del Bot</h2>
+  <p>Reducir la carga manual y el error humano automatizando el ingreso de datos de internaciones hospitalarias mensuales en el sistema CIPRES a partir de un archivo Excel generado desde la plataforma Integrando.</p>
+</section>
+
+<section>
+  <h2>3. Descripción Funcional del Proceso Automatizado (TO-BE)</h2>
+  <p>El bot se encarga de leer la configuración, abrir el navegador, acceder a CIPRES, buscar a cada paciente por DNI y sexo, y completar el formulario de internación con los datos proporcionados desde un Excel. Si hay causas externas o servicios asociados, también los carga. Registra los resultados y posibles errores en un archivo de salida.</p>
+</section>
+
+<section>
+  <h2>4. Paso a Paso del Bot</h2>
+  <ol>
+    <li>Lee archivo <code>settings.xlsx</code> (URLs, usuario, contraseña, nombre del Excel de entrada/salida).</li>
+    <li>Lee el archivo Excel de pacientes (input).</li>
+    <li>Filtra aquellos no procesados o con errores.</li>
+    <li>Inicia navegador y accede a CIPRES.</li>
+    <li>Inicia sesión con credenciales.</li>
+    <li>Por cada paciente:
       <ul>
-        <li>Aplicable a todos los efectores hospitalarios con acceso a Integrando y CIPRES.</li>
-        <li>Incluye únicamente la carga mensual de internaciones según fecha de egreso.</li>
-        <li>El volumen de registros puede ir de 100 a más de 1000 pacientes mensuales.</li>
+        <li>Busca al paciente por DNI y sexo.</li>
+        <li>Si lo encuentra, carga:
+          <ul>
+            <li>Historia clínica, informe, fechas, diagnóstico, tipo egreso.</li>
+            <li>Servicio si corresponde.</li>
+            <li>Causas externas si corresponde.</li>
+          </ul>
+        </li>
+        <li>Guarda internación.</li>
+        <li>Registra resultado (OK o error).</li>
       </ul>
-    </section>
+    </li>
+    <li>Cierra navegador.</li>
+    <li>Guarda archivo Excel actualizado.</li>
+  </ol>
+</section>
 
-    <section>
-      <h2>3. Actores y Roles</h2>
-      <table>
-        <tr><th>Rol</th><th>Responsabilidad</th></tr>
-        <tr><td>Personal Administrativo</td><td>Realiza todo el proceso: descarga, impresión y carga manual de datos.</td></tr>
-        <tr><td>Sistemas</td><td>Asiste en accesos y soporte básico si ocurre un error técnico.</td></tr>
-      </table>
-    </section>
+<section>
+  <h2>5. Roles Humanos que Participan</h2>
+  <ul>
+    <li>Validación previa del Excel a procesar.</li>
+    <li>Intervención en caso de errores críticos (paciente no encontrado, diagnóstico no cargable, F10 incompleto, etc.).</li>
+    <li>Revisión posterior del Excel de resultados.</li>
+  </ul>
+</section>
 
-    <section>
-      <h2>4. Flujo actual AS-IS</h2>
-      <ol>
-        <li>Ingresar a la plataforma <strong>Integrando</strong>.</li>
-        <li>Aplicar filtros por efector y fechas de egreso.</li>
-        <li>Descargar el Excel con las internaciones.</li>
-        <li>Ingresar en cada uno de los registros para descargar el PDF del F10.</li>
-        <li>Imprimir los formularios F10 descargados.</li>
-        <li>Si algún F10 no contiene todos los datos necesarios, acceden manualmente a la historia clínica electrónica para completar la información faltante.</li>
-        <li>Acceder al sistema <strong>CIPRES</strong> desde Intranet.</li>
-        <li>Transcribir manualmente los datos de los F10 impresos al sistema.</li>
-        <li>Guardar cada registro en CIPRES uno por uno.</li>
-      </ol>
-    </section>
+<section>
+  <h2>6. Sistemas Involucrados</h2>
+  <ul>
+    <li><strong>Integrando:</strong> fuente del Excel y formularios F10.</li>
+    <li><strong>CIPRES:</strong> destino de la carga.</li>
+    <li><strong>Robot:</strong> desarrollado en Python con Selenium + librerías auxiliares (pandas, openpyxl).</li>
+  </ul>
+</section>
 
-    <section>
-      <h2>5. Problemas frecuentes</h2>
-      <ul>
-        <li>El volumen elevado de PDFs implica días enteros de trabajo manual.</li>
-        <li>La impresión física ralentiza y complica la operación.</li>
-        <li>Errores de tipeo y omisión durante la transcripción a CIPRES.</li>
-        <li>Dependencia total de la disponibilidad de los sistemas.</li>
-        <li>Algunos F10 no están completos, lo que obliga a consultar manualmente la historia clínica electrónica, algo que el bot no puede hacer por limitaciones de acceso o interpretación.</li>
-      </ul>
-    </section>
+<section>
+  <h2>7. Entradas del Bot</h2>
+  <ul>
+    <li><code>settings.xlsx</code> con parámetros del proceso.</li>
+    <li><code>Excel de Pacientes</code> con columnas mínimas: DNI, sexo, fechas, diagnóstico, servicio, causas.</li>
+    <li><code>Enfermedades_hombre.xlsx / mujer.xlsx</code>: para mapear diagnósticos.</li>
+    <li><code>accidentes_causas.xlsx</code>: para mapear causas externas.</li>
+  </ul>
+</section>
 
+<section>
+  <h2>8. Salidas del Bot</h2>
+  <ul>
+    <li>Archivo Excel actualizado con columna "Resultado".</li>
+    <li>Archivo de log en carpeta <code>Logs/</code>.</li>
+    <li>Capturas de pantalla ante errores críticos (en carpeta Outputs o raíz).</li>
+  </ul>
+</section>
 
-    <section id="diagrama-tobe">
-      <h3>Diagrama de Flujo TO-BE: CIPRES</h3>
-      <div style="background: #f9fafb; border: 1px solid #e5e7eb; padding: 20px; border-radius: 12px; margin-top: 20px;">
-        <a href="diagrama_pdd/diagramaPDD_Cipres.html"
-          style="
-            display: inline-block;
-            background-color: #0f62fe;
-            color: white;
-            padding: 12px 20px;
-            text-decoration: none;
-            border-radius: 8px;
-            font-weight: 500;
-            font-family: inherit;
-            text-align: center;
-          ">
-          Ver Diagrama de Flujo TO-BE
-        </a>
-      </div>
-    </section>
+<section>
+  <h2>9. Reglas de Negocio</h2>
+  <ul>
+    <li>Si el paciente no se encuentra tras 2 intentos, se registra como "No encontrado".</li>
+    <li>Si el diagnóstico o causa externa no se puede autocompletar, se registra como error.</li>
+    <li>Si el F10 está incompleto, se requiere intervención humana (el bot no continúa).</li>
+  </ul>
+</section>
 
-    <section>
-      <h2>6. Requisitos funcionales esperados</h2>
-      <ul>
-        <li>Eliminar tareas repetitivas de descarga y carga de datos.</li>
-        <li>Reducir el tiempo de ejecución de semanas a horas.</li>
-        <li>Minimizar errores humanos en la transcripción.</li>
-        <li>Brindar trazabilidad de resultados y errores en logs.</li>
-      </ul>
-    </section>
+<section>
+  <h2>10. Casos Especiales o Restricciones</h2>
+  <ul>
+    <li>Pacientes sin datos completos: el bot omite la carga y registra el motivo.</li>
+    <li>F10 incompleto: requiere validación manual fuera del alcance del bot.</li>
+    <li>Sistema CIPRES fuera de servicio o lento puede interrumpir ejecución.</li>
+  </ul>
+</section>
 
-    <footer>
-      Documento PDD — Proceso manual actual de carga de internaciones en CIPRES.
-    </footer>
-  </div>
+<section>
+  <h2>11. Flujos Condicionales</h2>
+  <ul>
+    <li>Si paciente no encontrado → reintento → si falla, registrar error.</li>
+    <li>Si algún campo obligatorio falta → registrar error y continuar.</li>
+  </ul>
+</section>
+
+<section>
+  <h2>12. Reintentos y Manejo de Errores</h2>
+  <ul>
+    <li>Hasta 2 reintentos al buscar paciente.</li>
+    <li>Funciones seguras para clics, inputs y esperas en el DOM.</li>
+    <li>Logs y screenshots automáticos.</li>
+  </ul>
+</section>
+
+<section>
+  <h2>13. Diagrama de Flujo TO-BE</h2>
+  <a href="diagrama_pdd/diagramaPDD_Cipres.html" class="view-flowchart-link">Ver Diagrama de Flujo TO-BE</a>
+</section>
 
 </body>
-</html>
+ </html>
