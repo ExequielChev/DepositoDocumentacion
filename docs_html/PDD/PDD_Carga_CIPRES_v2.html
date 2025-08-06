@@ -80,35 +80,52 @@
   <p>Reducir la carga manual y el error humano automatizando el ingreso de datos de internaciones hospitalarias mensuales en el sistema CIPRES a partir de un archivo Excel generado desde la plataforma Integrando.</p>
 </section>
 
+
 <section>
   <h2>3. Descripción Funcional del Proceso Automatizado (TO-BE)</h2>
-  <p>El bot se encarga de leer la configuración, abrir el navegador, acceder a CIPRES, buscar a cada paciente por DNI y sexo, y completar el formulario de internación con los datos proporcionados desde un Excel. Si hay causas externas o servicios asociados, también los carga. Registra los resultados y posibles errores en un archivo de salida.</p>
+  <p>El proceso automatizado consta de dos etapas principales. Primero, se extraen los formularios F10 desde el sistema Integrando usando las fechas que indica el usuario. Luego, tras validación manual del Excel generado, se realiza la carga automatizada en el sistema CIPRES.</p>
+  <p>El bot realiza las siguientes acciones:</p>
+  <ul>
+    <li>Solicita al usuario las fechas “desde” y “hasta”.</li>
+    <li>Ingresa a la plataforma Integrando, busca los formularios F10 por rango de fechas, y descarga los PDF correspondientes por efector.</li>
+    <li>Utiliza OCR para leer los F10 descargados y extraer los datos relevantes (documento, fechas, informe, sexo, diagnóstico, etc.).</li>
+    <li>Genera un Excel con la información consolidada.</li>
+    <li>Espera la validación manual del Excel generado.</li>
+    <li>Tras validación, inicia sesión en CIPRES y carga los datos de internación por cada paciente, incluyendo servicios y causas externas si aplica.</li>
+    <li>Registra los resultados en el Excel y genera logs y capturas de error.</li>
+  </ul>
 </section>
 
 <section>
   <h2>4. Paso a Paso del Bot</h2>
   <ol>
-    <li>Lee archivo <code>settings.xlsx</code> (URLs, usuario, contraseña, nombre del Excel de entrada/salida).</li>
-    <li>Lee el archivo Excel de pacientes (input).</li>
-    <li>Filtra aquellos no procesados o con errores.</li>
-    <li>Inicia navegador y accede a CIPRES.</li>
-    <li>Inicia sesión con credenciales.</li>
-    <li>Por cada paciente:
+    <li>Solicita fechas “desde” y “hasta” al usuario.</li>
+    <li>Ingresa a Integrando e inicia sesión.</li>
+    <li>Filtra F10 por rango de fechas y descarga los PDFs.</li>
+    <li>Usa OCR para extraer los datos de cada F10.</li>
+    <li>Genera Excel con la información consolidada.</li>
+    <li>Espera la validación manual del archivo Excel.</li>
+    <li>Lee archivo <code>settings.xlsx</code> (URLs, usuario, contraseña, Excel de entrada/salida).</li>
+    <li>Lee el Excel validado por el usuario.</li>
+    <li>Filtra pacientes ya cargados o con errores para reintento.</li>
+    <li>Inicia navegador, accede a CIPRES e inicia sesión.</li>
+    <li>Itera sobre cada paciente:
       <ul>
         <li>Busca al paciente por DNI y sexo.</li>
-        <li>Si lo encuentra, carga:
+        <li>Si se encuentra:
           <ul>
-            <li>Historia clínica, informe, fechas, diagnóstico, tipo egreso.</li>
-            <li>Servicio si corresponde.</li>
-            <li>Causas externas si corresponde.</li>
+            <li>Completa historia clínica, informe, fechas, diagnóstico y tipo de egreso.</li>
+            <li>Agrega servicios si hay datos.</li>
+            <li>Agrega causas externas si aplica.</li>
+            <li>Guarda y valida carga exitosa.</li>
           </ul>
         </li>
-        <li>Guarda internación.</li>
-        <li>Registra resultado (OK o error).</li>
+        <li>Si no se encuentra, registra error, captura pantalla, y continúa.</li>
       </ul>
     </li>
+    <li>Registra el estado de cada paciente en el Excel ("OK" o error).</li>
+    <li>Guarda archivo de log y capturas en caso de error.</li>
     <li>Cierra navegador.</li>
-    <li>Guarda archivo Excel actualizado.</li>
   </ol>
 </section>
 
