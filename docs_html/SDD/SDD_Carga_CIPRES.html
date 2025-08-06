@@ -42,11 +42,23 @@
       text-decoration: none; border-radius: 5px; font-size: 0.9em;
       transition: background-color 0.3s ease; border: none;
   }
+    .responsive-table-container {
+      width: 100%;
+      overflow-x: auto;
+    }
+
+    .responsive-table-container table {
+      min-width: 600px; /* o lo que necesites para que no se aplaste */
+    }
+
   .back-to-index-btn:hover { background-color: #ffffff; }
     </style>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
     <link rel="icon" href="../favicon.ico" type="image/x-icon">
     <link rel="stylesheet" href="../../style.css">
+
+
+
     </style>
     
 </head>
@@ -122,6 +134,7 @@
 
     <section id="configuracion">
       <h2>4. Configuracion y parametros</h2>
+    <div class="responsive-table-container"></div>
       <table>
         <tr><th>Parametro</th><th>Descripcion</th><th>Ejemplo</th></tr>
         <tr><td>EFECTOR</td><td>Hospital o sede a procesar</td><td>Hospital Central</td></tr>
@@ -133,6 +146,7 @@
         <tr><td>TIMEOUT_WEB</td><td>Timeout maximo de espera en UI segundos</td><td>30</td></tr>
         <tr><td>HEADLESS</td><td>Ejecucion sin UI para modulos no interactivos</td><td>True</td></tr>
       </table>
+    </div>
       <p class="note">Las credenciales se administran fuera de archivos en un almacen seguro y se inyectan en tiempo de ejecucion.</p>
     </section>
 
@@ -188,6 +202,7 @@ Bots_CoParticipacion
 
     <section id="mapa_datos">
       <h2>7. Mapeo de datos</h2>
+    <div class="responsive-table-container"></div>
       <table>
         <tr><th>Origen</th><th>Campo</th><th>Transformacion</th><th>Destino</th></tr>
         <tr><td>OCR</td><td>Nro Documento</td><td>Solo digitos y trim</td><td>Busqueda paciente</td></tr>
@@ -199,6 +214,7 @@ Bots_CoParticipacion
         <tr><td>OCR</td><td>Servicio</td><td>Normalizar segun catalogo</td><td>Autocompletar servicio</td></tr>
         <tr><td>OCR</td><td>Causas externas</td><td>Mapeo producido lugar como</td><td>Campos motivo</td></tr>
       </table>
+    </div>
     </section>
 
     <section id="selectores">
@@ -216,6 +232,7 @@ Bots_CoParticipacion
 
     <section id="manejo_errores">
       <h2>9. Manejo de errores y reintentos</h2>
+    <div class="responsive-table-container"></div>
       <table>
         <tr><th>Escenario</th><th>Politica</th><th>Detalle</th></tr>
         <tr><td>Login fallido</td><td>Reintentar 1</td><td>Si falla registrar incidencia y abortar modulo</td></tr>
@@ -223,6 +240,7 @@ Bots_CoParticipacion
         <tr><td>Guardar con validacion</td><td>Continuar</td><td>Capturar mensaje y marcar fila con error</td></tr>
         <tr><td>Busqueda sin resultados</td><td>Continuar</td><td>Marcar No encontrado y seguir</td></tr>
       </table>
+    </div>
     </section>
 
     <section id="logging">
@@ -256,12 +274,14 @@ Bots_CoParticipacion
 
     <section id="pruebas">
       <h2>13. Plan de pruebas</h2>
+    <div class="responsive-table-container"></div>
       <table>
         <tr><th>Tipo</th><th>Objetivo</th><th>Entradas</th><th>Resultado esperado</th></tr>
         <tr><td>Unitario</td><td>Validar parseo de fechas y mapeos</td><td>PDFs de muestra</td><td>Fechas y codigos correctos</td></tr>
         <tr><td>Integrado</td><td>Fin a fin de lote pequeno</td><td>10 episodios</td><td>Registros creados y log consistente</td></tr>
         <tr><td>UAT</td><td>Validacion funcional con el area</td><td>Lote representativo</td><td>Aceptacion segun criterios</td></tr>
       </table>
+    </div>
     </section>
 
     <section id="deploy">
