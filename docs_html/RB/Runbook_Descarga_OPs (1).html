@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Runbook — Descarga y Resumen de OPs</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f9f9f9;
+      margin: 0;
+      padding: 20px;
+      color: #333;
+    }
+    h1 {
+      text-align: center;
+      color: #005f73;
+    }
+    h2 {
+      color: #0077aa;
+    }
+    code, pre {
+      background-color: #f4f4f4;
+      padding: 10px;
+      border-radius: 5px;
+      display: block;
+      overflow-x: auto;
+    }
+    ul, ol {
+      margin-left: 20px;
+    }
+    section {
+      background-color: #fff;
+      padding: 20px;
+      margin-top: 20px;
+      border-radius: 10px;
+      box-shadow: 0 0 5px rgba(0,0,0,0.1);
+    }
+    footer {
+      text-align: center;
+      margin-top: 40px;
+      color: #666;
+      font-size: 12px;
+    }
+  
+    /* Config params table - estilo CIPRES */
+    .config-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 14px;
+      font-size: 14px;
+    }
+    .config-table th {
+      background-color: #0f62fe;
+      color: #fff;
+      padding: 10px;
+      border: 1px solid #0f4ad0;
+      text-align: left;
+      font-weight: 500;
+    }
+    .config-table td {
+      padding: 10px;
+      border: 1px solid #d0d7de;
+      background-color: #ffffff;
+    }
+    .config-table code {
+      background: #f3f4f6;
+      padding: 2px 6px;
+      border-radius: 6px;
+      font-size: 13px;
+    }
+
+</style>
+</head>
+<body>
+    <div class="container" style="background-color: transparent; box-shadow: none; padding-bottom:1; margin-bottom:1;">
+    <div class="page-navigation">
+      <a href="../../index.html" class="back-to-index-btn">« Volver al Inicio</a>
+      <a href="../descargaop.html" class="back-to-index-btn">« Volver a la Documentacion General</a>
+    </div>
+  </div>
+  
+<h1>🧾 Runbook — Descarga y Resumen de OPs</h1>
+
+<section>
+  <h2>📌 Objetivo</h2>
+  <p>Ejecutar el script de automatización que descarga PDFs de OPs desde el sistema Major y genera un archivo Excel consolidado con los datos clave de cada orden de pago.</p>
+</section>
+
+<section>
+  <h2>📁 Estructura esperada</h2>
+  <pre><code>bot_op/
+├── popups/
+│   ├── BOTONIMPRIMIR.png
+│   └── otras_imagenes.png
+├── script.py
+└── ejecutable.exe (opcional)
+</code></pre>
+</section>
+
+<section>
+  <h2>⚙️ Pasos para la ejecución</h2>
+  <ol>
+    <li>Ejecutar el script o ejecutable.</li>
+    <li>Ingresar <strong>usuario</strong> y <strong>contraseña</strong> del sistema Major.</li>
+    <li>Seleccionar el archivo Excel con columnas "Tipo de OP" y "Número de OP".</li>
+    <li>Esperar que el bot abra el sistema, cargue cada OP, imprima el PDF y guarde los datos.</li>
+    <li>Una vez procesadas todas las OPs, se abrirá automáticamente la carpeta con los resultados.</li>
+  </ol>
+</section>
+
+
+<section id="parametros-config">
+  <h2>🔑 Parámetros de configuración</h2>
+  <table class="config-table">
+    <thead>
+      <tr><th>Campo</th><th>Descripción</th></tr>
+    </thead>
+    <tbody>
+      <tr><td>Usuario</td><td>Usuario de acceso al sistema Major</td></tr>
+      <tr><td>Contraseña</td><td>Contraseña de acceso al sistema Major</td></tr>
+      <tr><td>Nombre Excel</td><td>Ruta y nombre del archivo Excel de entrada con columnas <code>Tipo de OP</code> y <code>Número de OP</code></td></tr>
+      <tr><td>Nombre Hoja Excel</td><td>Nombre de la hoja donde están listadas las OPs (por defecto <code>Sheet1</code>)</td></tr>
+      <tr><td>Imagen_Boton_Imprimir</td><td>Ruta a la imagen del botón imprimir: <code>popups/BOTONIMPRIMIR.png</code></td></tr>
+    </tbody>
+  </table>
+</section>
+
+
+<section>
+  <h2>📦 Resultados</h2>
+  <ul>
+    <li>📁 <code>OP_DESCARGAS/OPS_FECHA/</code>: PDFs generados por cada OP.</li>
+    <li>📁 <code>OP_DESCARGAS/EXCEL GENERADO OP FECHA/</code>: Archivo Excel con los siguientes campos:</li>
+    <ul>
+      <li>PROVEEDOR</li>
+      <li>F.F</li>
+      <li>NRO OP</li>
+      <li>OC</li>
+      <li>BRUTO OP</li>
+      <li>NETO OP</li>
+      <li>DETALLE CONTRATACIÓN</li>
+      <li>FDO. AFECTADO</li>
+      <li>CF</li>
+    </ul>
+  </ul>
+</section>
+
+<section>
+  <h2>🛠️ Posibles errores comunes</h2>
+  <ul>
+    <li>🔒 El sistema Major no abre correctamente: revisar ruta del ejecutable.</li>
+    <li>🖼️ No se detecta el botón de imprimir: verificar imagen en la carpeta <code>popups/</code>.</li>
+    <li>📝 No se genera Excel: asegurarse de que haya PDFs válidos y que el Excel fuente esté bien formateado.</li>
+  </ul>
+</section>
+
+<section>
+  <h2>📍Notas adicionales</h2>
+  <ul>
+    <li>El script no guarda contraseñas.</li>
+    <li>El sistema debe tener acceso a red y permisos para abrir el ejecutable del Major.</li>
+    <li>Revisar siempre los resultados del Excel antes de enviar.</li>
+  </ul>
+</section>
+
+<footer>
+  Documento Runbook — Uso operativo del bot de Descarga y Resumen de OPs
+</footer>
+
+</body>
+</html>

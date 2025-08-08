@@ -1,0 +1,309 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>SDD — Bot de OPs Contaduría (MAJOR)</title>
+  <link rel="icon" href="../../favicon.png" type="image/png">
+  <style>
+    :root { --c1:#0f62fe; --c2:#161616; --c3:#525252; --bg:#f7f8fa; }
+    *{box-sizing:border-box}
+    body{margin:0;font-family:Inter,system-ui,Segoe UI,Roboto,Arial,sans-serif;background:var(--bg);color:#222;line-height:1.5}
+    header{background:#fff;border-bottom:1px solid #e5e7eb}
+    .container{max-width:1080px;margin:0 auto;padding:24px}
+    h1{margin:0 0 8px 0;font-size:28px;color:#ffffff}
+    .meta{color:#ffffff;font-size:14px;margin-bottom:16px}
+    section{background:#fff;border:1px solid #eef0f3;border-radius:10px;padding:20px;margin:14px 0}
+    h2{font-size:18px;color:#111827;margin:0 0 10px 0}
+    h3{font-size:15px;color:#111827;margin:14px 0 8px 0}
+    ul,ol{margin:8px 0 8px 18px}
+    table{width:100%;border-collapse:collapse;margin:8px 0}
+    th,td{border:1px solid #e5e7eb;padding:8px;text-align:left;font-size:14px;vertical-align:top}
+    th{background:#f3f4f6}
+    .badge{display:inline-block;background:#0f62fe;color:#fff;border-radius:999px;padding:2px 10px;font-size:12px;margin-left:8px}
+    .grid2{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+    @media (max-width:900px){.grid2{grid-template-columns:1fr}}
+    .note{background:#eef5ff;border-left:4px solid #0f62fe;padding:10px;border-radius:6px}
+    footer{color:#6b7280;font-size:12px;padding:16px 24px}
+    code{background:#f3f4f6;padding:2px 6px;border-radius:6px;font-family:ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace}
+    pre{white-space:pre-wrap;background:#f8fafc;border:1px dashed #e5e7eb;border-radius:8px;padding:10px}
+
+    .view-flowchart-link {
+      display:inline-block;background-color:#0f62fe;color:white !important;
+      padding:12px 20px;text-decoration:none;border-radius:8px;font-weight:500;
+      transition:background-color .2s ease; border:none
+    }
+    .view-flowchart-link:hover{background-color:#0b57d0;color:white !important}
+    .back-to-index-btn{background-color:#6c757d;color:white !important;padding:8px 15px;text-decoration:none;border-radius:5px;font-size:.9em;transition:background-color .3s ease;border:none}
+    .back-to-index-btn:hover{background-color:#495057}
+  </style>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+  <link rel="icon" href="../favicon.ico" type="image/x-icon">
+  <link rel="stylesheet" href="../../style.css">
+</head>
+<body>
+
+  <div class="container" style="background-color: transparent; box-shadow: none; padding-bottom:1; margin-bottom:1;">
+    <div class="page-navigation">
+      <a href="../../index.html" class="back-to-index-btn">« Volver al Inicio</a>
+      <a href="../descargaop.html" class="back-to-index-btn">« Volver a la Documentación General</a>
+    </div>
+  </div>
+
+  <header>
+    <div class="container">
+      <h1>Solution Design Document (SDD) — Bot de OPs Contaduría (MAJOR)</h1>
+      <div class="meta">
+        Fecha: 08/08/2025 · Autor: Emi · Área responsable: Contaduría — Municipalidad de Pilar
+        <span class="badge">Versión 1.0</span>
+      </div>
+    </div>
+  </header>
+
+  <main class="container">
+
+    <section id="proposito">
+      <h2>1. Propósito</h2>
+      <p>Documentar el diseño técnico del bot que automatiza la consulta e impresión de Órdenes de Pago (OP) en <strong>MAJOR → Contaduría</strong>, guarda los PDFs bajo una estructura diaria, extrae datos con <code>PyMuPDF</code> y construye un <strong>Excel resumen</strong> con formato de tabla. Este SDD se basa en el PDD y respeta la misma estructura visual del SDD de referencia (botones, secciones y orden).</p>
+    </section>
+
+    <section id="arquitectura">
+      <h2>2. Arquitectura de la solución</h2>
+      <div class="grid2">
+        <div>
+          <h3>Componentes</h3>
+          <ul>
+            <li><strong>Módulo Login/Arranque MAJOR</strong>: apertura del ejecutable y autenticación con <code>pyautogui</code>.</li>
+            <li><strong>Módulo Navegación & Búsqueda</strong>: ingreso de Tipo y Nro de OP leyendo filas del Excel.</li>
+            <li><strong>Módulo Impresión</strong>: detección del botón <em>Imprimir</em> por imagen (<code>locateOnScreen</code>) y guardado del PDF.</li>
+            <li><strong>Módulo Parsing PDF</strong>: lectura del primer folio con <code>fitz (PyMuPDF)</code> y <code>parse_invoice()</code>.</li>
+            <li><strong>Módulo Exportación</strong>: armado del Excel con <code>openpyxl</code> en formato de tabla.</li>
+            <li><strong>Utilidades</strong>: <code>recurso_relativo()</code> para imágenes en <em>popups/</em>, helpers de reintento y activación de ventana.</li>
+            <li><strong>Evidencias & Logging</strong> (opcional): prints/logs y mensajes de <code>tkinter</code>.</li>
+          </ul>
+        </div>
+        <div style="margin-top: 30px;">
+          <h3 style="margin-bottom: 10px;">Diagrama de Componentes — Bot OPs</h3>
+          <div style="background:#f9fafb;border:1px solid #e5e7eb;padding:20px;border-radius:12px;">
+            <a class="view-flowchart-link" href="diagrama_sdd/diagramaSDDcomponentesOP.html">Ver Diagrama de Componentes</a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="entorno">
+      <h2>3. Entorno de ejecución</h2>
+      <ul>
+        <li>SO: Windows 10/11.</li>
+        <li>Python: 3.12+ (probado también en 3.13).</li>
+        <li>Librerías: <code>pyautogui</code>, <code>pygetwindow</code>, <code>pandas</code>, <code>fitz (PyMuPDF)</code>, <code>openpyxl</code>, <code>tkinter</code>.</li>
+        <li>Aplicación objetivo: <code>Contaduria.exe</code> (MAJOR) — título de ventana «<strong>Contaduria</strong>».</li>
+        <li>Acceso de red al recurso compartido: <code>\\mpilar2\Major\CBProgramas\Rafam\Contaduria.exe</code>.</li>
+        <li>Resolución de pantalla suficiente para <code>locateOnScreen</code> (escala 100% recomendada).</li>
+      </ul>
+    </section>
+
+    <section id="configuracion">
+      <h2>4. Configuración y parámetros</h2>
+      <table>
+        <tr><th>Parámetro</th><th>Descripción</th><th>Ejemplo</th></tr>
+        <tr><td>MAJOR_PATH</td><td>Ruta al ejecutable de Contaduría</td><td>\\mpilar2\Major\CBProgramas\Rafam\Contaduria.exe</td></tr>
+        <tr><td>IMAGEN_INICIO</td><td>Template de pantalla de inicio</td><td>popups/Captura de pantalla 2025-07-16 131501.png</td></tr>
+        <tr><td>IMAGEN_BOTON</td><td>Template del botón de menú</td><td>popups/Captura de pantalla 2025-07-16 131331.png</td></tr>
+        <tr><td>IMAGEN_IMPRIMIR</td><td>Template del botón «Imprimir»</td><td>popups/BOTONIMPRIMIR.png</td></tr>
+        <tr><td>WINDOW_TITLE</td><td>Título de ventana target</td><td>Contaduria</td></tr>
+        <tr><td>CONFIDENCE</td><td>Confianza para <code>locateOnScreen</code></td><td>0.80</td></tr>
+        <tr><td>TIMEOUTS</td><td>Espera entre pasos UI</td><td>2–15 s según paso</td></tr>
+        <tr><td>EXCEL_INPUT</td><td>Excel con Tipo (col A) y Nro (col B)</td><td>Seleccionado por <code>filedialog</code></td></tr>
+        <tr><td>BASE_FOLDER</td><td>Carpeta raíz de trabajo</td><td>Documentos/OP_DESCARGAS</td></tr>
+        <tr><td>SUBCARPETA_PDF</td><td>Carpeta diaria de PDFs</td><td>OP_DESCARGAS/OPS_YYYY-MM-DD</td></tr>
+        <tr><td>SUBCARPETA_XLSX</td><td>Carpeta diaria del Excel</td><td>OP_DESCARGAS/EXCEL GENERADO OP YYYY-MM-DD</td></tr>
+      </table>
+      <p class="note">Las credenciales de usuario/contraseña se solicitan por <code>tkinter.simpledialog</code> y no se persisten.</p>
+    </section>
+
+    <section id="directorios">
+      <h2>5. Estructura de directorios</h2>
+      <pre>
+OP_DESCARGAS
+  OPS_2025-08-08
+    21-2025-<NRO_OP_1>.pdf
+    21-2025-<NRO_OP_2>.pdf
+    ...
+  EXCEL GENERADO OP 2025-08-08
+    resumen_pagos.xlsx
+popups
+  BOTONIMPRIMIR.png
+  Captura de pantalla 2025-07-16 131331.png
+  Captura de pantalla 2025-07-16 131501.png
+      </pre>
+    </section>
+
+    <section id="secuencia">
+      <h2>6. Secuencia técnica de ejecución</h2>
+      <ol>
+        <li><strong>Inicio</strong>: solicitar <em>usuario</em> y <em>contraseña</em> (tkinter). Seleccionar Excel de entrada.</li>
+        <li><strong>Abrir MAJOR</strong>: si no existe ventana «Contaduria», ejecutar <code>Contaduria.exe</code>, activar y maximizar.</li>
+        <li><strong>Login</strong>: tipear usuario → <kbd>Enter</kbd> → tipear contraseña → doble <kbd>Enter</kbd> para avanzar.</li>
+        <li><strong>Esperas y anclaje</strong>: esperar pantalla de inicio detectando <code>IMAGEN_INICIO</code>. Luego esperar presencia de <code>IMAGEN_BOTON</code>.</li>
+        <li><strong>Navegación</strong>: click en <code>IMAGEN_BOTON</code> → <kbd>Down</kbd> → <kbd>Enter</kbd> → confirmar.</li>
+        <li><strong>Loop por filas</strong> (desde fila 2):
+          <ul>
+            <li>Escribir <em>Tipo</em> → <kbd>Enter</kbd> → <kbd>Enter</kbd>.</li>
+            <li>Escribir <em>Número</em> → <kbd>Enter</kbd> → <kbd>Enter</kbd> → esperar carga.</li>
+            <li>Intentar localizar <strong>Imprimir</strong> con <code>IMAGEN_IMPRIMIR</code> (hasta 10 reintentos).</li>
+            <li>Click en <em>Imprimir</em> → navegar diálogos con <kbd>Tab</kbd> ×4 → <kbd>Enter</kbd> → <kbd>Enter</kbd>.</li>
+            <li>Armar ruta de guardado en <code>OPS_YYYY-MM-DD</code> como <code>21-2025-&lt;nro&gt;.pdf</code>, escribir y confirmar.</li>
+            <li>Salida del módulo con <kbd>Right</kbd> → <kbd>Enter</kbd>. Volver a botón menú y repetir para la próxima fila.</li>
+          </ul>
+        </li>
+        <li><strong>Cierre</strong>: al detectar fila vacía, finalizar matando <code>Contaduria.exe</code>.</li>
+        <li><strong>Parsing PDFs</strong>: para cada PDF, extraer texto de la página 1 y aplicar <code>parse_invoice()</code>.</li>
+        <li><strong>Exportar Excel</strong>: reindexar columnas objetivo y aplicar formato de tabla con <code>openpyxl</code>.</li>
+        <li><strong>Fin</strong>: mostrar mensaje de éxito y abrir carpeta base.</li>
+      </ol>
+      <div style="background:#f9fafb;border:1px solid #e5e7eb;padding:20px;border-radius:12px;margin-top:20px;">
+        <a class="view-flowchart-link" href="diagrama_sdd/diagramaSDDestructuraOP.html">Ver Diagrama de Secuencia — Bot OPs</a>
+      </div>
+    </section>
+
+    <section id="mapeo_datos">
+      <h2>7. Mapeo de datos</h2>
+      <table>
+        <tr><th>Origen</th><th>Campo</th><th>Transformación</th><th>Destino (Excel)</th></tr>
+        <tr><td>PDF</td><td>Proveedor</td><td>Regex <code>Proveedor :</code>; cortar si aparece <code>CUIT/CUIL/DNI</code>; prefijar CUIT si viene.</td><td>PROVEEDOR</td></tr>
+        <tr><td>PDF</td><td>Unidad Ejecutora (línea siguiente)</td><td>Tomar solo dígitos/puntos</td><td>F.F</td></tr>
+        <tr><td>PDF</td><td>Recurso Afectado (línea previa)</td><td>Fallback <code>"-"</code></td><td>FDO. AFECTADO</td></tr>
+        <tr><td>PDF</td><td>Documento Nro</td><td>Prefijo fijo <code>21-2025-</code></td><td>NRO OP</td></tr>
+        <tr><td>PDF</td><td>OC/AVS</td><td>Join de matches <code>(OC|AVS)-2025-\d+</code></td><td>OC</td></tr>
+        <tr><td>PDF</td><td>Bruto</td><td>Buscar "Bruto" y primera línea numérica siguiente; normalizar separadores</td><td>BRUTO OP</td></tr>
+        <tr><td>PDF</td><td>Neto</td><td>Línea inmediatamente anterior a «Bonificaciones»</td><td>NETO OP</td></tr>
+        <tr><td>PDF</td><td>Observaciones +1</td><td>Extraer detalle</td><td>DETALLE CONTRATACION</td></tr>
+        <tr><td>Constante</td><td>CF</td><td>Valor fijo</td><td>FFGOBLIGA</td></tr>
+      </table>
+    </section>
+
+    <section id="anclajes">
+      <h2>8. Anclajes UI por imagen (selectores)</h2>
+      <ul>
+        <li><strong>Ventana</strong>: título contiene «Contaduria» (<code>pygetwindow</code>).</li>
+        <li><strong>Pantalla Inicio</strong>: <code>IMAGEN_INICIO</code> con <em>confidence</em> 0.80.</li>
+        <li><strong>Botón Menú</strong>: <code>IMAGEN_BOTON</code> con <em>confidence</em> 0.80.</li>
+        <li><strong>Botón Imprimir</strong>: <code>IMAGEN_IMPRIMIR</code> con reintentos (hasta 10).</li>
+        <li><strong>Secuencia de teclas</strong>: <kbd>Down</kbd>, <kbd>Enter</kbd>, <kbd>Tab ×4</kbd>, <kbd>Enter</kbd>, <kbd>Enter</kbd>, <kbd>Right</kbd>, <kbd>Enter</kbd>.</li>
+      </ul>
+      <p class="note">Mantener los PNG con dimensiones/recortes nativos y la misma escala de Windows del entorno de ejecución.</p>
+    </section>
+
+    <section id="errores">
+      <h2>9. Manejo de errores y reintentos</h2>
+      <table>
+        <tr><th>Escenario</th><th>Política</th><th>Detalle</th></tr>
+        <tr><td>No aparece ventana «Contaduria»</td><td>Reintentar arranque</td><td>Esperar 15–25 s; activar y maximizar si existe.</td></tr>
+        <tr><td>No se detecta <em>Inicio</em>/<em>Botón</em></td><td>Reintentos con sleep</td><td>Hasta agotar intentos; loguear y abortar si persiste.</td></tr>
+        <tr><td>No se encuentra «Imprimir»</td><td>Continuar</td><td>Informar por consola y pasar a la siguiente fila.</td></tr>
+        <tr><td>Error guardando PDF</td><td>Reintentar</td><td>Reingresar ruta; asegurar existencia de carpeta destino.</td></tr>
+        <tr><td>PDF sin texto</td><td>Omitir</td><td>Saltear registro en parsing y continuar.</td></tr>
+      </table>
+    </section>
+
+    <section id="logging">
+      <h2>10. Logging y evidencias</h2>
+      <ul>
+        <li>Mensajes de progreso por consola y <code>messagebox</code> finales.</li>
+        <li>Opción de agregar <code>logging</code> a archivo por corrida (recomendado para operación).</li>
+        <li>Registro de PDFs generados y ruta del Excel final.</li>
+      </ul>
+    </section>
+
+    <section id="seguridad">
+      <h2>11. Seguridad</h2>
+      <ul>
+        <li>Sin persistencia de credenciales; input por diálogo.</li>
+        <li>Control de acceso a <code>OP_DESCARGAS</code> y a recursos compartidos.</li>
+        <li>No loguear datos sensibles (CUIT completo) salvo necesidad operativa.</li>
+      </ul>
+    </section>
+
+    <section id="rendimiento">
+      <h2>12. Métricas y objetivos</h2>
+      <ul>
+        <li>Tiempo de búsqueda + impresión por OP: 15–40 s (según respuesta del sistema).</li>
+        <li>Parsing de PDFs: &lt; 2 s por archivo en promedio.</li>
+        <li>Tasa de hallazgo del botón «Imprimir»: ≥ 98% con templates actualizados.</li>
+      </ul>
+    </section>
+
+    <section id="pruebas">
+      <h2>13. Plan de pruebas</h2>
+      <table>
+        <tr><th>Tipo</th><th>Objetivo</th><th>Entradas</th><th>Resultado esperado</th></tr>
+        <tr><td>Unitario</td><td>Validar <code>parse_invoice()</code></td><td>PDFs de muestra</td><td>Mapeo correcto de PROVEEDOR, F.F, NRO OP, OC, BRUTO/NETO, DETALLE, CF</td></tr>
+        <tr><td>Integrado</td><td>Fin a fin 5–10 OPs</td><td>Excel con tipos/números reales</td><td>PDFs guardados + Excel generado con tabla</td></tr>
+        <tr><td>UAT</td><td>Validación con el área</td><td>Lote representativo</td><td>Aceptación y checklist OK</td></tr>
+      </table>
+    </section>
+
+    <section id="deploy">
+      <h2>14. Despliegue y versionado</h2>
+      <ul>
+        <li>Empaquetado con <code>PyInstaller</code> usando <code>--add-data "popups;popups"</code>.</li>
+        <li>Versión semántica <em>Mayor.Menor.Parche</em>; changelog por release.</li>
+        <li>Checklist de post-despliegue: prueba de login, detección de botones y guardado de PDF.</li>
+      </ul>
+    </section>
+
+    <section id="operacion">
+      <h2>15. Operación y monitoreo</h2>
+      <ul>
+        <li>Ejecución manual por operador con Excel de entrada.</li>
+        <li>Opcional: programar por <em>Task Scheduler</em> con rutas fijas.</li>
+        <li>Alertas básicas por <code>messagebox</code> y logs; evidencia: PDFs y Excel final.</li>
+      </ul>
+    </section>
+
+    <section id="pseudocodigo">
+      <h2>16. Pseudocódigo de módulos</h2>
+      <h3>Login y arranque</h3>
+      <pre>
+si ventana "Contaduria" no existe
+  lanzar Contaduria.exe
+  esperar 15–25 s
+  activar + maximizar ventana
+escribir usuario → Enter → escribir contraseña → Enter → Enter
+esperar hasta ver IMAGEN_INICIO y luego IMAGEN_BOTON
+      </pre>
+      <h3>Navegación e impresión por fila</h3>
+      <pre>
+para cada fila del Excel desde la 2
+  si (tipo o número vacío) → terminar y cerrar Contaduria.exe
+  escribir tipo → Enter → Enter
+  escribir número → Enter → Enter → esperar carga
+  buscar IMAGEN_IMPRIMIR hasta 10 reintentos
+  si encontrado → click → Tab x4 → Enter → Enter
+  construir ruta OPS_YYYY-MM-DD-2025-<numero>.pdf
+  escribir ruta y confirmar
+  Right → Enter para salir del módulo
+  volver a botón menú para próxima iteración
+      </pre>
+      <h3>Parsing y exportación</h3>
+      <pre>
+para cada PDF en OPS_YYYY-MM-DD
+  texto = extraer primera página (fitz)
+  datos.append(parse_invoice(texto))
+si datos vacíos → error y fin
+construir DataFrame y reindexar columnas objetivo
+export_as_table(df, salida)
+mostrar messagebox con carpeta base y abrirla
+      </pre>
+    </section>
+
+  </main>
+
+  <footer>
+    <div class="container">
+      Documento SDD — Diseño técnico del Bot de OPs (Contaduría / MAJOR).
+    </div>
+  </footer>
+</body>
+</html>
