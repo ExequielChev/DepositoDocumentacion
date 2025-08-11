@@ -22,20 +22,69 @@
     th{background:#f3f4f6}
     .badge{display:inline-block;background:#0f62fe;color:#fff;border-radius:999px;padding:2px 10px;font-size:12px;margin-left:8px}
     .grid2{display:grid;grid-template-columns:1fr 1fr;gap:12px}
-    @media (max-width:900px){.grid2{grid-template-columns:1fr}}
+    .grid3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px}
+    @media (max-width:900px){.grid2,.grid3{grid-template-columns:1fr}}
     .note{background:#eef5ff;border-left:4px solid #0f62fe;padding:10px;border-radius:6px}
     footer{color:#6b7280;font-size:12px;padding:16px 24px}
     code{background:#f3f4f6;padding:2px 6px;border-radius:6px;font-family:ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace}
     pre{white-space:pre-wrap;background:#f8fafc;border:1px dashed #e5e7eb;border-radius:8px;padding:10px}
 
-    .view-flowchart-link {
-      display:inline-block;background-color:#0f62fe;color:white !important;
-      padding:12px 20px;text-decoration:none;border-radius:8px;font-weight:500;
-      transition:background-color .2s ease; border:none
+  .view-flowchart-link {
+  display: inline-block; background-color: #3498db; color: white !important;
+  padding: 10px 15px; text-decoration: none; border-radius: 5px;
+  font-size: 0.95em; transition: background-color 0.3s ease;
+  margin-bottom: 10px; border: none;
+  }
+  .view-flowchart-link:hover { background-color: #2980b9; color: white !important; }
+  .script-feature { font-style: italic; color: #555; }
+  .back-to-index-btn {
+      background-color: #6c757d; color: white !important; padding: 8px 15px;
+      text-decoration: none; border-radius: 5px; font-size: 0.9em;
+      transition: background-color 0.3s ease; border: none;
+  }
+    .responsive-table-container {
+      width: 100%;
+      overflow-x: auto;
     }
-    .view-flowchart-link:hover{background-color:#0b57d0;color:white !important}
-    .back-to-index-btn{background-color:#6c757d;color:white !important;padding:8px 15px;text-decoration:none;border-radius:5px;font-size:.9em;transition:background-color .3s ease;border:none}
-    .back-to-index-btn:hover{background-color:#495057}
+
+    .responsive-table-container table {
+      min-width: 600px; /* o lo que necesites para que no se aplaste */
+    }
+    /* === Tablas responsivas === */
+    .responsive-table-container { width:100%; overflow-x:auto; -webkit-overflow-scrolling:touch; }
+    table { width:100%; border-collapse:collapse; table-layout:fixed; }
+    th, td { border:1px solid #e5e7eb; padding:8px; text-align:left; font-size:14px; vertical-align:top;
+            word-break:break-word; overflow-wrap:anywhere; }
+
+    /* === Textos largos en línea (rutas, IDs) === */
+    code { background:#f3f4f6; padding:2px 6px; border-radius:6px;
+          font-family:ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+          white-space:normal; word-break:break-word; overflow-wrap:anywhere; }
+
+    /* === Pre (bloques) ya envuelven; mantenemos pre-wrap */
+    pre { white-space:pre-wrap; background:#f8fafc; border:1px dashed #e5e7eb; border-radius:8px; padding:10px; }
+
+    /* === Ajustes de cabecera y botones (contraste) === */
+    header { background:#fff; border-bottom:1px solid #e5e7eb; }
+    h1 { margin:0 0 8px 0; font-size:28px; color:#ffffff; }     /* antes era blanco */
+    .meta { color:#fcfcfc; font-size:14px; margin-bottom:16px; } /* antes era blanca sobre blanco */
+    .back-to-index-btn { background-color:#6c757d; color:#fff !important; }
+    .back-to-index-btn:hover { background-color:#545b62; color:#fff !important; } /* evita blanco sobre blanco */
+
+    /* === Grids en móvil === */
+    @media (max-width:900px){ .grid2,.grid3{ grid-template-columns:1fr } }
+    @media (max-width:600px){
+      .container{ padding:16px; }
+      pre{ font-size:13px; }
+    }
+
+  .back-to-index-btn:hover { background-color: #ffffff; }
+    </style>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <link rel="icon" href="../favicon.ico" type="image/x-icon">
+    <link rel="stylesheet" href="../../style.css">
+
+
   </style>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
   <link rel="icon" href="../favicon.ico" type="image/x-icon">
@@ -105,20 +154,22 @@
 
     <section id="configuracion">
       <h2>4. Configuración y parámetros</h2>
-      <table>
-        <tr><th>Parámetro</th><th>Descripción</th><th>Ejemplo</th></tr>
-        <tr><td>MAJOR_PATH</td><td>Ruta al ejecutable de Contaduría</td><td>\\mpilar2\Major\CBProgramas\Rafam\Contaduria.exe</td></tr>
-        <tr><td>IMAGEN_INICIO</td><td>Template de pantalla de inicio</td><td>popups/Captura de pantalla 2025-07-16 131501.png</td></tr>
-        <tr><td>IMAGEN_BOTON</td><td>Template del botón de menú</td><td>popups/Captura de pantalla 2025-07-16 131331.png</td></tr>
-        <tr><td>IMAGEN_IMPRIMIR</td><td>Template del botón «Imprimir»</td><td>popups/BOTONIMPRIMIR.png</td></tr>
-        <tr><td>WINDOW_TITLE</td><td>Título de ventana target</td><td>Contaduria</td></tr>
-        <tr><td>CONFIDENCE</td><td>Confianza para <code>locateOnScreen</code></td><td>0.80</td></tr>
-        <tr><td>TIMEOUTS</td><td>Espera entre pasos UI</td><td>2–15 s según paso</td></tr>
-        <tr><td>EXCEL_INPUT</td><td>Excel con Tipo (col A) y Nro (col B)</td><td>Seleccionado por <code>filedialog</code></td></tr>
-        <tr><td>BASE_FOLDER</td><td>Carpeta raíz de trabajo</td><td>Documentos/OP_DESCARGAS</td></tr>
-        <tr><td>SUBCARPETA_PDF</td><td>Carpeta diaria de PDFs</td><td>OP_DESCARGAS/OPS_YYYY-MM-DD</td></tr>
-        <tr><td>SUBCARPETA_XLSX</td><td>Carpeta diaria del Excel</td><td>OP_DESCARGAS/EXCEL GENERADO OP YYYY-MM-DD</td></tr>
-      </table>
+      <div class="responsive-table-container"></div>
+        <table>
+          <tr><th>Parámetro</th><th>Descripción</th><th>Ejemplo</th></tr>
+          <tr><td>MAJOR_PATH</td><td>Ruta al ejecutable de Contaduría</td><td>\\mpilar2\Major\CBProgramas\Rafam\Contaduria.exe</td></tr>
+          <tr><td>IMAGEN_INICIO</td><td>Template de pantalla de inicio</td><td>popups/Captura de pantalla 2025-07-16 131501.png</td></tr>
+          <tr><td>IMAGEN_BOTON</td><td>Template del botón de menú</td><td>popups/Captura de pantalla 2025-07-16 131331.png</td></tr>
+          <tr><td>IMAGEN_IMPRIMIR</td><td>Template del botón «Imprimir»</td><td>popups/BOTONIMPRIMIR.png</td></tr>
+          <tr><td>WINDOW_TITLE</td><td>Título de ventana target</td><td>Contaduria</td></tr>
+          <tr><td>CONFIDENCE</td><td>Confianza para <code>locateOnScreen</code></td><td>0.80</td></tr>
+          <tr><td>TIMEOUTS</td><td>Espera entre pasos UI</td><td>2–15 s según paso</td></tr>
+          <tr><td>EXCEL_INPUT</td><td>Excel con Tipo (col A) y Nro (col B)</td><td>Seleccionado por <code>filedialog</code></td></tr>
+          <tr><td>BASE_FOLDER</td><td>Carpeta raíz de trabajo</td><td>Documentos/OP_DESCARGAS</td></tr>
+          <tr><td>SUBCARPETA_PDF</td><td>Carpeta diaria de PDFs</td><td>OP_DESCARGAS/OPS_YYYY-MM-DD</td></tr>
+          <tr><td>SUBCARPETA_XLSX</td><td>Carpeta diaria del Excel</td><td>OP_DESCARGAS/EXCEL GENERADO OP YYYY-MM-DD</td></tr>
+        </table>
+      </div>
       <p class="note">Las credenciales de usuario/contraseña se solicitan por <code>tkinter.simpledialog</code> y no se persisten.</p>
     </section>
 
@@ -169,18 +220,20 @@ popups
 
     <section id="mapeo_datos">
       <h2>7. Mapeo de datos</h2>
-      <table>
-        <tr><th>Origen</th><th>Campo</th><th>Transformación</th><th>Destino (Excel)</th></tr>
-        <tr><td>PDF</td><td>Proveedor</td><td>Regex <code>Proveedor :</code>; cortar si aparece <code>CUIT/CUIL/DNI</code>; prefijar CUIT si viene.</td><td>PROVEEDOR</td></tr>
-        <tr><td>PDF</td><td>Unidad Ejecutora (línea siguiente)</td><td>Tomar solo dígitos/puntos</td><td>F.F</td></tr>
-        <tr><td>PDF</td><td>Recurso Afectado (línea previa)</td><td>Fallback <code>"-"</code></td><td>FDO. AFECTADO</td></tr>
-        <tr><td>PDF</td><td>Documento Nro</td><td>Prefijo fijo <code>21-2025-</code></td><td>NRO OP</td></tr>
-        <tr><td>PDF</td><td>OC/AVS</td><td>Join de matches <code>(OC|AVS)-2025-\d+</code></td><td>OC</td></tr>
-        <tr><td>PDF</td><td>Bruto</td><td>Buscar "Bruto" y primera línea numérica siguiente; normalizar separadores</td><td>BRUTO OP</td></tr>
-        <tr><td>PDF</td><td>Neto</td><td>Línea inmediatamente anterior a «Bonificaciones»</td><td>NETO OP</td></tr>
-        <tr><td>PDF</td><td>Observaciones +1</td><td>Extraer detalle</td><td>DETALLE CONTRATACION</td></tr>
-        <tr><td>Constante</td><td>CF</td><td>Valor fijo</td><td>FFGOBLIGA</td></tr>
-      </table>
+      <div class="responsive-table-container"></div>
+        <table>
+          <tr><th>Origen</th><th>Campo</th><th>Transformación</th><th>Destino (Excel)</th></tr>
+          <tr><td>PDF</td><td>Proveedor</td><td>Regex <code>Proveedor :</code>; cortar si aparece <code>CUIT/CUIL/DNI</code>; prefijar CUIT si viene.</td><td>PROVEEDOR</td></tr>
+          <tr><td>PDF</td><td>Unidad Ejecutora (línea siguiente)</td><td>Tomar solo dígitos/puntos</td><td>F.F</td></tr>
+          <tr><td>PDF</td><td>Recurso Afectado (línea previa)</td><td>Fallback <code>"-"</code></td><td>FDO. AFECTADO</td></tr>
+          <tr><td>PDF</td><td>Documento Nro</td><td>Prefijo fijo <code>21-2025-</code></td><td>NRO OP</td></tr>
+          <tr><td>PDF</td><td>OC/AVS</td><td>Join de matches <code>(OC|AVS)-2025-\d+</code></td><td>OC</td></tr>
+          <tr><td>PDF</td><td>Bruto</td><td>Buscar "Bruto" y primera línea numérica siguiente; normalizar separadores</td><td>BRUTO OP</td></tr>
+          <tr><td>PDF</td><td>Neto</td><td>Línea inmediatamente anterior a «Bonificaciones»</td><td>NETO OP</td></tr>
+          <tr><td>PDF</td><td>Observaciones +1</td><td>Extraer detalle</td><td>DETALLE CONTRATACION</td></tr>
+          <tr><td>Constante</td><td>CF</td><td>Valor fijo</td><td>FFGOBLIGA</td></tr>
+        </table>
+      </div>
     </section>
 
     <section id="anclajes">
@@ -197,14 +250,16 @@ popups
 
     <section id="errores">
       <h2>9. Manejo de errores y reintentos</h2>
-      <table>
-        <tr><th>Escenario</th><th>Política</th><th>Detalle</th></tr>
-        <tr><td>No aparece ventana «Contaduria»</td><td>Reintentar arranque</td><td>Esperar 15–25 s; activar y maximizar si existe.</td></tr>
-        <tr><td>No se detecta <em>Inicio</em>/<em>Botón</em></td><td>Reintentos con sleep</td><td>Hasta agotar intentos; loguear y abortar si persiste.</td></tr>
-        <tr><td>No se encuentra «Imprimir»</td><td>Continuar</td><td>Informar por consola y pasar a la siguiente fila.</td></tr>
-        <tr><td>Error guardando PDF</td><td>Reintentar</td><td>Reingresar ruta; asegurar existencia de carpeta destino.</td></tr>
-        <tr><td>PDF sin texto</td><td>Omitir</td><td>Saltear registro en parsing y continuar.</td></tr>
-      </table>
+      <div class="responsive-table-container"></div>
+        <table>
+          <tr><th>Escenario</th><th>Política</th><th>Detalle</th></tr>
+          <tr><td>No aparece ventana «Contaduria»</td><td>Reintentar arranque</td><td>Esperar 15–25 s; activar y maximizar si existe.</td></tr>
+          <tr><td>No se detecta <em>Inicio</em>/<em>Botón</em></td><td>Reintentos con sleep</td><td>Hasta agotar intentos; loguear y abortar si persiste.</td></tr>
+          <tr><td>No se encuentra «Imprimir»</td><td>Continuar</td><td>Informar por consola y pasar a la siguiente fila.</td></tr>
+          <tr><td>Error guardando PDF</td><td>Reintentar</td><td>Reingresar ruta; asegurar existencia de carpeta destino.</td></tr>
+          <tr><td>PDF sin texto</td><td>Omitir</td><td>Saltear registro en parsing y continuar.</td></tr>
+        </table>
+      </div>
     </section>
 
     <section id="logging">
